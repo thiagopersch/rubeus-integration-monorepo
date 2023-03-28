@@ -7,6 +7,7 @@ export const Wrapper = styled.div<WrapperProps>`
   ${({ columnDivider, theme }) => css`
     width: 100%;
     overflow-x: auto;
+    box-shadow: ${theme.shadow.default};
 
     table {
       border-collapse: separate;

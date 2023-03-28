@@ -91,16 +91,16 @@ const Login = () => {
         <SectionContainer
           marginTop="huge"
           display="flex"
-          justifyContent="center"
           flexDirection="column"
+          columns="fullwidth"
         >
-          <Card paddings="medium">
+          <Card paddings="large">
             <S.Content>
               <Heading size="md" color="primaryColor">
                 Login
               </Heading>
               <S.Form onSubmit={handleSubmit} ref={formRef}>
-                <SectionContainer columns="fullwidth">
+                <SectionContainer>
                   <TextInput name="login" label="Login" />
                 </SectionContainer>
                 <SectionContainer>

@@ -6,13 +6,11 @@ import SectionContainer from "@/components/SectionContainer";
 import TextComponent from "@/components/TextComponent";
 import TextInput from "@/components/TextInput";
 import RowDropdown from "@/components/RowDropdown";
+import Table from "@/components/Table";
+import TableColumn from "@/components/TableColumn";
 
 import Base from "../Base";
 import * as S from "./styles";
-import media from "styled-media-query";
-import Card from "@/components/Card";
-import Table from "@/components/Table";
-import TableColumn from "@/components/TableColumn";
 
 const Tbc = () => {
   return (
@@ -23,7 +21,12 @@ const Tbc = () => {
             TBC cadastrados
           </Heading>
         </S.WrapperHeading>
-        <SectionContainer paddings="xsmall">
+        <SectionContainer
+          paddings="xsmall"
+          display="flex"
+          justifyContent="start"
+          alignItems="start"
+        >
           <Button>
             <Link href="/" passHref>
               <TextComponent color="white" size="medium">

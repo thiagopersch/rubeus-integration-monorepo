@@ -21,7 +21,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       </Head>
       <GlobalStyles />
       <NextNprogress
-        color={theme.colors.darkPrimaryColor}
+        color={theme.colors.blue}
         startPosition={0.3}
         stopDelayMs={300}
         height={5}
