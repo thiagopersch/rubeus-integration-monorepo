@@ -27,13 +27,11 @@ const Tbc = () => {
           justifyContent="start"
           alignItems="start"
         >
-          <Button>
-            <Link href="/addTbc" passHref>
-              <TextComponent color="white" size="medium">
-                Criar novo
-              </TextComponent>
-            </Link>
-          </Button>
+          <Link href="/addTbc" passHref>
+            <Button size="medium" color="primaryColor" labelColor="white">
+              Adicionar novo TBC
+            </Button>
+          </Link>
         </SectionContainer>
         <SectionContainer
           paddings="xsmall"

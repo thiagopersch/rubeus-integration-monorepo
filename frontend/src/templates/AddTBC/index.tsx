@@ -66,21 +66,23 @@ const AddTBC = () => {
             <Link href="/tbc">
               <Button
                 styleType="normal"
-                size="large"
+                size="medium"
                 color="white"
                 sizeLabel="small"
                 labelColor="darkGrey"
-                children="Cancelar"
-              />
+              >
+                Cancelar
+              </Button>
             </Link>
             <Button
               styleType="normal"
-              size="large"
+              size="medium"
               color="primaryColor"
               sizeLabel="small"
               labelColor="white"
-              children="Concluir"
-            />
+            >
+              Concluir
+            </Button>
           </S.WrapperButtons>
         </Card>
       </SectionContainer>

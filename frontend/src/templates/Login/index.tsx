@@ -102,7 +102,14 @@ const Login = () => {
                   display="flex"
                   justifyContent="center"
                 >
-                  <Button styleType="normal" size="large" disabled={loading}>
+                  <Button
+                    styleType="normal"
+                    size="large"
+                    color="primaryColor"
+                    sizeLabel="xsmall"
+                    labelColor="white"
+                    disabled={loading}
+                  >
                     {loading ? "Entrando..." : "Entrar"}
                   </Button>
                 </SectionContainer>
