@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 
 import * as S from "./styles";
 import Dropdown from "@/components/Dropdown";
+import { Heart } from "@styled-icons/feather";
 
 type BaseProps = {
   children: string | React.ReactNode;
@@ -60,6 +61,7 @@ const Base: React.ForwardRefRenderFunction<BaseRef, BaseProps> = (
       <S.Content ref={contentRef}>
         <PageContainer>{children}</PageContainer>
       </S.Content>
+      <Footer children="Desenvolvido por Tiago Persch" />
     </>
   );
 };

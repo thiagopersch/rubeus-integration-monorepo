@@ -4,7 +4,6 @@ import Image from "next/image";
 
 import SectionContainer from "@/components/SectionContainer";
 import * as InputStyles from "@/components/TextInput/styles";
-import Button from "@/components/Button";
 import media from "styled-media-query";
 
 export const Background = styled(Image)`
@@ -21,6 +20,7 @@ export const Wrapper = styled.main<WrapperProps>`
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 
     ${hasBackground &&
     css`
@@ -57,7 +57,7 @@ export const Form = styled(Unform)`
   ${({ theme }) => css`
     padding: ${theme.spacings.small};
     width: 100%;
-    /* margin-top: ${theme.spacings.xlarge}; */
+    margin-top: ${theme.spacings.small};
     margin-bottom: ${theme.spacings.xxsmall};
 
     ${InputStyles.Wrapper} {
@@ -86,4 +86,14 @@ export const WfLogoContainer = styled.div`
   img {
     border-radius: 50%;
   }
+`;
+
+export const WrapperFields = styled.div`
+  ${({ theme }) => css`
+    width: 30%;
+
+    ${media.lessThan("medium")`
+      width: 100%;
+    `}
+  `}
 `;

@@ -13,10 +13,10 @@ import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
 
 import { signInSchema } from "./rules/schema";
+
 import { isUrl } from "@/utils/isUrl";
 
 import * as S from "./styles";
-import { User } from "@styled-icons/feather";
 
 export type SigninFormData = {
   login: string;
@@ -88,24 +88,15 @@ const Login = () => {
   return (
     <Base>
       <S.Wrapper hasBackground={!!false}>
-        <SectionContainer
-          marginTop="huge"
-          display="flex"
-          flexDirection="column"
-          columns="fullwidth"
-        >
-          <Card paddings="large">
-            <S.Content>
-              <Heading size="md" color="primaryColor">
-                Login
-              </Heading>
+        <SectionContainer columns="fullwidth" marginTop="huge">
+          <S.Content>
+            <Heading size="md" color="primaryColor">
+              Login
+            </Heading>
+            <S.WrapperFields>
               <S.Form onSubmit={handleSubmit} ref={formRef}>
-                <SectionContainer>
-                  <TextInput name="login" label="Login" />
-                </SectionContainer>
-                <SectionContainer>
-                  <TextInput name="password" label="Senha" type="password" />
-                </SectionContainer>
+                <TextInput name="login" label="Login" />
+                <TextInput name="password" label="Senha" type="password" />
                 <SectionContainer
                   paddings="none"
                   display="flex"
@@ -116,8 +107,8 @@ const Login = () => {
                   </Button>
                 </SectionContainer>
               </S.Form>
-            </S.Content>
-          </Card>
+            </S.WrapperFields>
+          </S.Content>
         </SectionContainer>
       </S.Wrapper>
     </Base>

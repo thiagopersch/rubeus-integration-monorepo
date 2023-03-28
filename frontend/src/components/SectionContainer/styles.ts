@@ -6,7 +6,7 @@ export const Container = styled.div<SectionContainerProps>`
   ${({
     theme,
     paddings = "none",
-    columns = "none",
+    columns = "fullwidth",
     display = "flex",
     flexDirection = "column",
     justifyContent = "spaceBetween",
@@ -24,7 +24,7 @@ export const Container = styled.div<SectionContainerProps>`
     align-content: ${theme.alignContent[alignContent]};
     align-items: ${theme.alignItems[alignItems]};
     padding: ${theme.spacings[paddings]};
-    column-count: ${theme.columns[columns]};
+    width: ${theme.columns[columns]};
     margin: ${theme.spacings[margin]};
     margin-top: ${theme.spacings[marginTop]};
     margin-bottom: ${theme.spacings[marginBottom]};

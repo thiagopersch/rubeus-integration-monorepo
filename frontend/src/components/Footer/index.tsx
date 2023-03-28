@@ -32,10 +32,6 @@ const Footer = ({ children }: FooterProps) => {
       <Separator />
       <S.ContainerCopyright>
         <SectionContainer>
-          {/* <div>
-            Feito com ❤ por{" "}
-            <a href="https://github.com/thiagopersch"> Tiago Persch</a>
-          </div> */}
           <div dangerouslySetInnerHTML={{ __html: children }} />
         </SectionContainer>
       </S.ContainerCopyright>

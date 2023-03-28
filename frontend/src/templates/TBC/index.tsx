@@ -28,7 +28,7 @@ const Tbc = () => {
           alignItems="start"
         >
           <Button>
-            <Link href="/" passHref>
+            <Link href="/addTbc" passHref>
               <TextComponent color="white" size="medium">
                 Criar novo
               </TextComponent>

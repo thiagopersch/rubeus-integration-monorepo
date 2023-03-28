@@ -8,9 +8,8 @@ export const Wrapper = styled.div<CardProps>`
     display: flex;
     flex-direction: column;
     height: auto;
-    width: auto;
+    width: ${theme.columns[columns]};
     padding: ${theme.spacings[paddings]};
-    column-count: ${theme.columns[columns]};
     background: ${theme.colors.white};
     box-shadow: ${theme.shadow.hoverGreen};
     border-radius: 0.3rem;
@@ -44,7 +43,7 @@ export const Content = styled.div<ContentProps>`
     display: flex;
     flex-direction: column;
     padding: ${theme.spacings.xxsmall};
-    overflow: hidden;
+    /* overflow: hidden; */
 
     ${!!hasIcon && contentModifiers.withIcon(theme, iconAlign)};
   `}
