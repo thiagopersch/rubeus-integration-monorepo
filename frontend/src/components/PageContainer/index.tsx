@@ -14,6 +14,7 @@ const PageContainer = styled.div`
   flex-direction: column;
   width: 100%;
   margin: 0 auto;
+  overflow-y: auto;
 
   /* ${customMedia.greaterThan("small")`
     max-width: 54rem;

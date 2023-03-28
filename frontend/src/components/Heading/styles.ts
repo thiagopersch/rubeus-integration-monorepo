@@ -1,4 +1,5 @@
 import styled, { css, DefaultTheme } from "styled-components";
+import media from "styled-media-query";
 
 import { HeadingProps } from ".";
 
@@ -53,6 +54,11 @@ export const Heading = styled.h1<HeadingProps>`
     color: ${theme.colors[color]};
     font-weight: ${theme.font.weight.bold};
     font-family: ${theme.font.primary};
+
+    ${media.lessThan("medium")`
+    font-size: ${theme.font.sizes.medium};
+
+    `}
 
     ${headingModifiers[size](theme)}
     ${!!textAlign && TextModifiers.withText(theme, textAlign)}

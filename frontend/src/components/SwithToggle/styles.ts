@@ -1,8 +1,14 @@
-import styled, { css } from "styled-components";
+import styled, { css, DefaultTheme } from "styled-components";
 
 export const CheckBoxWrapper = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
 `;
+
 export const CheckBoxLabel = styled.label`
   ${({ theme }) => css`
     position: absolute;
@@ -49,5 +55,16 @@ export const CheckBox = styled.input`
         transition: ${theme.transition.fast};
       }
     }
+  `}
+`;
+
+export const Label = styled.label`
+  ${({ theme }) => css`
+    cursor: pointer;
+    font-family: ${theme.font.primary};
+    font-weight: ${theme.font.weight.normal};
+    font-size: ${theme.font.sizes.small};
+    color: ${theme.colors.primaryColor};
+    padding-left: ${theme.spacings.xsmall};
   `}
 `;

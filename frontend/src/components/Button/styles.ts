@@ -6,7 +6,10 @@ import { ButtonProps } from "./";
 
 export type WrapperProps = {
   hasIcon: boolean;
-} & Pick<ButtonProps, "size" | "fullWidth" | "styleType" | "color">;
+} & Pick<
+  ButtonProps,
+  "size" | "fullWidth" | "styleType" | "color" | "labelColor" | "sizeLabel"
+>;
 
 const wrapperModifiers = {
   small: (theme: DefaultTheme) => css`
@@ -21,7 +24,7 @@ const wrapperModifiers = {
   `,
   large: (theme: DefaultTheme) => css`
     height: 5rem;
-    font-size: ${theme.font.sizes.large};
+    font-size: ${theme.font.sizes.medium};
     padding: ${theme.spacings.xxsmall};
   `,
   fullWidth: () => css`
@@ -97,18 +100,20 @@ const wrapperModifiers = {
 export const Wrapper = styled.button<WrapperProps>`
   ${({
     theme,
-    size,
+    size = "small",
     fullWidth,
     hasIcon,
     disabled,
     styleType,
     color = "darkGrey",
+    labelColor = "darkGrey",
+    sizeLabel = "small",
   }) => css`
     display: inline-flex;
     align-items: center;
     justify-content: center;
     background: ${theme.colors[color]};
-    color: ${theme.colors.white};
+    color: ${theme.colors[labelColor]};
     border: 0;
     outline: none;
     border-radius: 0.6rem;
@@ -116,6 +121,7 @@ export const Wrapper = styled.button<WrapperProps>`
     text-decoration: none;
     cursor: pointer;
     font-family: ${theme.font.primary};
+    font-size: ${theme.font.sizes[sizeLabel]};
     font-weight: ${theme.font.weight.bold};
     transition: ${theme.transition.fast};
     width: 100%;

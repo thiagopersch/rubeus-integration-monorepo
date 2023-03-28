@@ -21,7 +21,7 @@ type InputHtmlProps =
 export type InputAs = "input" | "textarea";
 export type TextInputProps = InputHtmlProps & {
   name: string;
-  label: string;
+  label?: string;
   as?: InputAs;
   size?: "large" | "medium" | "small";
   type?: string;

@@ -14,6 +14,8 @@ export type ButtonProps = {
   icon?: React.ReactNode;
   as?: React.ElementType;
   color?: keyof DefaultTheme["colors"];
+  labelColor?: keyof DefaultTheme["colors"];
+  sizeLabel?: keyof DefaultTheme["font"]["sizes"];
   styleType?: "normal" | "rounded" | "outlined" | "secondary" | "circle";
 } & ButtonTypes;
 
@@ -21,10 +23,12 @@ const Button: React.ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
   {
     children,
     icon,
-    size = "large",
+    size,
     fullWidth = false,
     styleType = "normal",
     color = "primaryColor",
+    labelColor,
+    sizeLabel,
     ...props
   },
   ref,
@@ -36,6 +40,8 @@ const Button: React.ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
     ref={ref}
     styleType={styleType}
     color={color}
+    labelColor={labelColor}
+    sizeLabel={sizeLabel}
     {...props}
   >
     {!!icon && icon}
