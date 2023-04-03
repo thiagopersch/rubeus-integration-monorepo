@@ -31,59 +31,61 @@ const Sentence = () => {
                 Publicar todas
               </Button>
             </S.WrapperCTA>
-            <Collapse label="Inscrições e matriculas" open={false}>
-              <Table<[]> items={[] || []} keyExtractor={(value) => value.id}>
-                <TableColumn tableKey="sentence.code" actionColumn />
-                <TableColumn
-                  label="Código"
-                  tableKey="sentence.code"
-                  actionColumn
-                  ellipsis
-                ></TableColumn>
-                <TableColumn
-                  label="Nome"
-                  tableKey="sentence.name"
-                  actionColumn
-                  ellipsis
-                ></TableColumn>
-                <TableColumn
-                  label="Coligada"
-                  tableKey="sentence.coligate"
-                  actionColumn
-                />
-                <TableColumn
-                  label="Sistema"
-                  tableKey="sentence.system"
-                  actionColumn
-                />
-                <TableColumn
-                  label="Última edição"
-                  tableKey="sentence.updated_at"
-                  actionColumn
-                  ellipsis
-                />
-                <TableColumn
-                  label="Ações"
-                  tableKey="sentence.actions"
-                  actionColumn
-                />
-              </Table>
-              <Checkbox id="checkSentence" />
-              <S.WrapperNameSentence>
-                <TextComponent>RB.PS.IM.005</TextComponent>
-                <Link href="#">
-                  <TextComponent>Dados do portal do inscrito</TextComponent>
-                </Link>
-                <TextComponent>0</TextComponent>
-                <TextComponent>S</TextComponent>
-                <TextComponent>
-                  01/01/2023 as 13:30 por Tiago Pexe
-                </TextComponent>
-                <S.WrapperCTAActions>
-                  <ActionSentences />
-                </S.WrapperCTAActions>
-              </S.WrapperNameSentence>
-            </Collapse>
+            <S.WrapperDividerCollpase>
+              <Collapse label="Inscrições e matriculas" open={false}>
+                <Table<[]> items={[] || []} keyExtractor={(value) => value.id}>
+                  <TableColumn tableKey="sentence.code" actionColumn />
+                  <TableColumn
+                    label="Código"
+                    tableKey="sentence.code"
+                    actionColumn
+                    ellipsis
+                  ></TableColumn>
+                  <TableColumn
+                    label="Nome"
+                    tableKey="sentence.name"
+                    actionColumn
+                    ellipsis
+                  ></TableColumn>
+                  <TableColumn
+                    label="Coligada"
+                    tableKey="sentence.coligate"
+                    actionColumn
+                  />
+                  <TableColumn
+                    label="Sistema"
+                    tableKey="sentence.system"
+                    actionColumn
+                  />
+                  <TableColumn
+                    label="Última edição"
+                    tableKey="sentence.updated_at"
+                    actionColumn
+                    ellipsis
+                  />
+                  <TableColumn
+                    label="Ações"
+                    tableKey="sentence.actions"
+                    actionColumn
+                  />
+                </Table>
+                <Checkbox id="checkSentence" />
+                <S.WrapperNameSentence>
+                  <TextComponent>RB.PS.IM.005</TextComponent>
+                  <Link href="#">
+                    <TextComponent>Dados do portal do inscrito</TextComponent>
+                  </Link>
+                  <TextComponent>0</TextComponent>
+                  <TextComponent>S</TextComponent>
+                  <TextComponent>
+                    01/01/2023 as 13:30 por Tiago Pexe
+                  </TextComponent>
+                  <S.WrapperCTAActions>
+                    <ActionSentences />
+                  </S.WrapperCTAActions>
+                </S.WrapperNameSentence>
+              </Collapse>
+            </S.WrapperDividerCollpase>
           </S.Wrapper>
         </Card>
       </SectionContainer>

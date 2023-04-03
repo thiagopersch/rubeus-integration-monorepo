@@ -3,7 +3,7 @@ import media from "styled-media-query";
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
-    padding: 5rem;
+    padding: 2rem;
 
     ${media.lessThan("medium")`
       flex-direction: column;
@@ -18,6 +18,12 @@ export const WrapperCTA = styled.div`
     flex-direction: row;
     justify-content: space-between;
     padding: ${theme.spacings.small} 0;
+  `}
+`;
+
+export const WrapperDividerCollpase = styled.div`
+  ${({ theme }) => css`
+    padding: 1rem 0;
   `}
 `;
 
