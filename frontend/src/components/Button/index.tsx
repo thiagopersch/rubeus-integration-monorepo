@@ -17,17 +17,18 @@ export type ButtonProps = {
   labelColor?: keyof DefaultTheme["colors"];
   sizeLabel?: keyof DefaultTheme["font"]["sizes"];
   styleType?: "normal" | "rounded" | "outlined" | "secondary" | "circle";
+  uppercase?: boolean;
 } & ButtonTypes;
 
 const Button: React.ForwardRefRenderFunction<HTMLButtonElement, ButtonProps> = (
   {
     children,
     icon,
-    size,
+    size = "small",
     fullWidth = false,
     styleType = "normal",
     color = "primaryColor",
-    labelColor,
+    labelColor = "darkGrey",
     sizeLabel,
     ...props
   },

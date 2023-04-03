@@ -125,6 +125,5 @@ export const MenuButton = styled.div`
 export const Content = styled.main`
   ${({ theme }) => css`
     padding: ${theme.spacings.small};
-    overflow-y: auto;
   `}
 `;

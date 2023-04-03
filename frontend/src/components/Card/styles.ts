@@ -3,20 +3,6 @@ import { ArrowRight } from "@styled-icons/feather";
 
 import { CardProps } from ".";
 
-export const Wrapper = styled.div<CardProps>`
-  ${({ theme, paddings = "none", columns = "fullwidth" }) => css`
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    width: ${theme.columns[columns]};
-    padding: ${theme.spacings[paddings]};
-    background: ${theme.colors.white};
-    box-shadow: ${theme.shadow.hoverGreen};
-    border-radius: 0.3rem;
-    overflow: hidden;
-  `}
-`;
-
 export type ContentProps = {
   hasIcon: boolean;
   iconAlign: "right" | "center" | "left";
@@ -38,12 +24,25 @@ const contentModifiers = {
   `,
 };
 
+export const Wrapper = styled.div<CardProps>`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    padding: ${theme.spacings.small};
+    background: ${theme.colors.white};
+    box-shadow: ${theme.shadow.hoverGreen};
+    border-radius: 0.3rem;
+    z-index: 1;
+  `}
+`;
+
 export const Content = styled.div<ContentProps>`
   ${({ theme, hasIcon, iconAlign }) => css`
     display: flex;
     flex-direction: column;
     padding: ${theme.spacings.xxsmall};
-    /* overflow: hidden; */
 
     ${!!hasIcon && contentModifiers.withIcon(theme, iconAlign)};
   `}

@@ -90,7 +90,7 @@ export const WfLogoContainer = styled.div`
 
 export const WrapperFields = styled.div`
   ${({ theme }) => css`
-    width: 30%;
+    width: 50rem;
 
     ${media.lessThan("medium")`
       width: 100%;

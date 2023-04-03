@@ -34,8 +34,8 @@ export const Wrapper = styled.th<WrapperProps>`
 
     text-align: ${contentAlign};
     color: ${theme.colors.darkGrey};
-    font-weight: ${theme.font.weight.normal};
-    font-size: ${theme.font.sizes.medium};
+    font-weight: ${theme.font.weight.bold};
+    font-size: ${theme.font.sizes.small};
     padding: ${theme.spacings.xxsmall} ${theme.spacings.xsmall};
     white-space: nowrap;
     background: ${theme.colors.white};

@@ -3,7 +3,7 @@ import { DefaultTheme } from "styled-components";
 import * as S from "./styles";
 
 export type TextComponentProps = {
-  children: string;
+  children: string | React.ReactNode;
   color?: keyof DefaultTheme["colors"];
   size?: keyof DefaultTheme["font"]["sizes"];
   textAlign?: "right" | "center" | "left";
@@ -11,8 +11,8 @@ export type TextComponentProps = {
 
 export const TextComponent = ({
   children,
-  color,
-  size,
+  color = "darkGrey",
+  size = "xsmall",
   textAlign,
 }: TextComponentProps) => {
   return (

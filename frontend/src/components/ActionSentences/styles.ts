@@ -11,10 +11,6 @@ export const Wrapper = styled.div`
 
 export const WrapperButton = styled.div`
   padding-right: 2rem;
-
-  ${media.lessThan("medium")`
-    display: none;
-  `}
 `;
 
 type ContainerProps = {
@@ -27,7 +23,7 @@ export const Container = styled.div<ContainerProps>`
     position: relative;
     height: 100%;
     width: 100%;
-    /* min-width: 20rem; */
+    min-width: 10rem;
     color: ${theme.colors.mainBg};
     display: flex;
     align-items: center;
@@ -61,10 +57,10 @@ export const Content = styled.div<ContentProps>`
     width: 100%;
     min-width: inherit;
     padding: 1rem;
-    padding-top: 1rem;
+    margin: 0.5rem 0;
     top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 4rem;
+    transform: translateX(-70%);
     border-radius: 0.3rem;
     z-index: ${theme.layers.modal};
     transition: all 0.2s ease-out;
@@ -83,21 +79,25 @@ export const Content = styled.div<ContentProps>`
 `;
 
 export const ListItem = styled.li`
-  padding: 1.5rem;
-  color: #556365;
+  ${({ theme }) => css`
+    padding: 0.8rem;
+    font-size: ${theme.font.sizes.xsmall};
+    color: #556365;
 
-  :hover {
-    background: #e9e9e9;
-    border-radius: 0.4rem;
-  }
-  & + & {
-    margin-top: 1rem;
-  }
+    :hover {
+      background: #e9e9e9;
+      border-radius: 0.4rem;
+    }
+    & + & {
+      margin-top: 1rem;
+    }
+  `}
 `;
 
 type OverlayProps = {
   isOpen: boolean;
 };
+
 export const Overlay = styled.div<OverlayProps>`
   ${({ isOpen }) => css`
     visibility: hidden;
@@ -124,35 +124,21 @@ export const UserContainer = styled.div`
     display: flex;
     align-items: center;
     font-family: ${theme.font.primary};
-    font-size: ${theme.font.sizes.small};
+    font-size: ${theme.font.sizes.xsmall};
     font-weight: ${theme.font.weight.normal};
     padding: 0 ${theme.spacings.medium}
     color: ${theme.colors.white};
 
     ${media.lessThan("medium")`
-      font-size: ${theme.font.sizes.xsmall};
+      font-size: ${theme.font.sizes.xxsmall};
     `}
-  `}
-`;
-
-export const UserImage = styled.div`
-  ${({ theme }) => css`
-    position: relative;
-    width: 6rem;
-    height: 6rem;
-    margin-left: ${theme.spacings.xsmall};
-    border-radius: 50%;
-    box-shadow: 0rem 0rem 0.2rem ${theme.colors.primaryGrey};
-
-    > img {
-      border-radius: 50%;
-    }
   `}
 `;
 
 type ArrowIconProps = {
   isOpen: boolean;
 };
+
 export const ArrowIcon = styled(ChevronDown)<ArrowIconProps>`
   ${({ isOpen }) => css`
     width: 2.4rem;

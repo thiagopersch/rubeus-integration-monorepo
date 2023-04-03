@@ -100,7 +100,7 @@ const wrapperModifiers = {
 export const Wrapper = styled.button<WrapperProps>`
   ${({
     theme,
-    size = "small",
+    size,
     fullWidth,
     hasIcon,
     disabled,
@@ -109,7 +109,7 @@ export const Wrapper = styled.button<WrapperProps>`
     labelColor = "darkGrey",
     sizeLabel = "small",
   }) => css`
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     background: ${theme.colors[color]};
@@ -117,7 +117,7 @@ export const Wrapper = styled.button<WrapperProps>`
     border: 0;
     outline: none;
     border-radius: 0.6rem;
-    padding: ${theme.spacings.xsmall};
+    padding: ${theme.spacings.small};
     text-decoration: none;
     cursor: pointer;
     font-family: ${theme.font.primary};

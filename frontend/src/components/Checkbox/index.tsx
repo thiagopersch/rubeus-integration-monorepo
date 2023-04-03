@@ -5,7 +5,7 @@ import * as S from "./styles";
 export type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
   onCheck?: (status: boolean) => void;
   isChecked?: boolean;
-  label?: string;
+  label?: string | React.ReactNode;
   labelFor?: string;
   labelColor?: "white" | "black";
   value?: string | ReadonlyArray<string> | number;

@@ -8,8 +8,9 @@ import { User } from "@styled-icons/feather";
 
 type UserDropdownProps = {
   username: string;
+  isOpen?: boolean;
 };
-const UserDropdown = ({ username /*, image*/ }: UserDropdownProps) => {
+const UserDropdown = ({ username, isOpen /*, image*/ }: UserDropdownProps) => {
   const [show, setShow] = useState(false);
 
   const handleSignout = async () => {

@@ -11,7 +11,7 @@ type RenderChildrenFunction = (item: any) => React.ReactNode;
 
 export type TableColumnProps = {
   tableKey: string;
-  label: React.ReactNode;
+  label?: React.ReactNode;
   fixed?: boolean;
   contentAlign?: "left" | "center" | "right";
   border?: "all" | "left" | "right" | "none";

@@ -3,11 +3,12 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown, ChevronUp } from "@styled-icons/feather";
 
 import * as S from "./styles";
+import TextComponent from "../TextComponent";
 
 type CollapseProps = {
   open?: boolean;
   label?: string | React.ReactNode;
-  children?: string;
+  children?: string | React.ReactNode;
 };
 
 const Collapse = ({ children, label, open }: CollapseProps) => {
@@ -58,7 +59,15 @@ const Collapse = ({ children, label, open }: CollapseProps) => {
         </S.Button>
       </S.WrapperTitle>
       <S.WrapperContent>
-        <div ref={ref}>{!isOpen && <S.Content>{children}</S.Content>}</div>
+        <div ref={ref}>
+          {!isOpen && (
+            <S.Content>
+              <TextComponent color="darkGrey" size="small">
+                {children}
+              </TextComponent>
+            </S.Content>
+          )}
+        </div>
       </S.WrapperContent>
     </>
   );
