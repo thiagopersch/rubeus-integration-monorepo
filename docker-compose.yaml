@@ -1,0 +1,72 @@
+version: "3.8"
+services:
+  # postgres:
+  #   image: postgres
+  #   restart: always
+  #   environment:
+  #     POSTGRES_PASSWORD: sema
+  #     POSTGRES_DB: sema
+
+  #   # volumes:
+  #   #   - /var/lib/postgresql/data:/var/lib/postgresql/data
+
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U postgres"]
+  #     interval: 10s
+  #     timeout: 15s
+  #     retries: 5
+
+  #   ports:
+  #     - 5432:5432
+
+  #   networks:
+  #     - rubeusintegration-network
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      POSTGRES_HOST: host.docker.internal
+      POSTGRES_PORT: 5432
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: rubeusintegration
+      POSTGRES_DATABASE: rubeusintegration
+
+    ports:
+      - 3333:3333
+
+    networks:
+      - rubeusintegration-network
+
+    # depends_on:
+    #   postgres:
+    #     condition: service_healthy
+
+  report-engine:
+    build:
+      context: ./lib/report-engine
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - rubeusintegration-network
+
+  client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXTAUTH_URL=http://localhost:3000
+        - NEXT_PUBLIC_API_URL=http://localhost:3333
+        - SERVER_API_URL=http://api:3333
+    restart: always
+    ports:
+      - 3000:3000
+
+    networks:
+      - rubeusintegration-network
+
+networks:
+  rubeusintegration-network:
+    driver: "bridge"

@@ -41,6 +41,7 @@ export const CheckBox = styled.input`
     border-radius: 1.5rem;
     width: 4.2rem;
     height: 2.6rem;
+    cursor: pointer;
 
     &:checked + ${CheckBoxLabel} {
       background: ${theme.colors.primaryColor};
