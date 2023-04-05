@@ -1,2 +1,3 @@
-yarn dev:typeorm migration:run;
+yarn dev:createdb;
+# yarn dev:clear-cache;
 yarn dev:server;

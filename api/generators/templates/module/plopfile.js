@@ -25,7 +25,6 @@ const directories = [
   'infra/typeorm/entities',
   'infra/typeorm/repositories',
   'repositories',
-  'repositories/fakes',
   'services',
 ];
 

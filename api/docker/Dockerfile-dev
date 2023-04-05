@@ -1,5 +1,12 @@
 FROM node:lts-alpine
 
+RUN \
+    echo "https://mirror.uepg.br/alpine/v$(cut -d'.' -f1,2 /etc/alpine-release)/main/" >> /etc/apk/repositories && \
+    echo "https://mirror.uepg.br/alpine/v$(cut -d'.' -f1,2 /etc/alpine-release)/community/" >> /etc/apk/repositories
+
+RUN apk update
+RUN apk add --no-cache postgresql-client
+
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 RUN mkdir app && chown -R appuser:appgroup ./app
 

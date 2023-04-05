@@ -1,17 +1,20 @@
-version: "3.8"
+version: '3.8'
 services:
   postgres:
     image: postgres
-    command: ["postgres", "-c", "log_statement=all"]
+    command: ['postgres', '-c', 'log_statement=all']
     environment:
       POSTGRES_PASSWORD: rubeusintegration
       POSTGRES_DB: rubeusintegration
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 10s
       timeout: 15s
       retries: 5
+
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d/
 
     ports:
       - 5432:5432
@@ -44,4 +47,4 @@ services:
 
 networks:
   rubeusintegration-network:
-    driver: "bridge"
+    driver: 'bridge'
