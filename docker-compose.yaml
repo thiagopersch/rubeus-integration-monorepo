@@ -52,7 +52,7 @@ services:
     networks:
       - rubeusintegration-network
 
-  client:
+  frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile

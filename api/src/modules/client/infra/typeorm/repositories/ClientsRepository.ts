@@ -15,6 +15,18 @@ class ClientsRepository implements IClientsRepository {
     this.ormRepository = dataSource.getRepository(Client);
   }
 
+  public async findById(clientId: string): Promise<Client | undefined> {
+    const client = await this.ormRepository.findOne({
+      where: { id: clientId },
+    });
+    return client ?? undefined;
+  }
+
+  public async findAll(): Promise<Client[]> {
+    const client = await this.ormRepository.find();
+    return client;
+  }
+
   public async create({ name, status }: CreateClientDTO): Promise<Client> {
     const client = this.ormRepository.create({
       name,

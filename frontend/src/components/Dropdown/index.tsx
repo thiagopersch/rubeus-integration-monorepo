@@ -26,9 +26,9 @@ const Dropdown = ({ children }: UserDropdownProps) => {
         </S.Title>
         <S.Content isOpen={show}>
           <ul>
-            {/* <S.ListItem>
+            <S.ListItem>
               <Link href="/clients">Clientes</Link>
-            </S.ListItem> */}
+            </S.ListItem>
             <S.ListItem>
               <Link href="/tbc">TBC</Link>
             </S.ListItem>

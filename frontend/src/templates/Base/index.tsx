@@ -8,7 +8,6 @@ import Footer from "@/components/Footer";
 
 import * as S from "./styles";
 import Dropdown from "@/components/Dropdown";
-import { Heart } from "@styled-icons/feather";
 
 type BaseProps = {
   children: string | React.ReactNode;

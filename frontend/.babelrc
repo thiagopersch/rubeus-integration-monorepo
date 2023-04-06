@@ -1,4 +1,5 @@
 {
   "presets": ["next/babel"],
-  "plugins": ["styled-components"]
+  "plugins": ["styled-components"],
+  "plugins": ["jotai/babel/plugin-react-refresh"]
 }

@@ -1,22 +1,22 @@
 import { useEffect } from "react";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-// import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import protectedRoutes from "../utils/protected-routes";
 
 export default function AppIndex() {
   const { push } = useRouter();
 
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
 
   useEffect(() => {
-    //   if (session) {
-    //     push("/auth");
-    //   } else {
-    push("/home");
-    //   }
-  }, [/*session,*/ push]);
+    if (session) {
+      push("/auth");
+    } else {
+      push("/home");
+    }
+  }, [session, push]);
 
   return <></>;
 }
