@@ -1,7 +1,6 @@
 import { useMemo, useEffect } from "react";
 import { GetServerSidePropsContext } from "next";
 import { atom, PrimitiveAtom, Provider as JotaiProvider } from "jotai";
-import { queryClientAtom } from "jotai-tanstack-query";
 import { RESET } from "jotai/utils";
 import { useQueryClient } from "react-query";
 import Cookies from "js-cookie";

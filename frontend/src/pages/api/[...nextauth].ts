@@ -15,13 +15,13 @@ const refreshProvider = Refresh<Record<string, CredentialInput>>({
   async authorize(params) {
     if (!params) return null;
 
-    const { profileId, schoolYearId, token } = params;
+    const { profileId, token } = params;
 
     const api = initializeApi();
     try {
       const response = await api.put(
         "/sessions",
-        { profile_id: profileId, school_year_id: schoolYearId },
+        { profile_id: profileId },
         {
           headers: { authorization: token ? `Bearer ${token}` : "" },
         },
@@ -35,18 +35,18 @@ const refreshProvider = Refresh<Record<string, CredentialInput>>({
       //     getBranch(api, data.token),
       //   ]);
 
-      //   return {
-      //     ...data.user,
-      //     name: data.user.username,
-      //     jwt: data.token,
-      //     employeeId: employee?.id,
-      //     profileId: data.profile.id,
-      //     accessLevel: data.profile.access_level,
-      //     schoolYearId: data.school_year_id,
-      //     schoolId: school?.id,
-      //     branchId: branch?.id,
-      //     branchType: branch?.type,
-      //   };
+      return {
+        ...data.user,
+        name: data.user.username,
+        jwt: data.token,
+        // employeeId: employee?.id,
+        // profileId: data.profile.id,
+        // accessLevel: data.profile.access_level,
+        // schoolYearId: data.school_year_id,
+        // schoolId: school?.id,
+        // branchId: branch?.id,
+        // branchType: branch?.type,
+      };
       // }
 
       return null;
@@ -56,49 +56,49 @@ const refreshProvider = Refresh<Record<string, CredentialInput>>({
   },
 });
 
-// const signInProvider = Credentials<Record<string, CredentialInput>>({
-//   name: "sign-in",
-//   credentials: {},
-//   async authorize(params) {
-//     if (!params) return null;
+const signInProvider = Credentials<Record<string, CredentialInput>>({
+  name: "sign-in",
+  credentials: {},
+  async authorize(params) {
+    if (!params) return null;
 
-//     const { email, password } = params;
+    const { email, password } = params;
 
-//     const api = initializeApi();
+    const api = initializeApi();
 
-//     try {
-//       const response = await api.post(`/sessions`, {
-//         login: email,
-//         password,
-//       });
+    try {
+      const response = await api.post(`/sessions`, {
+        login: email,
+        password,
+      });
 
-//       const { data } = response;
-//       if (data.user) {
-//         const [employee, school, branch] = await Promise.all([
-//           getEmployee(api, data.token),
-//           getSchool(api, data.token),
-//           getBranch(api, data.token),
-//         ]);
+      const { data } = response;
+      if (data.user) {
+        // const [employee, school, branch] = await Promise.all([
+        //   getEmployee(api, data.token),
+        //   getSchool(api, data.token),
+        //   getBranch(api, data.token),
+        // ]);
 
-//         return {
-//           ...data.user,
-//           name: data.user.username,
-//           jwt: data.token,
-//           employeeId: employee?.id,
-//           profileId: data.profile?.id,
-//           accessLevel: data.profile?.access_level,
-//           schoolYearId: data.school_year_id,
-//           schoolId: school ? school.id : undefined,
-//           branchId: branch ? branch.id : undefined,
-//           branchType: branch ? branch.type : undefined,
-//         };
-//       }
-//     } catch (err) {
-//       console.log(err);
-//     }
-//     return null;
-//   },
-// });
+        return {
+          ...data.user,
+          name: data.user.username,
+          jwt: data.token,
+          // employeeId: employee?.id,
+          // profileId: data.profile?.id,
+          // accessLevel: data.profile?.access_level,
+          // schoolYearId: data.school_year_id,
+          // schoolId: school ? school.id : undefined,
+          // branchId: branch ? branch.id : undefined,
+          // branchType: branch ? branch.type : undefined,
+        };
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    return null;
+  },
+});
 
 const createOptions = (
   sessionId?: string,
@@ -112,7 +112,7 @@ const createOptions = (
     pages: {
       signIn: "/home",
     },
-    providers: [/*signInProvider,*/ refreshProvider],
+    providers: [signInProvider, refreshProvider],
     callbacks: {
       session: async (...args) => {
         const { token, session } = args[0];
@@ -152,12 +152,12 @@ const createOptions = (
         // }
 
         const {
-          schoolId,
-          profileId,
-          accessLevel,
+          // schoolId,
+          // profileId,
+          // accessLevel,
           jwt,
-          branchId,
-          branchType,
+          // branchId,
+          // branchType,
           ...rest
         } = token;
 
@@ -166,8 +166,8 @@ const createOptions = (
         session.user = {
           ...rest,
         };
-        session.profileId = profileId;
-        session.accessLevel = accessLevel;
+        // session.profileId = profileId;
+        // session.accessLevel = accessLevel;
         // session.schoolId = schoolId;
         // session.branch = {
         //   id: branchId,
@@ -184,8 +184,8 @@ const createOptions = (
           token.changePassword = user.change_password;
           token.email = user.login;
           token.jwt = user.jwt;
-          token.profileId = user.profileId;
-          token.accessLevel = user.accessLevel;
+          // token.profileId = user.profileId;
+          // token.accessLevel = user.accessLevel;
           // token.schoolId = user.schoolId;
           // token.employeeId = user.employeeId;
           // token.branchId = user.branchId;
