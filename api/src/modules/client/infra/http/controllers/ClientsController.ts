@@ -4,6 +4,7 @@ import { instanceToInstance } from 'class-transformer';
 
 import CreateClientService from '@modules/client/services/CreateClientService';
 import ListClientService from '@modules/client/services/ListClientService';
+import UpdateClientService from '@modules/client/services/UpdateClientService';
 
 class ClientsController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -19,6 +20,20 @@ class ClientsController {
     const createClient = container.resolve(CreateClientService);
 
     const client = await createClient.execute({ name, status });
+
+    return response.json(client);
+  }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { client_id } = request.params;
+    const { name, status } = request.body;
+
+    const updateClient = container.resolve(UpdateClientService);
+    const client = await updateClient.execute({
+      client_id,
+      name,
+      status,
+    });
 
     return response.json(client);
   }

@@ -1,10 +1,11 @@
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, In, Repository } from 'typeorm';
 
 import { dataSource } from '@config/data_source';
 
 import IClientsRepository from '@modules/client/repositories/IClientsRepository';
 
 import CreateClientDTO from '@modules/client/dtos/CreateClientDTO';
+import FindClientDTO from '@modules/client/dtos/FindClientDTO';
 
 import Client from '../entities/Client';
 
@@ -15,15 +16,29 @@ class ClientsRepository implements IClientsRepository {
     this.ormRepository = dataSource.getRepository(Client);
   }
 
-  public async findById(clientId: string): Promise<Client | undefined> {
+  public async findById(client_id: string): Promise<Client | undefined> {
     const client = await this.ormRepository.findOne({
-      where: { id: clientId },
+      where: { id: client_id },
     });
+
     return client ?? undefined;
   }
 
-  public async findAll(): Promise<Client[]> {
-    const client = await this.ormRepository.find();
+  public async findAll(filters: FindClientDTO = {}): Promise<Client[]> {
+    const { id } = filters;
+    const where: FindOptionsWhere<Client> = {};
+    if (id) {
+      if (Array.isArray(id)) {
+        where.id = In(id);
+      } else {
+        where.id = id;
+      }
+    }
+
+    const client = await this.ormRepository.find({
+      where,
+      order: { name: 'ASC' },
+    });
     return client;
   }
 
