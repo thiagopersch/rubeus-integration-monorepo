@@ -12,7 +12,8 @@ export default function AppIndex() {
 
   useEffect(() => {
     if (session) {
-      push("/auth");
+      // push("/auth");
+      push("/");
     } else {
       push("/home");
     }

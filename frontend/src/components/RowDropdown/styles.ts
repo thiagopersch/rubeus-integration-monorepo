@@ -83,6 +83,7 @@ export const Content = styled.div<ContentProps>`
 export const ListItem = styled.li`
   ${({ theme }) => css`
     padding: 1.5rem;
+    font-size: ${theme.font.sizes.xsmall};
     color: ${theme.colors.lightGrey};
 
     :hover {
@@ -129,6 +130,7 @@ export const UserContainer = styled.div`
     display: flex;
     align-items: center;
     font-family: ${theme.font.primary};
+    font-size: ${theme.font.sizes.xsmall};
     font-weight: ${theme.font.weight.normal};
     color: ${theme.colors.lightGrey};
 

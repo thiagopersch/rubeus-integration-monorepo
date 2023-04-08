@@ -26,7 +26,7 @@ export const Wrapper = styled.div`
     transform: translateX(-50%) translateY(-0.5rem);
     z-index: ${theme.layers.modal};
     background: red;
-    padding: ${theme.spacings.xxsmall} ${theme.spacings.xsmall};
+    padding: ${theme.spacings.xsmall} ${theme.spacings.xsmall};
     border-radius: 1rem;
     background ${theme.colors.white};
   `}
@@ -34,10 +34,11 @@ export const Wrapper = styled.div`
 
 export const Title = styled.div`
   ${({ theme }) => css`
-    font-size: ${theme.font.sizes.medium};
+    font-size: ${theme.font.sizes.small};
     font-weight: ${theme.font.weight.bold};
     color: ${theme.colors.lightGrey};
     text-align: left;
+    margin: 0 ${theme.spacings.xxsmall};
   `}
 `;
 

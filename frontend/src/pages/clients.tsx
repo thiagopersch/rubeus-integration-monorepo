@@ -21,8 +21,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return { props: { session, dehydrateState } };
 }
 
-ClientPage.auth = {
-  module: "CLIENT",
-};
+// ClientPage.auth = {
+//   module: "client",
+// };
 
 export default ClientPage;

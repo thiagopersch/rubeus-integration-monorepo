@@ -14,9 +14,9 @@ declare module "next-auth" {
     jwt: string;
     id: string;
     // schoolId?: string;
-    // configs: {
-    //   school_year_id?: string;
-    // };
+    configs: {
+      name_client?: string;
+    };
 
     profileId?: string;
     // branch: {

@@ -19,8 +19,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return { props: { session, dehydrateState } };
 }
 
-TBCPage.auth = {
-  module: "TBC",
-};
+// TBCPage.auth = {
+//   module: "tbc",
+// };
 
 export default TBCPage;

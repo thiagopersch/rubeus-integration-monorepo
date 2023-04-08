@@ -54,10 +54,9 @@ export const Wrapper = styled.td<WrapperProps>`
     showingDetail,
     ellipsis = false,
   }) => css`
-    font-size: ${theme.font.sizes.medium};
-    color: ${theme.colors.lightGrey};
-    border-bottom: 0.1rem solid ${theme.colors.lightGrey};
-    padding: ${theme.spacings.xsmall};
+    font-size: ${theme.font.sizes.small};
+    color: ${theme.colors.primaryGrey};
+    padding: ${theme.spacings.xxsmall} ${theme.spacings.xsmall};
     background: ${theme.colors.white};
     text-align: ${contentAlign};
 

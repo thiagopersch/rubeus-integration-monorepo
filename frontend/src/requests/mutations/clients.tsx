@@ -3,19 +3,25 @@ import { RefObject, useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { ModalRef } from "@/components/Modal";
+import ToastContent from "@/components/ToastContent";
+
+import { ClientForm } from "@/models/client";
 
 import { initializeApi, useMutation } from "@/services/api";
-
-import ToastContent from "@/components/ToastContent";
 
 export function useAddClientMutation(
   modalRef: RefObject<ModalRef>,
   session?: Session | null,
 ) {
   const addClient = useCallback(
-    async (values: any) => {
+    async (values: ClientForm) => {
       const api = initializeApi(session);
-      return api.post("/clients", values);
+
+      const { id, ...requestData } = values;
+
+      return id
+        ? api.put(`/clients/${id}`, requestData)
+        : api.post("/clients", requestData);
     },
     [session],
   );
