@@ -1,4 +1,4 @@
-import { useRef, useMemo } from "react";
+import { useRef } from "react";
 import { useSession } from "next-auth/react";
 import { Edit, Plus, X } from "@styled-icons/feather";
 
@@ -13,19 +13,29 @@ import Table from "@/components/Table";
 import TableColumn from "@/components/TableColumn";
 import AddClientModal, { ClientModalRef } from "@/components/AddClientModal";
 
-import { useListClients } from "@/requests/queries/clients";
+import { Client, FormattedClient } from "@/models/client";
+
+import { useDeleteClientMutation } from "@/requests/mutations/clients";
+import { listClients } from "@/requests/queries/clients";
 
 import * as S from "./styles";
+import { useQuery } from "react-query";
 
-const Client = () => {
+const Clients = () => {
+  const addClientModal = useRef<ClientModalRef>(null);
+
   const { data: session } = useSession();
-  const { data: client, refetch } = useListClients(session, {
-    name: session?.configs.name_client,
-  });
+  const { data, refetch } = useQuery<FormattedClient[]>("get-clients", () =>
+    listClients(session),
+  );
 
-  const modalRef = useRef<ClientModalRef>(null);
-  const handleOpenModal = () => {
-    modalRef.current?.openModal();
+  const mutation = useDeleteClientMutation(session);
+  const handleDeleteClient = async (client: Client) => {
+    const confirm = window.confirm(`Deseja excluir o cliente: ${client.name}?`);
+    if (confirm) {
+      await mutation.mutateAsync(client);
+      refetch();
+    }
   };
 
   return (
@@ -46,7 +56,7 @@ const Client = () => {
               color="primaryColor"
               labelColor="white"
               icon={<Plus />}
-              onClick={handleOpenModal}
+              onClick={() => addClientModal.current?.openModal()}
             >
               Adicionar cliente
             </Button>
@@ -68,13 +78,15 @@ const Client = () => {
             </S.WrapperItemsPerPage>
           </SectionContainer>
           <SectionContainer paddings="xsmall">
-            <Table items={client || []} keyExtractor={(value) => value.id}>
-              {/* <TableColumn label="Id" tableKey="id" actionColumn /> */}
+            <Table<FormattedClient>
+              items={data || []}
+              keyExtractor={(item) => item.id}
+            >
               <TableColumn label="Nome" tableKey="name" actionColumn />
               <TableColumn label="Situação" tableKey="status" actionColumn />
               <TableColumn
                 label="Última edição"
-                tableKey="updated_at"
+                tableKey="formattedUpdatedAt"
                 actionColumn
               />
               <TableColumn
@@ -87,14 +99,14 @@ const Client = () => {
                     <S.ActionEditButton
                       type="button"
                       title={`Alterar o cliente: ${client.name}`}
-                      onClick={() => modalRef.current?.openModal(client)}
+                      onClick={() => addClientModal.current?.openModal()}
                     >
                       <Edit title={`Alterar o cliente: ${client.name}`} />
                     </S.ActionEditButton>
                     <S.ActionDeleteButton
                       type="button"
                       title={`Excluir o cliente ${client.name}`}
-                      // onClick={() => handleDelete(client)}
+                      onClick={() => handleDeleteClient(client)}
                     >
                       <X />
                     </S.ActionDeleteButton>
@@ -105,9 +117,9 @@ const Client = () => {
           </SectionContainer>
         </S.Wrapper>
       </Card>
-      <AddClientModal refetchFn={refetch} ref={modalRef} />
+      <AddClientModal refetchFn={refetch} ref={addClientModal} />
     </Base>
   );
 };
 
-export default Client;
+export default Clients;

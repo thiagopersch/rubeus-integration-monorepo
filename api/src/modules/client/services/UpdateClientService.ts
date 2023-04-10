@@ -5,7 +5,7 @@ import IClientsRepository from '../repositories/IClientsRepository';
 import Client from '../infra/typeorm/entities/Client';
 
 type UpdateClientRequest = {
-  client_id: string;
+  id: string;
   name: string;
   status: boolean;
 };
@@ -17,18 +17,18 @@ class UpdateClientService {
   ) {}
 
   public async execute({
-    client_id,
+    id,
     name,
     status,
   }: UpdateClientRequest): Promise<Client> {
-    const client = await this.clientsRepository.findById(client_id);
+    const client = await this.clientsRepository.findOne(id);
     if (client) {
       throw new AppError('Client not found');
     }
 
-    Object.assign(client, { name, status });
+    const newClient = Object.assign([client, { name, status }]);
 
-    return this.clientsRepository.update(client);
+    return this.clientsRepository.update(newClient);
   }
 }
 

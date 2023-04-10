@@ -85,7 +85,7 @@ export const ListItem = styled.li`
     }
 
     a {
-      color: ${theme.colors.lightGrey};
+      color: ${theme.colors.lightGrey} !important;
     }
 
     & + & {

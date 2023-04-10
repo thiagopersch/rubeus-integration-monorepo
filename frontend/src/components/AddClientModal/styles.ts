@@ -1,9 +1,9 @@
 import styled, { css } from "styled-components";
 import { Form as Unform } from "@unform/web";
+import media from "styled-media-query";
 
 import * as InputStyles from "../TextInput/styles";
 import * as CheckboxStyles from "../Checkbox/styles";
-import media from "styled-media-query";
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
@@ -29,7 +29,6 @@ export const Form = styled(Unform)`
 
     & > ${CheckboxStyles.Wrapper} {
       justify-content: unset;
-      margin-left: ${theme.spacings.xxsmall};
     }
   `}
 `;
@@ -45,26 +44,5 @@ export const ButtonsContainer = styled.div`
       flex-direction: column-reverse;
       gap: 1rem;
     `}
-
-    /* button {
-      width: 15rem;
-
-      & + button {
-        margin-left: ${theme.spacings.xsmall};
-      }
-    }
-  `} */
-`;
-
-export const Divider = styled.hr`
-  ${({ theme }) => css`
-    margin: 1.5rem 0;
-    margin-bottom: 2rem;
-    width: 100%;
-    appearance: none;
-    content: "";
-    display: block;
-    box-shadow: 0rem 0rem 0rem 0.05rem ${theme.colors.lightGrey};
-    border: none;
   `}
 `;

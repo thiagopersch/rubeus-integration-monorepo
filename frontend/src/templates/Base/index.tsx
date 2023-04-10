@@ -3,14 +3,14 @@ import Link from "next/link";
 import Image from "next/image";
 
 import UserDropdown from "@/components/UserDropdown";
+import Dropdown from "@/components/Dropdown";
 import PageContainer from "@/components/PageContainer";
 import Footer from "@/components/Footer";
 
 import * as S from "./styles";
-import Dropdown from "@/components/Dropdown";
 
 type BaseProps = {
-  children: string | React.ReactNode;
+  children: React.ReactNode;
 };
 
 export type BaseRef = {
@@ -60,7 +60,6 @@ const Base: React.ForwardRefRenderFunction<BaseRef, BaseProps> = (
       <S.Content ref={contentRef}>
         <PageContainer>{children}</PageContainer>
       </S.Content>
-      {/* <Footer children="Desenvolvido por Tiago Persch" /> */}
     </>
   );
 };

@@ -3,10 +3,11 @@ import Link from "next/link";
 
 import * as S from "./styles";
 
-type UserDropdownProps = {
+type DropdownProps = {
   children?: string;
 };
-const Dropdown = ({ children }: UserDropdownProps) => {
+
+const Dropdown = ({ children }: DropdownProps) => {
   const [show, setShow] = useState(false);
 
   const toggleDropdown = () => {

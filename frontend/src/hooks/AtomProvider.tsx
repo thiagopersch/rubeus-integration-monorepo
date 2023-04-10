@@ -15,7 +15,7 @@ type StoredAtom = {
 
 type StoredAtomsType = Record<string, StoredAtom>;
 
-const APP_KEY = "SEMA-state";
+const APP_KEY = "RUBEUSINTEGRATION-state";
 const atoms: StoredAtomsType = {};
 
 function setStoreAtom<T>(key: string, value: T) {

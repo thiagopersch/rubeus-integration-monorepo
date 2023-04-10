@@ -21,7 +21,7 @@ const refreshProvider = Refresh<Record<string, CredentialInput>>({
     try {
       const response = await api.put(
         "/sessions",
-        { profile_id: profileId },
+        // { profile_id: profileId },
         {
           headers: { authorization: token ? `Bearer ${token}` : "" },
         },

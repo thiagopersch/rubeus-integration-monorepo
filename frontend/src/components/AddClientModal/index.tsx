@@ -1,36 +1,40 @@
 import {
   forwardRef,
-  useImperativeHandle,
   ForwardRefRenderFunction,
-  useState,
-  useRef,
   useCallback,
+  useRef,
+  useState,
+  useImperativeHandle,
 } from "react";
 import { useSession } from "next-auth/react";
 import { FormHandles } from "@unform/core";
 import { ValidationError } from "yup";
 
-import { useAddClientMutation } from "../../requests/mutations/clients";
-import { addClientSchema } from "./rules/schema";
-
-import { Client } from "@/models/client";
-
-import * as S from "./styles";
 import TextInput from "../TextInput";
 import Separator from "../Separator";
 import Button from "../Button";
 import Modal, { ModalRef } from "../Modal";
+import Checkbox from "../Checkbox";
+
+import { useAddClientMutation } from "../../requests/mutations/clients";
+
+import { Client } from "@/models/client";
+
+import { addClientSchema } from "./rules/schema";
+
+import * as S from "./styles";
 
 export type ClientModalRef = {
   openModal: (client?: Client) => void;
 };
 
 type AddClientModalProps = {
-  refetchFn?: () => void;
+  refetchFn: () => void;
 };
 
 type AddClientData = {
   name: string;
+  status: boolean;
 };
 
 const AddClientModal: ForwardRefRenderFunction<
@@ -38,6 +42,7 @@ const AddClientModal: ForwardRefRenderFunction<
   AddClientModalProps
 > = ({ refetchFn }, ref) => {
   const [client, setClient] = useState<Client>();
+  const [status, setStatus] = useState(false);
 
   const modalRef = useRef<ModalRef>(null);
   const { data: session } = useSession();
@@ -50,7 +55,9 @@ const AddClientModal: ForwardRefRenderFunction<
       try {
         formRef.current?.setErrors({});
 
-        await addClientSchema.validate(values, { abortEarly: false });
+        /* O PROBLEMA ESTÁ AQUI */
+        // await addClientSchema.validate(values, { abortEarly: false });
+        console.log("chegou aqui");
 
         await mutation.mutateAsync({
           id: client?.id,
@@ -71,16 +78,18 @@ const AddClientModal: ForwardRefRenderFunction<
         }
       }
     },
-    [mutation, client, refetchFn, session],
+    [mutation, refetchFn, status, session],
   );
 
   const handleBack = useCallback(() => {
     setClient(undefined);
+    setStatus(false);
     modalRef.current?.closeModal();
   }, []);
 
   const openModal = useCallback((data?: Client) => {
     setClient(data);
+    setStatus(data?.status || false);
     modalRef.current?.openModal();
   }, []);
 
@@ -89,25 +98,26 @@ const AddClientModal: ForwardRefRenderFunction<
   return (
     <Modal title="Adicionar cliente" closeOnClickOutside={false} ref={modalRef}>
       <S.Wrapper>
-        <S.Form onSubmit={handleSave} ref={formRef} initialData={client}>
+        <S.Form onSubmit={handleSave} ref={formRef}>
           <TextInput name="name" label="Nome do cliente" />
+          <Checkbox name="status" label="Status" labelFor="Status" />
           <Separator />
           <S.ButtonsContainer>
             <Button
-              type="button"
               styleType="normal"
               size="medium"
               color="white"
               labelColor="darkGrey"
               onClick={handleBack}
+              type="button"
             >
               Voltar
             </Button>
             <Button
-              type="submit"
               styleType="normal"
               size="medium"
               labelColor="white"
+              type="submit"
             >
               Salvar
             </Button>

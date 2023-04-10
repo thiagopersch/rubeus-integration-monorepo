@@ -16,6 +16,7 @@ declare module "next-auth" {
     // schoolId?: string;
     configs: {
       name_client?: string;
+      status_client?: string;
     };
 
     profileId?: string;

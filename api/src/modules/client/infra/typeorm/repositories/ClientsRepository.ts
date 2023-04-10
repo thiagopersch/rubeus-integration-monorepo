@@ -20,25 +20,19 @@ class ClientsRepository implements IClientsRepository {
     const client = await this.ormRepository.findOne({
       where: { id: client_id },
     });
+    return client ?? undefined;
+  }
+
+  public async findOne(client_id: string): Promise<Client | undefined> {
+    const client = await this.ormRepository.findOne({
+      where: { id: client_id },
+    });
 
     return client ?? undefined;
   }
 
-  public async findAll(filters: FindClientDTO = {}): Promise<Client[]> {
-    const { id } = filters;
-    const where: FindOptionsWhere<Client> = {};
-    if (id) {
-      if (Array.isArray(id)) {
-        where.id = In(id);
-      } else {
-        where.id = id;
-      }
-    }
-
-    const client = await this.ormRepository.find({
-      where,
-      order: { name: 'ASC' },
-    });
+  public async findAll(): Promise<Client[]> {
+    const client = await this.ormRepository.find();
     return client;
   }
 

@@ -5,20 +5,32 @@ import { instanceToInstance } from 'class-transformer';
 import CreateClientService from '@modules/client/services/CreateClientService';
 import ListClientService from '@modules/client/services/ListClientService';
 import UpdateClientService from '@modules/client/services/UpdateClientService';
+import ShowClientService from '@modules/client/services/ShowClientService';
+import DeleteClientService from '@modules/client/services/DeleteClientService';
 
 class ClientsController {
+  public async show(request: Request, response: Response): Promise<Response> {
+    const { client_id } = request.params;
+
+    const showClient = container.resolve(ShowClientService);
+    const client = await showClient.execute({
+      client_id,
+    });
+
+    return response.json(client);
+  }
+
   public async index(request: Request, response: Response): Promise<Response> {
     const listClients = container.resolve(ListClientService);
     const clients = await listClients.execute();
 
-    return response.json(instanceToInstance(clients));
+    return response.json(clients);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
     const { name, status } = request.body;
 
     const createClient = container.resolve(CreateClientService);
-
     const client = await createClient.execute({ name, status });
 
     return response.json(client);
@@ -30,7 +42,7 @@ class ClientsController {
 
     const updateClient = container.resolve(UpdateClientService);
     const client = await updateClient.execute({
-      client_id,
+      id: client_id,
       name,
       status,
     });
@@ -38,15 +50,14 @@ class ClientsController {
     return response.json(client);
   }
 
-  // public async delete(request: Request, response: Response): Promise<Response> {
-  //   const { user_id } = request.params;
-  //   const { id: authenticated_user } = request.user;
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const { client_id } = request.params;
 
-  //   const deleteUser = container.resolve(DeleteUserService);
-  //   await deleteUser.execute({ user_id, auth_user_id: authenticated_user });
+    const deleteUser = container.resolve(DeleteClientService);
+    await deleteUser.execute({ client_id });
 
-  //   return response.status(204).send();
-  // }
+    return response.status(204).send();
+  }
 }
 
 export default ClientsController;

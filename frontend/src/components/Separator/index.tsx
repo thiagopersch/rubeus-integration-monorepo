@@ -5,6 +5,7 @@ const Separator = styled.hr`
     border: 0;
     border-top: 1px solid ${theme.colors.primaryGrey};
     border-radius: 10rem;
+    margin: 2rem 0;
   `}
 `;
 

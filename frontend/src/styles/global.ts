@@ -46,7 +46,8 @@ const GlobalStyles: GlobalStyleComponent<
   body {
     ${({ theme }) => css`
       background: ${theme.colors.mainBg};
-      font-size: 1.6rem;
+      font-size: ${theme.font.sizes.small};
+      color: ${theme.colors.darkGrey};
       font-family: ${theme.font.primary};
       outline: none;
     `}

@@ -1,13 +1,13 @@
-import { Session } from "next-auth";
 import { RefObject, useCallback } from "react";
+import { Session } from "next-auth";
 import { v4 as uuidv4 } from "uuid";
 
-import { ModalRef } from "@/components/Modal";
 import ToastContent from "@/components/ToastContent";
-
-import { ClientForm } from "@/models/client";
+import { ModalRef } from "@/components/Modal";
 
 import { initializeApi, useMutation } from "@/services/api";
+
+import { Client, ClientForm } from "@/models/client";
 
 export function useAddClientMutation(
   modalRef: RefObject<ModalRef>,
@@ -28,7 +28,7 @@ export function useAddClientMutation(
 
   return useMutation("add-client", addClient, {
     linkedQueries: {
-      "get-client": (old, newClient) => [
+      "get-clients": (old, newClient) => [
         ...old,
         { ...newClient, id: uuidv4(), disabled: true },
       ],
@@ -44,5 +44,38 @@ export function useAddClientMutation(
     renderError: (newClient) => `Falha ao inserir cliente ${newClient.name}`,
     renderSuccess: (newClient) =>
       `Cliente ${newClient.name} inserido com sucesso!`,
+  });
+}
+
+export function useDeleteClientMutation(session?: Session | null) {
+  const deleteClient = useCallback(
+    async (client: any) => {
+      const api = initializeApi(session);
+
+      return api.delete(`/clients/${client.id}`);
+    },
+    [session],
+  );
+
+  return useMutation("delete-client", deleteClient, {
+    linkedQueries: {
+      "get-clients": (old: Client[], deletedClient: Client) =>
+        old.map((client) =>
+          client.id === deletedClient.id
+            ? { ...client, disabled: true }
+            : client,
+        ),
+    },
+    renderLoading: function render(deletedClient) {
+      return (
+        <ToastContent showSpinner>
+          Removendo usuário: ${deletedClient.name}...
+        </ToastContent>
+      );
+    },
+    renderError: (deletedClient) =>
+      `Falha ao inserir o cliente: ${deletedClient.name}`,
+    renderSuccess: (deletedClient) =>
+      `Cliente ${deletedClient.name} inserido com sucesso`,
   });
 }

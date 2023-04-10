@@ -14,11 +14,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context);
 
   const dehydrateState = await prefetchQuery({
-    key: "get-client",
+    key: "get-clients",
     fetcher: () => listClients(session),
   });
 
-  return { props: { session, dehydrateState } };
+  return {
+    props: {
+      session,
+      dehydrateState,
+    },
+  };
 }
 
 // ClientPage.auth = {
