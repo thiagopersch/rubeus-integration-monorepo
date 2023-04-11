@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components";
-import { Form as Unform } from "@unform/web";
 import media from "styled-media-query";
 
 import * as InputStyles from "../TextInput/styles";
@@ -17,19 +16,28 @@ export const Wrapper = styled.div`
   `}
 `;
 
-export const Form = styled(Unform)`
+export const Form = styled.form`
   ${({ theme }) => css`
     ${InputStyles.Wrapper} {
-      margin-bottom: ${theme.spacings.small};
+      margin-bottom: ${theme.spacings.xxsmall};
 
       &:last-of-type {
-        margin-bottom: ${theme.spacings.large};
+        margin-bottom: ${theme.spacings.xxsmall};
       }
     }
 
     & > ${CheckboxStyles.Wrapper} {
       justify-content: unset;
     }
+  `}
+`;
+
+export const WrapperInputs = styled.div`
+  ${({ theme }) => css`
+    padding: ${theme.spacings.xxsmall} 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   `}
 `;
 

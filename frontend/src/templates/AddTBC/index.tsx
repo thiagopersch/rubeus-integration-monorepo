@@ -16,7 +16,7 @@ const AddTBC = () => {
   return (
     <Base>
       <SectionContainer paddings="xsmall">
-        <Card columns="fullwidth">
+        <Card>
           <SectionContainer paddings="small">
             <Heading size="md">Cadastrar TBC</Heading>
           </SectionContainer>

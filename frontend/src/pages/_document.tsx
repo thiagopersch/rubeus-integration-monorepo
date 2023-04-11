@@ -53,6 +53,11 @@ export default class MyDocument extends Document {
 
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
+            rel="icon"
+            type="image/x-icon"
+            href="assets\images\favicon.svg"
+          ></link>
+          <link
             rel="preconnect"
             href="https://fonts.gstatic.com"
             crossOrigin="anonymous"

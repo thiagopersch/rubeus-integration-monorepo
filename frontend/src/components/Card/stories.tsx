@@ -19,6 +19,5 @@ export const Default: Story<CardProps> = (args) => <Card {...args} />;
 
 Default.args = {
   children: "150",
-  description: "Alunos ativos",
   link: "/",
 };

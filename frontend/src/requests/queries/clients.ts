@@ -7,7 +7,6 @@ import { QueryObserverOptions, useQuery } from "react-query";
 
 type ListClientFilters = {
   name?: string;
-  status?: string;
 };
 
 export const listClients = (
@@ -25,25 +24,25 @@ export const listClients = (
     .then((response) => response.data.map(clientMapper));
 };
 
-export const useListClients = (session?: Session | null) => {
-  return useQuery("get-clients", () => listClients(session));
-};
-
-// export const useListClients = (
-//   session?: Session | null,
-//   filters: ListClientFilters = {},
-//   queryOptions: QueryObserverOptions<Client[]> = {},
-// ) => {
-//   const key = `get-clients-${JSON.stringify(filters)}`;
-
-//   const result = useQuery<Client[]>(
-//     key,
-//     () => listClients(session),
-//     queryOptions,
-//   );
-
-//   return { ...result, key };
+// export const useListClients = (session?: Session | null) => {
+//   return useQuery("get-clients", () => listClients(session));
 // };
+
+export const useListClients = (
+  session?: Session | null,
+  filters: ListClientFilters = {},
+  queryOptions: QueryObserverOptions<Client[]> = {},
+) => {
+  const key = `get-clients-${JSON.stringify(filters)}`;
+
+  const result = useQuery<Client[]>(
+    key,
+    () => listClients(session),
+    queryOptions,
+  );
+
+  return { ...result, key };
+};
 
 export const showClient = (session: Session | null, id: string) => {
   const api = initializeApi(session);

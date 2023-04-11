@@ -1,6 +1,8 @@
 import { useRef } from "react";
 import { useSession } from "next-auth/react";
 import { Edit, Plus, X } from "@styled-icons/feather";
+import { useQuery } from "react-query";
+import { useForm } from "react-hook-form";
 
 import Base from "../Base";
 import Button from "@/components/Button";
@@ -16,18 +18,18 @@ import AddClientModal, { ClientModalRef } from "@/components/AddClientModal";
 import { Client, FormattedClient } from "@/models/client";
 
 import { useDeleteClientMutation } from "@/requests/mutations/clients";
-import { listClients } from "@/requests/queries/clients";
+import { listClients, useListClients } from "@/requests/queries/clients";
 
 import * as S from "./styles";
-import { useQuery } from "react-query";
 
 const Clients = () => {
-  const addClientModal = useRef<ClientModalRef>(null);
-
   const { data: session } = useSession();
-  const { data, refetch } = useQuery<FormattedClient[]>("get-clients", () =>
-    listClients(session),
+  const { data: client, refetch } = useQuery<FormattedClient[]>(
+    "get-clients",
+    () => listClients(session),
   );
+
+  const addClientModal = useRef<ClientModalRef>(null);
 
   const mutation = useDeleteClientMutation(session);
   const handleDeleteClient = async (client: Client) => {
@@ -79,7 +81,7 @@ const Clients = () => {
           </SectionContainer>
           <SectionContainer paddings="xsmall">
             <Table<FormattedClient>
-              items={data || []}
+              items={client || []}
               keyExtractor={(item) => item.id}
             >
               <TableColumn label="Nome" tableKey="name" actionColumn />
@@ -94,15 +96,15 @@ const Clients = () => {
                 tableKey="actions"
                 contentAlign="center"
                 actionColumn
-                render={(client) => (
+                render={(client: Client) => (
                   <S.ActionButtons>
-                    <S.ActionEditButton
+                    {/* <S.ActionEditButton
                       type="button"
                       title={`Alterar o cliente: ${client.name}`}
-                      onClick={() => addClientModal.current?.openModal()}
+                      onClick={() => addClientModal.current?.openModal(client)}
                     >
                       <Edit title={`Alterar o cliente: ${client.name}`} />
-                    </S.ActionEditButton>
+                    </S.ActionEditButton> */}
                     <S.ActionDeleteButton
                       type="button"
                       title={`Excluir o cliente ${client.name}`}

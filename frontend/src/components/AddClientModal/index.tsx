@@ -7,20 +7,18 @@ import {
   useImperativeHandle,
 } from "react";
 import { useSession } from "next-auth/react";
-import { FormHandles } from "@unform/core";
-import { ValidationError } from "yup";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 import TextInput from "../TextInput";
 import Separator from "../Separator";
 import Button from "../Button";
 import Modal, { ModalRef } from "../Modal";
 import Checkbox from "../Checkbox";
+import ErrorMessageLabel from "../ErrorMessageLabel";
 
 import { useAddClientMutation } from "../../requests/mutations/clients";
 
 import { Client } from "@/models/client";
-
-import { addClientSchema } from "./rules/schema";
 
 import * as S from "./styles";
 
@@ -34,7 +32,6 @@ type AddClientModalProps = {
 
 type AddClientData = {
   name: string;
-  status: boolean;
 };
 
 const AddClientModal: ForwardRefRenderFunction<
@@ -42,54 +39,36 @@ const AddClientModal: ForwardRefRenderFunction<
   AddClientModalProps
 > = ({ refetchFn }, ref) => {
   const [client, setClient] = useState<Client>();
-  const [status, setStatus] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AddClientData>({
+    defaultValues: { name: "" },
+  });
 
   const modalRef = useRef<ModalRef>(null);
   const { data: session } = useSession();
   const mutation = useAddClientMutation(modalRef, session);
 
-  const formRef = useRef<FormHandles>(null);
-
-  const handleSave = useCallback(
+  const onSubmit: SubmitHandler<AddClientData> = useCallback(
     async (values: AddClientData) => {
-      try {
-        formRef.current?.setErrors({});
-
-        /* O PROBLEMA ESTÁ AQUI */
-        // await addClientSchema.validate(values, { abortEarly: false });
-        console.log("chegou aqui");
-
-        await mutation.mutateAsync({
-          id: client?.id,
-          ...values,
-        });
-        refetchFn && refetchFn();
-      } catch (err) {
-        if (err instanceof ValidationError) {
-          const validationErrors: Record<string, string> = {};
-
-          err.inner.forEach((error) => {
-            if (error.path) {
-              validationErrors[error.path] = error.message;
-            }
-          });
-
-          formRef.current?.setErrors(validationErrors);
-        }
-      }
+      await mutation.mutateAsync({
+        id: client?.id,
+        ...values,
+      });
+      refetchFn && refetchFn();
     },
-    [mutation, refetchFn, status, session],
+    [mutation, client, refetchFn, session],
   );
 
   const handleBack = useCallback(() => {
     setClient(undefined);
-    setStatus(false);
     modalRef.current?.closeModal();
   }, []);
 
   const openModal = useCallback((data?: Client) => {
     setClient(data);
-    setStatus(data?.status || false);
     modalRef.current?.openModal();
   }, []);
 
@@ -98,9 +77,22 @@ const AddClientModal: ForwardRefRenderFunction<
   return (
     <Modal title="Adicionar cliente" closeOnClickOutside={false} ref={modalRef}>
       <S.Wrapper>
-        <S.Form onSubmit={handleSave} ref={formRef}>
-          <TextInput name="name" label="Nome do cliente" />
-          <Checkbox name="status" label="Status" labelFor="Status" />
+        <S.Form onSubmit={handleSubmit(onSubmit)}>
+          <S.WrapperInputs>
+            <TextInput
+              label="Nome do cliente"
+              {...register("name", { required: true, maxLength: 255 })}
+              aria-invalid={errors.name ? "true" : "false"}
+            />
+            {errors.name?.type === "required" && (
+              <ErrorMessageLabel>Name é obrigatório.</ErrorMessageLabel>
+            )}
+            {errors.name?.type === "maxLength" && (
+              <ErrorMessageLabel>
+                Ultrapassou o limite do nome de 255 caracteres.
+              </ErrorMessageLabel>
+            )}
+          </S.WrapperInputs>
           <Separator />
           <S.ButtonsContainer>
             <Button

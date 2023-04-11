@@ -8,6 +8,8 @@ import {
   useCallback,
   CSSProperties,
 } from "react";
+// import { useField } from "@unform/core";
+import { useForm } from "react-hook-form";
 import mergeRefs from "react-merge-refs";
 
 import { masks } from "../../utils/masks";
@@ -19,15 +21,17 @@ type InputHtmlProps =
   | TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export type InputAs = "input" | "textarea";
+
 export type TextInputProps = InputHtmlProps & {
   name: string;
-  label?: string;
+  label: string;
   as?: InputAs;
   size?: "large" | "medium" | "small";
   type?: string;
+  unformRegister?: boolean;
   icon?: React.ReactNode;
   mask?: keyof typeof masks;
-  error?: string;
+  // error?: string;
   containerStyle?: CSSProperties;
   onChangeValue?: (value?: string) => void;
   onClickIcon?: () => void;
@@ -45,8 +49,9 @@ const TextInput: React.ForwardRefRenderFunction<
     value,
     icon,
     mask,
-    error: errorProp,
+    // error: errorProp,
     containerStyle,
+    unformRegister = true,
     disabled = false,
     onChangeValue,
     onClickIcon,
@@ -55,8 +60,8 @@ const TextInput: React.ForwardRefRenderFunction<
   ref,
 ) => {
   const [fieldValue, setFieldValue] = useState<string>();
-
   const fieldRef = useRef<HTMLInputElement>(null);
+  const { register } = useForm();
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const { value } = event.target;
@@ -82,6 +87,18 @@ const TextInput: React.ForwardRefRenderFunction<
     },
     [mask],
   );
+
+  useEffect(() => {
+    if (unformRegister) {
+      ({
+        name: fieldValue,
+        ref: fieldRef,
+        getValue: (reference: { current: { value: any } }) =>
+          reference.current.value,
+        setValue: (_: any, value: string | undefined) => setValue(value),
+      });
+    }
+  }, [fieldValue, unformRegister, setValue]);
 
   useEffect(() => {
     if (fieldRef.current) {

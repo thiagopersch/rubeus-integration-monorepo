@@ -47,7 +47,10 @@ export function useAddClientMutation(
   });
 }
 
-export function useDeleteClientMutation(session?: Session | null) {
+export function useDeleteClientMutation(
+  // modalRef: RefObject<ModalRef>,
+  session?: Session | null,
+) {
   const deleteClient = useCallback(
     async (client: any) => {
       const api = initializeApi(session);
@@ -66,6 +69,7 @@ export function useDeleteClientMutation(session?: Session | null) {
             : client,
         ),
     },
+    // onMutate: () => modalRef.current?.closeModal(),
     renderLoading: function render(deletedClient) {
       return (
         <ToastContent showSpinner>

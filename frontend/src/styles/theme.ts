@@ -6,6 +6,7 @@ export default {
     black: "#000000",
     white: "#FFFFFF",
     lightGrey: "#808080",
+    lightGreyFityPercente: "rgba(128, 128, 128,0.5)",
     primaryGrey: "#4D4D4D",
     darkGrey: "#1A1A1A",
     lightRed: "#F0758D",

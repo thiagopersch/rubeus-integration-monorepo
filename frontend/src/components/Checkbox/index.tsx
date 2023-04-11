@@ -17,7 +17,7 @@ const Checkbox = ({
   isChecked,
   label,
   labelFor,
-  labelColor,
+  labelColor = "black",
   value,
   disabled,
   inactive = false,

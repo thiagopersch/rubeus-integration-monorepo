@@ -26,7 +26,7 @@ export const Wrapper = styled.div`
     transform: translateX(-50%) translateY(-0.5rem);
     z-index: ${theme.layers.modal};
     background: red;
-    padding: ${theme.spacings.xsmall} ${theme.spacings.xsmall};
+    padding: ${theme.spacings.small} ${theme.spacings.small};
     border-radius: 1rem;
     background ${theme.colors.white};
   `}

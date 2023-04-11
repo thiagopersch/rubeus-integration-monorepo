@@ -58,6 +58,7 @@ export const Wrapper = styled.td<WrapperProps>`
     color: ${theme.colors.primaryGrey};
     padding: ${theme.spacings.xxsmall} ${theme.spacings.xsmall};
     background: ${theme.colors.white};
+    border-bottom: 0.1rem solid ${theme.colors.lightGreyFityPercente};
     text-align: ${contentAlign};
 
     transition: box-shadow 0.3s ease-out;
