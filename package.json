@@ -3,5 +3,6 @@
   "license": "MIT",
   "scripts": {
     "dev": "cd api && yarn dev -d && cd ../frontend && yarn dev"
-  }
+  },
+  "dependencies": {}
 }

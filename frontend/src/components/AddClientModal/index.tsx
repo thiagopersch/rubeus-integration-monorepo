@@ -95,7 +95,6 @@ const AddClientModal: ForwardRefRenderFunction<
               </ErrorMessageLabel>
             )}
           </S.WrapperInputs>
-          <Separator />
           <S.ButtonsContainer>
             <Button
               styleType="normal"

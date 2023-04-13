@@ -20,7 +20,7 @@ export default {
 export const Default: Story<CheckboxProps> = (args) => (
   <>
     <div style={{ padding: 10 }}>
-      <Checkbox name="frequency" labelFor="frequency" {...args} />
+      <Checkbox name="status" labelFor="status" {...args} />
     </div>
   </>
 );

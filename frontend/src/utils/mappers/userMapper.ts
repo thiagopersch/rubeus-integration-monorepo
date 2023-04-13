@@ -1,17 +1,13 @@
-import format from "date-fns/format";
+import moment from "moment";
 
 import { Client } from "../../models/client";
 
-import { parseDateWithoutTimezone } from "../../utils/parseDateWithoutTimezone";
-
 export const clientMapper = (client: Client) => ({
   ...client,
-  formattedCreatedAt: format(
-    parseDateWithoutTimezone(client.created_at),
-    "dd/MM/yyyy 'às' HH:mm",
+  formattedCreatedAt: moment(client.created_at).format(
+    "DD/MM/YYYY [às] HH:mm:ss",
   ),
-  formattedUpdatedAt: format(
-    parseDateWithoutTimezone(client.updated_at),
-    "dd/MM/yyyy 'às' HH:mm",
+  formattedUpdatedAt: moment(client.updated_at).format(
+    "DD/MM/YYYY [às] HH:mm:ss",
   ),
 });
