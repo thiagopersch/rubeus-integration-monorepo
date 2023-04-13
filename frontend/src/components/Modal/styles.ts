@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
   ${({ theme }) => css`
     visibility: hidden;
     opacity: 0;
-    animation: 0.3s ease-out ${showModal};
+    animation: 0.3s both ${showModal};
     animation-fill-mode: forwards;
 
     position: fixed;

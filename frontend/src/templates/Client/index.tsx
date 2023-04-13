@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Edit, Plus, X } from "@styled-icons/feather";
 import { useQuery } from "react-query";
@@ -21,8 +21,11 @@ import { useDeleteClientMutation } from "@/requests/mutations/clients";
 import { listClients, useListClients } from "@/requests/queries/clients";
 
 import * as S from "./styles";
+import TextComponent from "@/components/TextComponent";
 
 const Clients = () => {
+  const [search, setSearch] = useState("");
+
   const { data: session } = useSession();
   const { data: client, refetch } = useQuery<FormattedClient[]>(
     "get-clients",
@@ -39,6 +42,12 @@ const Clients = () => {
       refetch();
     }
   };
+
+  const searchLowerCase = search.toLowerCase();
+
+  const clients = client?.filter((client) =>
+    client.name.toLowerCase().includes(searchLowerCase),
+  );
 
   return (
     <Base>
@@ -73,7 +82,14 @@ const Clients = () => {
             flexWrap="wrap"
           >
             <S.WrapperSearch>
-              <TextInput label="Pesquisar..." name="search" type="search" />
+              <TextInput
+                label="Pesquisar..."
+                id="search"
+                name="search"
+                type="search"
+                value={search}
+                onChange={(e: any) => setSearch(e.target.value)}
+              />
             </S.WrapperSearch>
             <S.WrapperItemsPerPage>
               <RowDropdown children="Itens por página" />
@@ -81,11 +97,26 @@ const Clients = () => {
           </SectionContainer>
           <SectionContainer paddings="xsmall">
             <Table<FormattedClient>
-              items={client || []}
+              items={clients || []}
               keyExtractor={(item) => item.id}
             >
               <TableColumn label="Nome" tableKey="name" actionColumn />
-              <TableColumn label="Situação" tableKey="status" actionColumn />
+              <TableColumn
+                label="Situação"
+                tableKey="status"
+                actionColumn
+                render={(client: Client) =>
+                  client.status ? (
+                    <TextComponent size="small" color="success">
+                      Ativado
+                    </TextComponent>
+                  ) : (
+                    <TextComponent size="small" color="primaryRed">
+                      Desativado
+                    </TextComponent>
+                  )
+                }
+              />
               <TableColumn
                 label="Última edição"
                 tableKey="formattedUpdatedAt"

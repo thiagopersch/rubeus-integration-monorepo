@@ -7,6 +7,7 @@ import { QueryObserverOptions, useQuery } from "react-query";
 
 type ListClientFilters = {
   name?: string;
+  status?: string;
 };
 
 export const listClients = (

@@ -52,7 +52,7 @@ export const ErrorMessage = styled.span<ErrorMessageProps>`
     textAlign,
   }) => css`
     color: ${theme.colors[color]};
-    font-weight: ${theme.font.weight.bold};
+    font-weight: ${theme.font.weight.normal};
     font-family: ${theme.font.primary};
 
     ${media.lessThan("medium")`

@@ -7,7 +7,7 @@ import {
   useImperativeHandle,
 } from "react";
 import { useSession } from "next-auth/react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 import TextInput from "../TextInput";
 import Separator from "../Separator";
@@ -32,6 +32,7 @@ type AddClientModalProps = {
 
 type AddClientData = {
   name: string;
+  status: boolean;
 };
 
 const AddClientModal: ForwardRefRenderFunction<
@@ -44,10 +45,11 @@ const AddClientModal: ForwardRefRenderFunction<
     handleSubmit,
     formState: { errors },
   } = useForm<AddClientData>({
-    defaultValues: { name: "" },
+    defaultValues: { name: "", status: true },
   });
 
   const modalRef = useRef<ModalRef>(null);
+
   const { data: session } = useSession();
   const mutation = useAddClientMutation(modalRef, session);
 
