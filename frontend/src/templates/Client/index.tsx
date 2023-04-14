@@ -59,22 +59,6 @@ const Clients = () => {
           <SectionContainer
             paddings="xsmall"
             display="flex"
-            justifyContent="start"
-            alignItems="start"
-          >
-            <Button
-              size="medium"
-              color="primaryColor"
-              labelColor="white"
-              icon={<Plus />}
-              onClick={() => addClientModal.current?.openModal()}
-            >
-              Adicionar cliente
-            </Button>
-          </SectionContainer>
-          <SectionContainer
-            paddings="xsmall"
-            display="flex"
             flexDirection="row"
             justifyContent="spaceBetween"
             alignContent="center"
@@ -91,9 +75,15 @@ const Clients = () => {
                 onChange={(e: any) => setSearch(e.target.value)}
               />
             </S.WrapperSearch>
-            <S.WrapperItemsPerPage>
-              <RowDropdown children="Itens por página" />
-            </S.WrapperItemsPerPage>
+            <Button
+              size="medium"
+              color="primaryColor"
+              labelColor="white"
+              icon={<Plus />}
+              onClick={() => addClientModal.current?.openModal()}
+            >
+              Adicionar cliente
+            </Button>
           </SectionContainer>
           <SectionContainer paddings="xsmall">
             <Table<FormattedClient>
