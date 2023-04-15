@@ -34,16 +34,13 @@ export function useAddClientMutation(
       ],
     },
     onMutate: () => modalRef.current?.closeModal(),
-    renderLoading: function render(newClient) {
+    renderLoading: function render() {
       return (
-        <ToastContent showSpinner>
-          Salvando o cliente {newClient.name}...
-        </ToastContent>
+        <ToastContent showSpinner>Salvando as informações...</ToastContent>
       );
     },
-    renderError: (newClient) => `Falha ao inserir cliente ${newClient.name}`,
-    renderSuccess: (newClient) =>
-      `Cliente ${newClient.name} inserido com sucesso!`,
+    renderError: () => `Alterações falharam`,
+    renderSuccess: () => `Adicionado com sucesso!`,
   });
 }
 
@@ -80,6 +77,6 @@ export function useDeleteClientMutation(
     renderError: (deletedClient) =>
       `Falha ao inserir o cliente: ${deletedClient.name}`,
     renderSuccess: (deletedClient) =>
-      `Cliente ${deletedClient.name} inserido com sucesso`,
+      `Cliente ${deletedClient.name} deletado com sucesso`,
   });
 }
