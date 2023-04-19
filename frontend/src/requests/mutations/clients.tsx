@@ -70,13 +70,11 @@ export function useDeleteClientMutation(
     renderLoading: function render(deletedClient) {
       return (
         <ToastContent showSpinner>
-          Removendo usuário: ${deletedClient.name}...
+          Removendo o cliente: ${deletedClient.name}...
         </ToastContent>
       );
     },
-    renderError: (deletedClient) =>
-      `Falha ao inserir o cliente: ${deletedClient.name}`,
-    renderSuccess: (deletedClient) =>
-      `Cliente ${deletedClient.name} deletado com sucesso`,
+    renderError: () => `Falha ao inserir o cliente!`,
+    renderSuccess: () => `Deletado com sucesso...`,
   });
 }

@@ -21,9 +21,16 @@ const TextDescriptionModifiers = {
 };
 
 export const Container = styled.div<TextComponentProps>`
-  ${({ theme, color = "primaryColor", size = "medium", textAlign }) => css`
+  ${({
+    theme,
+    color = "primaryColor",
+    size = "medium",
+    textAlign,
+    weight = "normal",
+  }) => css`
     color: ${theme.colors[color]};
     font-size: ${theme.font.sizes[size]};
+    font-weight: ${theme.font.weight[weight]};
 
     ${media.lessThan("medium")`
       font-size: ${theme.font.sizes.xsmall};

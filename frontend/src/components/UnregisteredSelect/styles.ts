@@ -97,6 +97,7 @@ export const OptionsList = styled.div<OptionsListProps>`
     background: #fdfdfd;
     padding: 1rem 0.5rem;
     padding-top: 0;
+    font-size: ${theme.font.sizes.medium};
     z-index: ${theme.layers.base};
     box-shadow: 0rem 0rem 0.4rem rgba(51, 73, 77, 0.3);
     max-height: 0;

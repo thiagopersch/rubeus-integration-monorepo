@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { CheckboxProps } from ".";
+import media from "styled-media-query";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -71,7 +72,12 @@ export const Label = styled.label<Pick<CheckboxProps, "labelColor">>`
     cursor: pointer;
     padding-left: ${theme.spacings.xxsmall};
     color: ${theme.colors[labelColor!]};
+    font-size: ${theme.font.sizes.small};
     line-height: 1.8rem;
     user-select: none;
+
+    ${media.lessThan("medium")`
+      font-size: ${theme.font.sizes.xsmall};
+    `}
   `}
 `;

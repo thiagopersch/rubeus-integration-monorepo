@@ -1,14 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Edit, Plus, X } from "@styled-icons/feather";
 import { useQuery } from "react-query";
-/* import { useForm } from "react-hook-form"; */
 
-import Base from "../Base";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Heading from "@/components/Heading";
-/* import RowDropdown from "@/components/RowDropdown"; */
 import SectionContainer from "@/components/SectionContainer";
 import TextInput from "@/components/TextInput";
 import Table from "@/components/Table";
@@ -16,10 +13,12 @@ import TableColumn from "@/components/TableColumn";
 import AddClientModal, { ClientModalRef } from "@/components/AddClientModal";
 import TextComponent from "@/components/TextComponent";
 
+import Base from "../Base";
+
 import { Client, FormattedClient } from "@/models/client";
 
 import { useDeleteClientMutation } from "@/requests/mutations/clients";
-import { listClients, useListClients } from "@/requests/queries/clients";
+import { listClients } from "@/requests/queries/clients";
 
 import * as S from "./styles";
 
@@ -44,7 +43,6 @@ const Clients = () => {
   };
 
   const searchLowerCase = search.toLowerCase();
-
   const clients = client?.filter((client) =>
     client.name.toLowerCase().includes(searchLowerCase),
   );
@@ -119,13 +117,13 @@ const Clients = () => {
                 actionColumn
                 render={(client: Client) => (
                   <S.ActionButtons>
-                    <S.ActionEditButton
+                    {/*  <S.ActionEditButton
                       type="button"
                       title={`Alterar o cliente: ${client.name}`}
                       onClick={() => addClientModal.current?.openModal(client)}
                     >
                       <Edit title={`Alterar o cliente: ${client.name}`} />
-                    </S.ActionEditButton>
+                    </S.ActionEditButton> */}
 
                     <S.ActionDeleteButton
                       type="button"

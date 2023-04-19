@@ -97,6 +97,36 @@ const wrapperModifiers = {
   `,
 };
 
+const sizeLabelModifiers = {
+  xxsmall: (theme: DefaultTheme) => css`
+    font-size: ${theme.font.sizes.xxsmall};
+  `,
+  xsmall: (theme: DefaultTheme) => css`
+    font-size: ${theme.font.sizes.xsmall};
+  `,
+  small: (theme: DefaultTheme) => css`
+    font-size: ${theme.font.sizes.small};
+  `,
+  medium: (theme: DefaultTheme) => css`
+    font-size: ${theme.font.sizes.medium};
+  `,
+  large: (theme: DefaultTheme) => css`
+    font-size: ${theme.font.sizes.large};
+  `,
+  xlarge: (theme: DefaultTheme) => css`
+    font-size: ${theme.font.sizes.xlarge};
+  `,
+  xxlarge: (theme: DefaultTheme) => css`
+    font-size: ${theme.font.sizes.xxlarge};
+  `,
+  huge: (theme: DefaultTheme) => css`
+    font-size: ${theme.font.sizes.huge};
+  `,
+  xhuge: (theme: DefaultTheme) => css`
+    font-size: ${theme.font.sizes.xhuge};
+  `,
+};
+
 export const Wrapper = styled.button<WrapperProps>`
   ${({
     theme,
@@ -107,7 +137,7 @@ export const Wrapper = styled.button<WrapperProps>`
     styleType,
     color = "darkGrey",
     labelColor = "darkGrey",
-    sizeLabel = "small",
+    sizeLabel,
   }) => css`
     display: flex;
     align-items: center;
@@ -121,7 +151,6 @@ export const Wrapper = styled.button<WrapperProps>`
     text-decoration: none;
     cursor: pointer;
     font-family: ${theme.font.primary};
-    font-size: ${theme.font.sizes[sizeLabel]};
     font-weight: ${theme.font.weight.bold};
     transition: ${theme.transition.fast};
     width: 100%;
@@ -137,6 +166,7 @@ export const Wrapper = styled.button<WrapperProps>`
     ${!!styleType && wrapperModifiers[styleType](theme)}
     ${!!fullWidth && wrapperModifiers.fullWidth()}
     ${!!size && wrapperModifiers[size](theme)}
+    ${!!sizeLabel && sizeLabelModifiers[sizeLabel](theme)}
       ${!!hasIcon && wrapperModifiers.withIcon(theme)}
       ${disabled && wrapperModifiers.disabled()};
   `}

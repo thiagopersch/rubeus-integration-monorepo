@@ -7,7 +7,7 @@ export type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
   isChecked?: boolean;
   label?: string | React.ReactNode;
   labelFor?: string;
-  labelColor?: "white" | "black";
+  labelColor?: "white" | "black" | "primaryColor";
   value?: string | ReadonlyArray<string> | number;
   inactive?: boolean;
   // name: string;

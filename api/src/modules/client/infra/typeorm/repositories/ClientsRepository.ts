@@ -19,6 +19,7 @@ class ClientsRepository implements IClientsRepository {
   public async findById(client_id: string): Promise<Client | undefined> {
     const client = await this.ormRepository.findOne({
       where: { id: client_id },
+      order: { name: 'ASC' },
     });
     return client ?? undefined;
   }
@@ -26,13 +27,16 @@ class ClientsRepository implements IClientsRepository {
   public async findOne(client_id: string): Promise<Client | undefined> {
     const client = await this.ormRepository.findOne({
       where: { id: client_id },
+      order: { name: 'ASC' },
     });
 
     return client ?? undefined;
   }
 
   public async findAll(): Promise<Client[]> {
-    const client = await this.ormRepository.find();
+    const client = await this.ormRepository.find({
+      order: { name: 'ASC' },
+    });
     return client;
   }
 

@@ -40,25 +40,10 @@ const Select = ({
   const selectedOptionValue = useRef<Option | undefined>(undefined);
   const unregisteredSelectRef = useRef<UnregisteredSelectRef>(null);
 
-  // const { defaultValue, fieldName, registerField, error } = useField(name);
-
   const setValue = useCallback((value: any) => {
     selectedOptionValue.current = value;
     unregisteredSelectRef.current?.setValue(value);
   }, []);
-
-  // useEffect(() => {
-  //   registerField({
-  //     name: fieldName,
-  //     ref: selectedOptionValue,
-  //     getValue: (ref) => ref.current,
-  //     setValue: (_, value) => setValue(value),
-  //   });
-  // }, [registerField, fieldName, setValue]);
-
-  // useEffect(() => {
-  //   selectedOptionValue.current = selectedOption || defaultValue;
-  // }, [selectedOption, defaultValue]);
 
   const handleChange = (value: any) => {
     console.log(value);
@@ -75,8 +60,6 @@ const Select = ({
       className={className}
       emptyOption={emptyOption}
       disabled={disabled}
-      // error={error}
-      // defaultValue={defaultValue}
       onChange={handleChange}
       ref={unregisteredSelectRef}
     />

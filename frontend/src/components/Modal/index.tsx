@@ -6,6 +6,8 @@ export type ModalProps = {
   children: React.ReactNode;
   title?: React.ReactNode;
   closeOnClickOutside?: boolean;
+  height?: "normal" | "medium" | "large";
+  width?: "normal" | "medium" | "large";
 };
 
 export type ModalRef = {
@@ -14,7 +16,13 @@ export type ModalRef = {
 };
 
 const Modal: React.ForwardRefRenderFunction<ModalRef, ModalProps> = (
-  { children, title, closeOnClickOutside = true },
+  {
+    children,
+    title,
+    closeOnClickOutside = true,
+    height = "normal",
+    width = "normal",
+  },
   ref,
 ) => {
   const [show, setShow] = useState(false);
@@ -41,7 +49,7 @@ const Modal: React.ForwardRefRenderFunction<ModalRef, ModalProps> = (
   if (!show) return null;
   return (
     <>
-      <S.Wrapper>
+      <S.Wrapper height={height} width={width}>
         {title && <S.Title>{title}</S.Title>}
         <S.Content>{children}</S.Content>
       </S.Wrapper>

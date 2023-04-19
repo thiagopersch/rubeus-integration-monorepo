@@ -5,6 +5,8 @@ import {
   useRef,
   useState,
   useImperativeHandle,
+  useEffect,
+  SetStateAction,
 } from "react";
 import { useSession } from "next-auth/react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
@@ -40,13 +42,13 @@ const AddClientModal: ForwardRefRenderFunction<
   AddClientModalProps
 > = ({ refetchFn }, ref) => {
   const [client, setClient] = useState<Client>();
+
   const {
-    register,
+    /* register, */
     handleSubmit,
+    control,
     formState: { errors },
-  } = useForm<AddClientData>({
-    defaultValues: { name: "", status: true },
-  });
+  } = useForm<AddClientData>();
 
   const modalRef = useRef<ModalRef>(null);
 
@@ -55,9 +57,12 @@ const AddClientModal: ForwardRefRenderFunction<
 
   const onSubmit: SubmitHandler<AddClientData> = useCallback(
     async (values: AddClientData) => {
+      const isEditing = !!client?.id;
       await mutation.mutateAsync({
         id: client?.id,
-        ...values,
+        name: values.name,
+        status: values.status,
+        isEditing,
       });
       refetchFn && refetchFn();
     },
@@ -77,17 +82,30 @@ const AddClientModal: ForwardRefRenderFunction<
   useImperativeHandle(ref, () => ({ openModal }));
 
   return (
-    <Modal title="Adicionar cliente" closeOnClickOutside={false} ref={modalRef}>
+    <Modal
+      title={client ? `Editando cliente: ${client?.name}` : "Adicionar cliente"}
+      closeOnClickOutside={false}
+      ref={modalRef}
+    >
       <S.Wrapper>
         <S.Form onSubmit={handleSubmit(onSubmit)}>
           <S.WrapperInputs>
-            <TextInput
-              label="Nome do cliente"
-              {...register("name", { required: true, maxLength: 255 })}
-              aria-invalid={errors.name ? "true" : "false"}
+            <Controller
+              name="name"
+              control={control}
+              defaultValue=""
+              rules={{ required: true, maxLength: 255 }}
+              render={({ field }) => (
+                <TextInput
+                  label="Nome do cliente"
+                  id="name"
+                  {...field}
+                  aria-invalid={errors.name ? "true" : "false"}
+                />
+              )}
             />
             {errors.name?.type === "required" && (
-              <ErrorMessageLabel>Name é obrigatório.</ErrorMessageLabel>
+              <ErrorMessageLabel>Nome é obrigatório.</ErrorMessageLabel>
             )}
             {errors.name?.type === "maxLength" && (
               <ErrorMessageLabel>

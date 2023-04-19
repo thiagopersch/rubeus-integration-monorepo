@@ -51,13 +51,15 @@ export const ErrorMessage = styled.span<ErrorMessageProps>`
     uppercase,
     textAlign,
   }) => css`
+    display: flex;
+    flex-direction: column;
     color: ${theme.colors[color]};
     font-weight: ${theme.font.weight.normal};
     font-family: ${theme.font.primary};
-
-    ${media.lessThan("medium")`
     font-size: ${theme.font.sizes.medium};
 
+    ${media.lessThan("medium")`
+      font-size: ${theme.font.sizes.xsmall};
     `}
 
     ${headingModifiers[size](theme)}

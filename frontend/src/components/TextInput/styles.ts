@@ -40,7 +40,7 @@ export const Wrapper = styled.div<WrapperProps>`
     ${disabled &&
     css`
       * {
-        /* pointer-events: none !important; */
+        pointer-events: none !important;
       }
     `}
 
@@ -117,6 +117,7 @@ export const Label = styled.label<LabelProps>`
       position: absolute;
       left: 1rem;
       background-color: ${theme.colors.white};
+      border-radius: 10rem;
       font-size: ${theme.font.sizes.small};
       transition: ${theme.transition.fast};
       color: ${theme.colors.lightGrey};
@@ -219,6 +220,10 @@ export const Input = styled.input<InputProps>`
     font-family: ${theme.font.primary};
     color: ${theme.colors.darkGrey};
     box-shadow: ${theme.shadow.default};
+
+    &:invalid {
+      border: 0.05rem solid ${theme.colors.primaryRed};
+    }
 
     ${inputModifiers[inputSize](theme)}
     ${!!disabled && inputModifiers.disabled(theme)}

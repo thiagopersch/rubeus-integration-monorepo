@@ -2,16 +2,31 @@ import { Repository } from 'typeorm';
 
 import { dataSource } from '@config/data_source';
 
-import ITbcsRepository from '@modules/tbc/repositories/ITbcsRepository';
+import ITbcRepository from '@modules/tbc/repositories/ITbcRepository';
 import CreateTbcDTO from '@modules/tbc/dtos/CreateTbcDTO';
 
 import Tbc from '../entities/Tbc';
 
-class TbcsRepository implements ITbcsRepository {
+class TbcRepository implements ITbcRepository {
   private ormRepository: Repository<Tbc>;
 
   constructor() {
     this.ormRepository = dataSource.getRepository(Tbc);
+  }
+
+  public async findOne(tbc_id: string): Promise<Tbc | undefined> {
+    const tbc = await this.ormRepository.findOne({
+      where: { id: tbc_id },
+    });
+
+    return tbc ?? undefined;
+  }
+
+  public async findAll(): Promise<Tbc[]> {
+    const tbc = await this.ormRepository.find({
+      order: { name: 'ASC' },
+    });
+    return tbc;
   }
 
   public async create({
@@ -43,6 +58,15 @@ class TbcsRepository implements ITbcsRepository {
     await this.ormRepository.save(tbc);
     return tbc;
   }
+
+  public async update(tbc: Tbc): Promise<Tbc> {
+    await this.ormRepository.save(tbc);
+    return tbc;
+  }
+
+  public async delete(tbc: Tbc): Promise<void> {
+    await this.ormRepository.softRemove(tbc);
+  }
 }
 
-export default TbcsRepository;
+export default TbcRepository;

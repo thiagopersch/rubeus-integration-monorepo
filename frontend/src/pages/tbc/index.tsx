@@ -1,11 +1,13 @@
-import { listTbc } from "@/requests/queries/tbc";
-import TBC from "@/templates/TBC";
-import prefetchQuery from "@/utils/prefetch-query";
-import protectedRoutes from "@/utils/protected-routes";
 import { GetServerSidePropsContext } from "next";
 
+import prefetchQuery from "@/utils/prefetch-query";
+import protectedRoutes from "@/utils/protected-routes";
+
+import Tbcs from "@/templates/TBC";
+import { listTbc } from "@/requests/queries/tbc";
+
 function TBCPage() {
-  return <TBC />;
+  return <Tbcs />;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -16,7 +18,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     fetcher: () => listTbc(session),
   });
 
-  return { props: { session, dehydrateState } };
+  return {
+    props: {
+      session,
+      dehydrateState,
+    },
+  };
 }
 
 // TBCPage.auth = {

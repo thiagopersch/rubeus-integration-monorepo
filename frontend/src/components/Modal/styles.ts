@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from "styled-components";
+import { ModalProps } from ".";
 
 const showModal = keyframes`
   from {
@@ -13,8 +14,26 @@ const showModal = keyframes`
   }
 `;
 
-export const Wrapper = styled.div`
-  ${({ theme }) => css`
+const dimensions = {
+  normal: css`
+    height: auto;
+    width: auto;
+    overflow: auto;
+  `,
+  medium: css`
+    height: 50vh;
+    width: 50vw;
+    overflow: auto;
+  `,
+  large: css`
+    height: 50vh;
+    width: 70vw;
+    overflow: auto;
+  `,
+};
+
+export const Wrapper = styled.div<ModalProps>`
+  ${({ theme, height, width }) => css`
     visibility: hidden;
     opacity: 0;
     animation: 0.3s both ${showModal};
@@ -29,6 +48,9 @@ export const Wrapper = styled.div`
     padding: ${theme.spacings.small} ${theme.spacings.small};
     border-radius: 1rem;
     background ${theme.colors.white};
+
+    ${!!height && dimensions[height]}
+    ${!!width && dimensions[width]}
   `}
 `;
 
@@ -66,7 +88,7 @@ export const Overlay = styled.div`
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.4);
     z-index: ${theme.layers.overlay};
 
     visibility: hidden;

@@ -10,7 +10,7 @@ type UserDropdownProps = {
   username: string;
   isOpen?: boolean;
 };
-const UserDropdown = ({ username, isOpen /*, image*/ }: UserDropdownProps) => {
+const UserDropdown = ({ username, isOpen = true }: UserDropdownProps) => {
   const [show, setShow] = useState(false);
 
   const handleSignout = async () => {
@@ -23,39 +23,32 @@ const UserDropdown = ({ username, isOpen /*, image*/ }: UserDropdownProps) => {
 
   return (
     <S.Wrapper>
-      <S.WrapperButton>
-        <Link href="/login">
-          <Button size="large" styleType="circle" icon={<User />} />
-        </Link>
-      </S.WrapperButton>
-      <S.Container isOpen={show}>
-        <S.Title onClick={toggleDropdown}>
-          <S.UserContainer>
-            {/* <span>
-              {username ? username : "Tiago Persch"}
-              <S.ArrowIcon isOpen={show} />
-            </span> */}
-            {/* <S.UserImage>
-              <Image
-                src={image}
-                fill
-                style={{ objectFit: "cover" }}
-                quality={80}
-                sizes="80px"
-                alt={username}
-              />
-            </S.UserImage> */}
-          </S.UserContainer>
-        </S.Title>
-        <S.Content isOpen={show}>
-          <ul>
-            <S.ListItem>Meu perfil</S.ListItem>
-            <S.ListItem onClick={handleSignout} style={{ color: "red" }}>
-              Sair
-            </S.ListItem>
-          </ul>
-        </S.Content>
-      </S.Container>
+      {username ? (
+        <S.WrapperButton>
+          <Link href="/login">
+            <Button size="large" styleType="circle" icon={<User />} />
+          </Link>
+        </S.WrapperButton>
+      ) : (
+        <S.Container isOpen={isOpen}>
+          <S.Title onClick={toggleDropdown}>
+            <S.UserContainer>
+              <span>
+                {username ? username : "Jhon Doe"}
+                <S.ArrowIcon isOpen={show} />
+              </span>
+            </S.UserContainer>
+          </S.Title>
+          <S.Content isOpen={show}>
+            <ul>
+              <S.ListItem>Meu perfil</S.ListItem>
+              <S.ListItem onClick={handleSignout} style={{ color: "red" }}>
+                Sair
+              </S.ListItem>
+            </ul>
+          </S.Content>
+        </S.Container>
+      )}
       <S.Overlay isOpen={show} onClick={() => setShow(false)} />
     </S.Wrapper>
   );

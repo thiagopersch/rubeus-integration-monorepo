@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import Tbc from '../infra/typeorm/entities/Tbc';
-import ITbcsRepository from '../repositories/ITbcsRepository';
+import ITbcRepository from '../repositories/ITbcRepository';
 
 type CreateTbcResquest = {
   client_id: string;
@@ -18,9 +18,7 @@ type CreateTbcResquest = {
 
 @injectable()
 class CreateTbcService {
-  constructor(
-    @inject('TbcsRepository') private tbcsRepository: ITbcsRepository,
-  ) {}
+  constructor(@inject('TbcRepository') private tbcRepository: ITbcRepository) {}
 
   public async execute({
     client_id,
@@ -35,7 +33,7 @@ class CreateTbcService {
     context_system_code,
     context_user_code,
   }: CreateTbcResquest): Promise<Tbc> {
-    const tbc = await this.tbcsRepository.create({
+    const tbc = await this.tbcRepository.create({
       client_id,
       name,
       user,

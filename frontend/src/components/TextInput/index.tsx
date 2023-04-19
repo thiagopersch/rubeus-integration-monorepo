@@ -48,7 +48,6 @@ const TextInput: React.ForwardRefRenderFunction<
     value,
     icon,
     mask,
-    // error: errorProp,
     containerStyle,
     unformRegister = true,
     disabled = false,
@@ -60,7 +59,6 @@ const TextInput: React.ForwardRefRenderFunction<
 ) => {
   const [fieldValue, setFieldValue] = useState<string>();
   const fieldRef = useRef<HTMLInputElement>(null);
-  const { register } = useForm();
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     const { value } = event.target;
@@ -105,6 +103,8 @@ const TextInput: React.ForwardRefRenderFunction<
     }
   }, [fieldValue]);
 
+  const inputHasValue = !!fieldRef.current?.value;
+
   return (
     <S.Wrapper
       inputAs={as}
@@ -113,7 +113,12 @@ const TextInput: React.ForwardRefRenderFunction<
       size={size}
     >
       <S.Container hasClickableIcon={!!icon && !!onClickIcon}>
-        <S.Label hasValue={!!fieldValue} inputAs={as} isDisabled={disabled}>
+        <S.Label
+          htmlFor="my-input"
+          hasValue={inputHasValue}
+          inputAs={as}
+          isDisabled={disabled}
+        >
           <span>{label}</span>
           <S.InputContainer size={size} hasIcon={!!icon}>
             {/* eslint-disable-next-line */}
@@ -121,6 +126,7 @@ const TextInput: React.ForwardRefRenderFunction<
             <S.Input
               inputSize={size}
               onChange={handleChange}
+              id="my-input"
               as={as}
               ref={mergeRefs([fieldRef, ref])}
               name={name}

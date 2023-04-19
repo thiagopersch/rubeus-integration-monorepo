@@ -101,7 +101,7 @@ export const Overlay = styled.div<OverlayProps>`
   ${({ isOpen }) => css`
     visibility: hidden;
     opacity: 0;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.3);
     position: fixed;
     top: 0;
     bottom: 0;

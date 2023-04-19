@@ -66,9 +66,9 @@ const UnregisteredTextInput: React.ForwardRefRenderFunction<
     const masked = mask ? masks[mask](value) : value;
     setFieldValue(masked || "");
 
-    // if (fieldRef.current) {
-    //   fieldRef.current.value = fieldValue;
-    // }
+    if (fieldRef.current) {
+      fieldRef.current.value = fieldValue;
+    }
 
     onChangeValue && onChangeValue(masked || "");
   };

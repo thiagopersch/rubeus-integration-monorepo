@@ -1,11 +1,13 @@
 import { Router } from 'express';
 
-import TbcsController from '../controllers/TbcsController';
+import TbcController from '../controllers/TbcController';
 
-const tbcsRouter = Router();
+const tbcRouter = Router();
 
-const tbcsController = new TbcsController();
+const tbcController = new TbcController();
 
-tbcsRouter.post('/', tbcsController.create);
+tbcRouter.get('/', tbcController.index);
+tbcRouter.get('/:tbc_id', tbcController.show);
+tbcRouter.post('/', tbcController.create);
 
-export default tbcsRouter;
+export default tbcRouter;

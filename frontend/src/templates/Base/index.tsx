@@ -1,11 +1,7 @@
 import { useCallback, useRef, useImperativeHandle, forwardRef } from "react";
-import Link from "next/link";
-import Image from "next/image";
 
-import UserDropdown from "@/components/UserDropdown";
-import Dropdown from "@/components/Dropdown";
+import Navbar from "@/components/Navbar";
 import PageContainer from "@/components/PageContainer";
-import Footer from "@/components/Footer";
 
 import * as S from "./styles";
 
@@ -31,32 +27,7 @@ const Base: React.ForwardRefRenderFunction<BaseRef, BaseProps> = (
 
   return (
     <>
-      <S.Wrapper>
-        <S.WrapperLogo>
-          <Link href="/">
-            <Image
-              src="assets/images/rubeus-white.svg"
-              width={200}
-              height={40}
-              quality={80}
-              alt="rubeus-white"
-            />
-          </Link>
-        </S.WrapperLogo>
-        <S.Menu>
-          <S.MenuList>
-            <S.MenuItem>
-              <Link href="/">Inicio</Link>
-            </S.MenuItem>
-            <S.MenuItem>
-              <Dropdown children="Cadastros" />
-            </S.MenuItem>
-          </S.MenuList>
-        </S.Menu>
-        <S.MenuButton>
-          <UserDropdown username={/*session?.user.name ||*/ ""} />
-        </S.MenuButton>
-      </S.Wrapper>
+      <Navbar />
       <S.Content ref={contentRef}>
         <PageContainer>{children}</PageContainer>
       </S.Content>

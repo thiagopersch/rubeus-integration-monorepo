@@ -7,16 +7,33 @@ export const WrapperDescription = styled.div`
   `}
 `;
 
-export const WrapperInputs = styled.div`
+export const WrapperTwoInputs = styled.div`
   ${({ theme }) => css`
-    padding: 2rem;
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: row wrap;
+    gap: 2rem;
+
+    ${media.lessThan("medium")`
+      flex-direction: column;
+    `}
   `}
 `;
 
+export const WrapperInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+`;
+
 export const WrapperInputsThreeColumns = styled.div`
-  padding: 0 2rem;
-  column-count: 3;
-  -webkit-column-count: 3;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row wrap;
+  align-items: flex-start;
+  width: 100%;
+  gap: 2rem;
 
   ${media.lessThan("medium")`
     display: flex;
@@ -25,10 +42,17 @@ export const WrapperInputsThreeColumns = styled.div`
   `}
 `;
 
+export const WrapperUnlicensedMethod = styled.div`
+  padding: 2rem;
+`;
+
 export const WrapperInputsContextColumns = styled.div`
   padding: 0 2rem;
-  column-count: 5;
-  -webkit-column-count: 5;
+  display: flex;
+  flex-direction: row wrap;
+  align-items: flex-start;
+  width: 100%;
+  gap: 2rem;
 
   ${media.lessThan("medium")`
     display: flex;
@@ -49,6 +73,7 @@ export const WrapperButtons = styled.div`
     justify-content: space-between;
     flex-direction: row;
     padding: 0 2rem;
+    margin-top: 3rem;
 
     ${media.lessThan("medium")`
       flex-direction: column-reverse;

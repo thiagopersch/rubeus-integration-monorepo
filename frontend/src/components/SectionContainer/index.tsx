@@ -3,50 +3,48 @@ import * as S from "./styles";
 
 export type SectionContainerProps = {
   children?: string | React.ReactNode;
-  paddings?: keyof DefaultTheme["spacings"];
-  columns?: keyof DefaultTheme["columns"];
-  display?: keyof DefaultTheme["display"];
-  flexDirection?: keyof DefaultTheme["flexDirection"];
-  flexWrap?: keyof DefaultTheme["flexWrap"];
-  justifyContent?: keyof DefaultTheme["justifyContent"];
-  alignItems?: keyof DefaultTheme["alignItems"];
-  alignContent?: keyof DefaultTheme["alignContent"];
-  margin?: keyof DefaultTheme["spacings"];
-  marginTop?: keyof DefaultTheme["spacings"];
-  marginBottom?: keyof DefaultTheme["spacings"];
-  marginLeft?: keyof DefaultTheme["spacings"];
-  marginRight?: keyof DefaultTheme["spacings"];
+  paddings?:
+    | "none"
+    | "xxsmall"
+    | "xsmall"
+    | "small"
+    | "medium"
+    | "large"
+    | "xlarge"
+    | "xxlarge"
+    | "huge"
+    | "xhuge";
+  display?: "none" | "flex" | "block";
+  flexDirection?: "row" | "column" | "rowReverse" | "columnReverse";
+  flexWrap?: "nowrap" | "wrap" | "wrapReverse";
+  justifyContent?:
+    | "start"
+    | "end"
+    | "center"
+    | "spaceBetween"
+    | "spaceAround"
+    | "spaceEvenly";
+  alignItems?: "start" | "end" | "center" | "baseline" | "stretch";
+  alignContent?: "start" | "end" | "center" | "spaceBetween" | "spaceAround";
 };
 
 const SectionContainer = ({
   children,
-  paddings,
-  columns,
-  display,
-  flexDirection,
-  flexWrap,
-  justifyContent,
-  alignItems,
-  margin,
-  marginTop,
-  marginBottom,
-  marginLeft,
-  marginRight,
+  paddings = "none",
+  display = "flex",
+  flexDirection = "row",
+  flexWrap = "wrap",
+  justifyContent = "start",
+  alignItems = "start",
 }: SectionContainerProps) => {
   return (
     <S.Container
       paddings={paddings}
-      columns={columns}
       display={display}
       flexDirection={flexDirection}
       flexWrap={flexWrap}
       justifyContent={justifyContent}
       alignItems={alignItems}
-      margin={margin}
-      marginTop={marginTop}
-      marginBottom={marginBottom}
-      marginLeft={marginLeft}
-      marginRight={marginRight}
     >
       {children}
     </S.Container>

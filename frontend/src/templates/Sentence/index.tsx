@@ -13,14 +13,25 @@ import Link from "next/link";
 import Base from "../Base";
 
 import * as S from "./styles";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+import { useShowTbc } from "@/requests/queries/tbc";
 
 const Sentence = () => {
+  const { query } = useRouter();
+  const { data: session } = useSession();
+  const { data: tbc } = useShowTbc(session, {
+    id: query.tbc_id as string,
+  });
+
   return (
     <Base>
-      <SectionContainer columns="fullwidth">
+      <SectionContainer>
         <Card>
-          <SectionContainer paddings="small">
-            <Heading size="md">Sentenças</Heading>
+          <SectionContainer paddings="xsmall">
+            <Heading size="md" textAlign="center">
+              Sentenças do TBC: {tbc?.name}
+            </Heading>
           </SectionContainer>
           <S.Wrapper>
             <S.WrapperCTA>
@@ -77,9 +88,7 @@ const Sentence = () => {
                   </Link>
                   <TextComponent>0</TextComponent>
                   <TextComponent>S</TextComponent>
-                  <TextComponent>
-                    01/01/2023 as 13:30 por Tiago Pexe
-                  </TextComponent>
+                  <TextComponent>01/01/2023 as 13:30</TextComponent>
                   <S.WrapperCTAActions>
                     <ActionSentences />
                   </S.WrapperCTAActions>

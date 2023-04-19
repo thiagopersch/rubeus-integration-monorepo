@@ -27,7 +27,7 @@ export const Container = styled.div<ContainerProps>`
     position: relative;
     height: 100%;
     width: 100%;
-    /* min-width: 20rem; */
+    min-width: 15rem;
     color: ${theme.colors.mainBg};
     display: flex;
     align-items: center;
@@ -63,7 +63,7 @@ export const Content = styled.div<ContentProps>`
     padding: 1rem;
     padding-top: 1rem;
     top: 100%;
-    left: 50%;
+    left: 25%;
     transform: translateX(-50%);
     border-radius: 0.3rem;
     z-index: ${theme.layers.modal};
@@ -83,16 +83,19 @@ export const Content = styled.div<ContentProps>`
 `;
 
 export const ListItem = styled.li`
-  padding: 1.5rem;
-  color: #556365;
+  ${({ theme }) => css`
+    padding: 1.5rem;
+    color: #556365;
+    font-size: ${theme.font.sizes.small};
 
-  :hover {
-    background: #e9e9e9;
-    border-radius: 0.4rem;
-  }
-  & + & {
-    margin-top: 1rem;
-  }
+    :hover {
+      background: #e9e9e9;
+      border-radius: 0.4rem;
+    }
+    & + & {
+      margin-top: 1rem;
+    }
+  `}
 `;
 
 type OverlayProps = {
@@ -102,7 +105,7 @@ export const Overlay = styled.div<OverlayProps>`
   ${({ isOpen }) => css`
     visibility: hidden;
     opacity: 0;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.3);
     position: fixed;
     top: 0;
     bottom: 0;
