@@ -6,6 +6,7 @@ import { clientMapper } from "@/utils/mappers/userMapper";
 import { QueryObserverOptions, useQuery } from "react-query";
 
 type ListClientFilters = {
+  id?: string;
   name?: string;
   status?: string;
 };

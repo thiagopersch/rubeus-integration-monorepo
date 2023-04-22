@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useQuery } from "react-query";
-import { Plus, X } from "@styled-icons/feather";
+import { Edit, Plus, X } from "@styled-icons/feather";
 
 import Button from "@/components/Button";
 import Card from "@/components/Card";
@@ -10,15 +10,15 @@ import Heading from "@/components/Heading";
 import SectionContainer from "@/components/SectionContainer";
 import Table from "@/components/Table";
 import TableColumn from "@/components/TableColumn";
+import AddTbcModal, { TbcModalRef } from "@/components/AddTbcModal";
 import TextInput from "@/components/TextInput";
 
-import Base from "../Base";
-
-import { Client } from "@/models/client";
 import { FormattedTbc, Tbc } from "@/models/tbc";
 
 import { useDeleteTbcMutation } from "@/requests/mutations/tbc";
 import { listTbc } from "@/requests/queries/tbc";
+
+import Base from "../Base";
 
 import * as S from "./styles";
 
@@ -29,6 +29,10 @@ const Tbcs = () => {
   const { data: tbc, refetch } = useQuery<FormattedTbc[]>("get-tbc", () =>
     listTbc(session),
   );
+  const addTbcModal = useRef<TbcModalRef>(null);
+  const handleOpenModal = () => {
+    addTbcModal.current?.openModal();
+  };
 
   const mutation = useDeleteTbcMutation(session);
   const handleDeleteTbc = async (tbc: Tbc) => {
@@ -42,8 +46,8 @@ const Tbcs = () => {
   };
 
   const searchLowerCase = search.toLowerCase();
-  const tbcs = tbc?.filter((tbc) =>
-    tbc.name.toLowerCase().includes(searchLowerCase),
+  const tbcs = tbc?.filter((value) =>
+    value.name.toLowerCase().includes(searchLowerCase),
   );
 
   return (
@@ -130,17 +134,17 @@ const Tbcs = () => {
                 actionColumn
                 render={(tbc: Tbc) => (
                   <S.ActionButtons>
-                    {/*  <S.ActionEditButton
-                  type="button"
-                  title={`Alterar o cliente: ${client.name}`}
-                  onClick={() => addClientModal.current?.openModal(client)}
-                >
-                  <Edit title={`Alterar o cliente: ${client.name}`} />
-                </S.ActionEditButton> */}
+                    <S.ActionEditButton
+                      type="button"
+                      title={`Editar o TBC: ${tbc.name}`}
+                      onClick={() => addTbcModal.current?.openModal(tbc)}
+                    >
+                      <Edit title={`Alterar o cliente: ${tbc.name}`} />
+                    </S.ActionEditButton>
 
                     <S.ActionDeleteButton
                       type="button"
-                      title={`Excluir o TBC ${tbc.name}`}
+                      title={`Excluir o TBC: ${tbc.name}`}
                       onClick={() => handleDeleteTbc(tbc)}
                     >
                       <X />
@@ -152,7 +156,7 @@ const Tbcs = () => {
           </SectionContainer>
         </S.Wrapper>
       </Card>
-      {/* <AddTbcModal refetchFn={refetch} ref={addTbcModal} /> */}
+      <AddTbcModal refetchFn={refetch} ref={addTbcModal} />
     </Base>
   );
 };

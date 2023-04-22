@@ -103,6 +103,7 @@ export const OptionsList = styled.div<OptionsListProps>`
     max-height: 0;
     visibility: hidden;
     opacity: 0;
+    font-size: ${theme.font.sizes.small};
 
     transform: ${orientation === "top"
       ? "translateY(0.2rem)"
@@ -134,7 +135,8 @@ const OptionItem = styled.div<OptionItemProps>`
     `}
 
     :hover {
-      background: #f5f5f5;
+      border-radius: 0.3rem;
+      background: rgba(0, 0, 0, 0.1);
     }
   `}
 `;
@@ -162,7 +164,6 @@ export const GroupContainer = styled.div<GroupContainerProps>`
         padding: 0 0.5rem;
         transform: translateY(calc(-50% - 0.1rem));
         background: ${theme.colors.white};
-        font-size: ${theme.font.sizes.small};
         color: ${theme.colors.lightGrey};
       }
     `}
@@ -170,7 +171,9 @@ export const GroupContainer = styled.div<GroupContainerProps>`
 `;
 
 export const Option = styled(OptionItem)`
-  ${EmptyOption} + ${GroupContainer} > & {
-    margin-top: 0;
-  }
+  ${({ theme }) => css`
+    ${EmptyOption} + ${GroupContainer} > & {
+      margin-top: 0;
+    }
+  `}
 `;

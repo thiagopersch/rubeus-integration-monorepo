@@ -5,22 +5,28 @@ import {
   useRef,
   useState,
   useImperativeHandle,
+  useMemo,
 } from "react";
 import { useSession } from "next-auth/react";
+import { useQueryClient } from "react-query";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
-import TextInput from "../TextInput";
-import Separator from "../Separator";
 import Button from "../Button";
-import Modal, { ModalRef } from "../Modal";
+import Checkbox from "../Checkbox";
 import ErrorMessageLabel from "../ErrorMessageLabel";
+import Modal, { ModalRef } from "../Modal";
+import Select from "../Select";
+import Separator from "../Separator";
+import TextComponent from "../TextComponent";
+import TextInput from "../TextInput";
 
 import { Tbc } from "@/models/tbc";
 
-import * as S from "./styles";
 import { useAddTbcMutation } from "@/requests/mutations/tbc";
-import TextComponent from "../TextComponent";
-import ToggleSwitch from "../SwithToggle";
+import { tbcKeys } from "@/requests/queries/tbc";
+import { useListClients } from "@/requests/queries/clients";
+
+import * as S from "./styles";
 
 export type TbcModalRef = {
   openModal: (tbc?: Tbc) => void;
@@ -44,44 +50,101 @@ type AddTbcData = {
   context_user_code: string;
 };
 
+const MessageRequired = "Campo obrigatório.";
+
 const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
   { refetchFn },
   ref,
 ) => {
   const [tbc, setTbc] = useState<Tbc>();
+  const [unlicensed_method, setUnlicensed_method] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   const {
-    /* register, */
     handleSubmit,
     control,
+    reset,
     formState: { errors },
-  } = useForm<AddTbcData>();
+  } = useForm<AddTbcData>({
+    defaultValues: {
+      client_id: tbc?.client_id,
+      name: tbc?.name,
+      user: tbc?.user,
+      password: tbc?.password,
+      link: tbc?.link,
+      unlicensed_method: tbc?.unlicensed_method,
+      context_coligate_code: tbc?.context_coligate_code,
+      context_branch_code: tbc?.context_branch_code,
+      context_education_level_code: tbc?.context_education_level_code,
+      context_system_code: tbc?.context_system_code,
+      context_user_code: tbc?.context_user_code,
+    },
+  });
 
   const modalRef = useRef<ModalRef>(null);
 
   const { data: session } = useSession();
+  const queryClient = useQueryClient();
+
+  const { data: clients, isLoading } = useListClients(session, {
+    id: session?.id,
+  });
   const mutation = useAddTbcMutation(modalRef, session);
+
+  const clientOptions = useMemo(() => {
+    if (isLoading) return [{ label: "Carregando...", value: "" }];
+    if (!clients) return [];
+
+    return clients.map((client) => ({
+      value: client.id,
+      label: client.name,
+    }));
+  }, [clients, isLoading]);
 
   const onSubmit: SubmitHandler<AddTbcData> = useCallback(
     async (values: AddTbcData) => {
-      const isEditing = !!tbc?.id;
-      await mutation.mutateAsync({
-        id: tbc?.id,
-        ...values,
-        isEditing,
-      });
+      const selectedClient = clientOptions.find(
+        ({ value }) => value === values.client_id,
+      );
+
+      try {
+        setSaving(true);
+        await mutation.mutateAsync({
+          id: tbc?.id,
+          client_id: {
+            name: selectedClient?.label,
+          },
+          name: tbc?.name,
+          user: tbc?.user,
+          password: tbc?.password,
+          link: tbc?.link,
+          unlicensed_method: unlicensed_method,
+          context_coligate_code: tbc?.context_coligate_code,
+          context_branch_code: tbc?.context_branch_code,
+          context_education_level_code: tbc?.context_education_level_code,
+          context_system_code: tbc?.context_system_code,
+          context_user_code: tbc?.context_user_code,
+        });
+      } catch (error) {
+        console.error(error);
+      }
       refetchFn && refetchFn();
+
+      await queryClient.invalidateQueries(tbcKeys.lists());
     },
-    [mutation, tbc, refetchFn, session],
+    [mutation, tbc, unlicensed_method, refetchFn, session],
   );
 
   const handleBack = useCallback(() => {
     setTbc(undefined);
+    setUnlicensed_method(false);
+    reset();
     modalRef.current?.closeModal();
   }, []);
 
   const openModal = useCallback((data?: Tbc) => {
     setTbc(data);
+    setUnlicensed_method(data?.unlicensed_method || false);
     modalRef.current?.openModal();
   }, []);
 
@@ -93,142 +156,304 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
       closeOnClickOutside={false}
       ref={modalRef}
       height="normal"
-      width="normal"
+      width="auto"
     >
       <S.Wrapper>
-        <TextComponent
-          color="primaryGrey"
-          textAlign="left"
-          size="small"
-          weight="bold"
-        >
-          Configurações TOTVS Business Connect
-        </TextComponent>
+        <S.WrapperDescription>
+          <TextComponent color="lightGrey" size="small" weight="bold">
+            Configurações TOTVS Business Connect
+          </TextComponent>
+        </S.WrapperDescription>
         <S.Form onSubmit={handleSubmit(onSubmit)}>
-          <S.WrapperInputs>
-            <Controller
-              name="name"
-              control={control}
-              defaultValue={tbc?.name}
-              rules={{ required: true, maxLength: 255 }}
-              render={({ field }) => (
-                <TextInput
-                  label="Nome"
-                  id="name"
-                  {...field}
-                  aria-invalid={errors.name ? "true" : "false"}
+          <S.WrapperTwoInputs>
+            {!tbc?.client_id ? (
+              <S.WrapperInputs>
+                <Controller
+                  key="client_id"
+                  name="client_id"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Select
+                      id="client_id"
+                      label={!tbc?.client_id ? "Cliente" : ""}
+                      placeholder={!!tbc?.client_id ? "Cliente" : ""}
+                      {...field}
+                      defaultValue={tbc?.client?.name ?? ""}
+                      options={clientOptions}
+                      aria-invalid={errors.client_id ? "true" : "false"}
+                    />
+                  )}
                 />
+                {errors.client_id?.type === "required" && (
+                  <ErrorMessageLabel>{MessageRequired}</ErrorMessageLabel>
+                )}
+              </S.WrapperInputs>
+            ) : undefined}
+            <S.WrapperInputs>
+              <Controller
+                key="name"
+                name="name"
+                control={control}
+                rules={{ required: true, maxLength: 255 }}
+                render={({ field }) => (
+                  <TextInput
+                    id="name"
+                    label={!tbc?.name ? "Nome" : ""}
+                    placeholder={!!tbc?.name ? "Nome" : ""}
+                    defaultValue={tbc?.name ?? ""}
+                    {...field}
+                    aria-invalid={errors.name ? "true" : "false"}
+                  />
+                )}
+              />
+              {errors.name?.type === "required" && (
+                <ErrorMessageLabel>{MessageRequired}</ErrorMessageLabel>
               )}
-            />
-            {errors.name?.type === "required" && (
-              <ErrorMessageLabel>Nome é obrigatório.</ErrorMessageLabel>
-            )}
-            {errors.name?.type === "maxLength" && (
-              <ErrorMessageLabel>
-                Ultrapassou o limite do nome de 255 caracteres.
-              </ErrorMessageLabel>
-            )}
-          </S.WrapperInputs>
+              {errors.name?.type === "maxLength" && (
+                <ErrorMessageLabel>
+                  Ultrapassou o limite de 255 caracteres.
+                </ErrorMessageLabel>
+              )}
+            </S.WrapperInputs>
+          </S.WrapperTwoInputs>
           <S.WrapperInputsThreeColumns>
-            <Controller
-              name="user"
-              control={control}
-              defaultValue={tbc?.user}
-              rules={{ required: true, maxLength: 255 }}
-              render={({ field }) => (
-                <TextInput
-                  label="Usuário"
-                  id="user"
-                  {...field}
-                  aria-invalid={errors.user ? "true" : "false"}
-                />
+            <S.WrapperInputs>
+              <Controller
+                name="user"
+                control={control}
+                rules={{ required: true, maxLength: 255 }}
+                render={({ field }) => (
+                  <TextInput
+                    id="user"
+                    label={!tbc?.user ? "Usuário" : ""}
+                    placeholder={!!tbc?.user ? "Usuário" : ""}
+                    defaultValue={tbc?.user ?? ""}
+                    {...field}
+                    aria-invalid={errors.user ? "true" : "false"}
+                  />
+                )}
+              />
+              {errors.user?.type === "required" && (
+                <ErrorMessageLabel>{MessageRequired}</ErrorMessageLabel>
               )}
-            />
-            {errors.user?.type === "required" && (
-              <ErrorMessageLabel>Usuário é obrigatório.</ErrorMessageLabel>
-            )}
-            {errors.user?.type === "maxLength" && (
-              <ErrorMessageLabel>
-                Ultrapassou o limite do nome de 255 caracteres.
-              </ErrorMessageLabel>
-            )}
-            <Controller
-              name="password"
-              control={control}
-              defaultValue={tbc?.password}
-              rules={{ required: true, maxLength: 255 }}
-              render={({ field }) => (
-                <TextInput
-                  label="Senha"
-                  id="password"
-                  type="password"
-                  {...field}
-                  aria-invalid={errors.password ? "true" : "false"}
-                />
+              {errors.user?.type === "maxLength" && (
+                <ErrorMessageLabel>
+                  Ultrapassou o limite de 255 caracteres.
+                </ErrorMessageLabel>
               )}
-            />
-            {errors.password?.type === "required" && (
-              <ErrorMessageLabel>Senha é obrigatório.</ErrorMessageLabel>
-            )}
-            {errors.password?.type === "maxLength" && (
-              <ErrorMessageLabel>
-                Ultrapassou o limite do nome de 255 caracteres.
-              </ErrorMessageLabel>
-            )}
-            <Controller
-              name="link"
-              control={control}
-              defaultValue={tbc?.link}
-              rules={{ required: true, maxLength: 255 }}
-              render={({ field }) => (
-                <TextInput
-                  label="Link"
-                  id="link"
-                  {...field}
-                  aria-invalid={errors.link ? "true" : "false"}
-                />
+            </S.WrapperInputs>
+            <S.WrapperInputs>
+              <Controller
+                name="password"
+                control={control}
+                rules={{ required: true, maxLength: 255 }}
+                render={({ field }) => (
+                  <TextInput
+                    id="password"
+                    type="password"
+                    label={!tbc?.password ? "Senha" : ""}
+                    placeholder={!!tbc?.password ? "Senha" : ""}
+                    defaultValue={tbc?.password}
+                    {...field}
+                    aria-invalid={errors.password ? "true" : "false"}
+                  />
+                )}
+              />
+              {errors.password?.type === "required" && (
+                <ErrorMessageLabel>{MessageRequired}</ErrorMessageLabel>
               )}
-            />
-            {errors.link?.type === "required" && (
-              <ErrorMessageLabel>Link é obrigatório.</ErrorMessageLabel>
-            )}
-            {errors.link?.type === "maxLength" && (
-              <ErrorMessageLabel>
-                Ultrapassou o limite do nome de 255 caracteres.
-              </ErrorMessageLabel>
-            )}
+              {errors.password?.type === "maxLength" && (
+                <ErrorMessageLabel>
+                  Ultrapassou o limite de 255 caracteres.
+                </ErrorMessageLabel>
+              )}
+            </S.WrapperInputs>
+            <S.WrapperInputs>
+              <Controller
+                name="link"
+                control={control}
+                rules={{ required: true, maxLength: 255 }}
+                render={({ field }) => (
+                  <TextInput
+                    id="link"
+                    label={!tbc?.link ? "Link" : ""}
+                    placeholder={!!tbc?.link ? "Link" : ""}
+                    defaultValue={tbc?.link}
+                    {...field}
+                    aria-invalid={errors.link ? "true" : "false"}
+                  />
+                )}
+              />
+              {errors.link?.type === "required" && (
+                <ErrorMessageLabel>{MessageRequired}</ErrorMessageLabel>
+              )}
+              {errors.link?.type === "maxLength" && (
+                <ErrorMessageLabel>
+                  Ultrapassou o limite de 255 caracteres.
+                </ErrorMessageLabel>
+              )}
+            </S.WrapperInputs>
           </S.WrapperInputsThreeColumns>
-          <S.WrapperInputs>
-            <ToggleSwitch
-              key="metodoSemLicenca"
-              children="Utiliza métodos sem licença"
-            />
-          </S.WrapperInputs>
-          <S.WrapperTextContext>
+          <S.WrapperUnlicensedMethod>
+            <S.WrapperInputs>
+              <Checkbox
+                id="unlicensed_method"
+                label="Utilizar métodos sem licença"
+                labelFor="Utiliza métodos sem licença"
+                isChecked={unlicensed_method}
+                onCheck={setUnlicensed_method}
+              />
+            </S.WrapperInputs>
+          </S.WrapperUnlicensedMethod>
+          <S.WrapperDescription>
             <TextComponent color="lightGrey" size="small" textAlign="left">
               Contexto
             </TextComponent>
-          </S.WrapperTextContext>
-          <S.WrapperInputsContextColumnsOne>
-            <TextInput type="text" name="coligate" label="Código da Coligada" />
-            <TextInput type="text" name="branch" label="Código da filial" />
-            <TextInput
-              type="text"
-              name="teachingLevel"
-              label="Nível de ensino"
-            />
-          </S.WrapperInputsContextColumnsOne>
-          <S.WrapperInputsContextColumnsTwo>
-            <TextInput
-              type="text"
-              name="codSistema"
-              label="Código do sistema"
-            />
-            <TextInput type="text" name="userContext" label="Usuário" />
-          </S.WrapperInputsContextColumnsTwo>
-          <S.WrapperSeparator>
-            <Separator />
-          </S.WrapperSeparator>
+          </S.WrapperDescription>
+          <S.WrapperInputsContextColumns>
+            <S.WrapperInputs>
+              <Controller
+                name="context_coligate_code"
+                control={control}
+                rules={{ required: true, maxLength: 3 }}
+                render={({ field }) => (
+                  <TextInput
+                    id="context_coligate_code"
+                    label={!tbc?.context_coligate_code ? "Cod. Coligada" : ""}
+                    placeholder={
+                      !!tbc?.context_coligate_code ? "Cod. Coligada" : ""
+                    }
+                    defaultValue={tbc?.context_coligate_code ?? ""}
+                    {...field}
+                    aria-invalid={
+                      errors.context_coligate_code ? "true" : "false"
+                    }
+                  />
+                )}
+              />
+              {errors.context_coligate_code?.type === "required" && (
+                <ErrorMessageLabel>{MessageRequired}</ErrorMessageLabel>
+              )}
+              {errors.context_coligate_code?.type === "maxLength" && (
+                <ErrorMessageLabel>
+                  Ultrapassou o limite de 3 caracteres.
+                </ErrorMessageLabel>
+              )}
+            </S.WrapperInputs>
+            <S.WrapperInputs>
+              <Controller
+                name="context_branch_code"
+                control={control}
+                rules={{ required: true, maxLength: 3 }}
+                render={({ field }) => (
+                  <TextInput
+                    id="context_branch_code"
+                    label={!tbc?.context_branch_code ? "Cod.Filial" : ""}
+                    placeholder={
+                      !!tbc?.context_branch_code ? "Cod. Filial" : ""
+                    }
+                    defaultValue={tbc?.context_branch_code ?? ""}
+                    {...field}
+                    aria-invalid={errors.context_branch_code ? "true" : "false"}
+                  />
+                )}
+              />
+              {errors.context_branch_code?.type === "required" && (
+                <ErrorMessageLabel>{MessageRequired}</ErrorMessageLabel>
+              )}
+              {errors.context_branch_code?.type === "maxLength" && (
+                <ErrorMessageLabel>
+                  Ultrapassou o limite de 3 caracteres.
+                </ErrorMessageLabel>
+              )}
+            </S.WrapperInputs>
+            <S.WrapperInputs>
+              <Controller
+                name="context_education_level_code"
+                control={control}
+                rules={{ required: true, maxLength: 3 }}
+                render={({ field }) => (
+                  <TextInput
+                    id="context_education_level_code"
+                    label={
+                      !tbc?.context_education_level_code
+                        ? "Nível de ensino"
+                        : ""
+                    }
+                    placeholder={
+                      !!tbc?.context_education_level_code
+                        ? "Nível de ensino"
+                        : ""
+                    }
+                    defaultValue={tbc?.context_education_level_code ?? ""}
+                    {...field}
+                    aria-invalid={
+                      errors.context_education_level_code ? "true" : "false"
+                    }
+                  />
+                )}
+              />
+              {errors.context_education_level_code?.type === "required" && (
+                <ErrorMessageLabel>{MessageRequired}</ErrorMessageLabel>
+              )}
+              {errors.context_education_level_code?.type === "maxLength" && (
+                <ErrorMessageLabel>
+                  Ultrapassou o limite de 3 caracteres.
+                </ErrorMessageLabel>
+              )}
+            </S.WrapperInputs>
+            <S.WrapperInputs>
+              <Controller
+                name="context_system_code"
+                control={control}
+                rules={{ required: true, maxLength: 3 }}
+                render={({ field }) => (
+                  <TextInput
+                    id="coligate"
+                    label={!tbc?.context_system_code ? "Cod. Sistema" : ""}
+                    placeholder={!!tbc?.context_system_code ? "Sistema" : ""}
+                    defaultValue={tbc?.context_system_code ?? ""}
+                    {...field}
+                    aria-invalid={errors.context_system_code ? "true" : "false"}
+                  />
+                )}
+              />
+              {errors.context_system_code?.type === "required" && (
+                <ErrorMessageLabel>{MessageRequired}</ErrorMessageLabel>
+              )}
+              {errors.context_system_code?.type === "maxLength" && (
+                <ErrorMessageLabel>
+                  Ultrapassou o limite de 3 caracteres.
+                </ErrorMessageLabel>
+              )}
+            </S.WrapperInputs>
+            <S.WrapperInputs>
+              <Controller
+                name="context_user_code"
+                control={control}
+                rules={{ required: true, maxLength: 100 }}
+                render={({ field }) => (
+                  <TextInput
+                    id="coligate"
+                    label={!tbc?.context_user_code ? "Cod. Usuário" : ""}
+                    placeholder={!!tbc?.context_user_code ? "Cod. Usuário" : ""}
+                    defaultValue={tbc?.context_user_code ?? ""}
+                    {...field}
+                    aria-invalid={errors.context_user_code ? "true" : "false"}
+                  />
+                )}
+              />
+              {errors.context_user_code?.type === "required" && (
+                <ErrorMessageLabel>{MessageRequired}</ErrorMessageLabel>
+              )}
+              {errors.context_user_code?.type === "maxLength" && (
+                <ErrorMessageLabel>
+                  Ultrapassou o limite de 100 caracteres.
+                </ErrorMessageLabel>
+              )}
+            </S.WrapperInputs>
+          </S.WrapperInputsContextColumns>
           <S.ButtonsContainer>
             <Button
               styleType="normal"
@@ -245,8 +470,9 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
               size="medium"
               labelColor="white"
               type="submit"
+              disabled={saving}
             >
-              Salvar
+              {saving ? "Salvando..." : "Salvar"}
             </Button>
           </S.ButtonsContainer>
         </S.Form>

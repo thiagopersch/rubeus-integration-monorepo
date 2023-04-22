@@ -39,8 +39,8 @@ export function useAddClientMutation(
         <ToastContent showSpinner>Salvando as informações...</ToastContent>
       );
     },
-    renderError: () => `Alterações falharam`,
-    renderSuccess: () => `Adicionado com sucesso!`,
+    renderError: () => `Falha ao registrar alterações!`,
+    renderSuccess: () => `Alterações registradas com sucesso!`,
   });
 }
 
@@ -74,7 +74,7 @@ export function useDeleteClientMutation(
         </ToastContent>
       );
     },
-    renderError: () => `Falha ao inserir o cliente!`,
+    renderError: () => `Falha ao remover o registro`,
     renderSuccess: () => `Deletado com sucesso...`,
   });
 }

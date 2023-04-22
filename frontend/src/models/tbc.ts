@@ -8,7 +8,7 @@ export type Tbc = {
   user: string;
   password: string;
   link: string;
-  unlicensed_method: string;
+  unlicensed_method: boolean;
   context_coligate_code: string;
   context_branch_code: string;
   context_education_level_code: string;
@@ -30,7 +30,7 @@ export type TbcForm = {
   user?: string;
   password?: string;
   link?: string;
-  unlicensed_method?: string;
+  unlicensed_method?: boolean;
   context_coligate_code?: string;
   context_branch_code?: string;
   context_education_level_code?: string;
@@ -44,7 +44,7 @@ export type BasicTbcFormType = {
   user: string;
   password: string;
   link: string;
-  unlicensed_method: string;
+  unlicensed_method: boolean;
   context_coligate_code: string;
   context_branch_code: string;
   context_education_level_code: string;

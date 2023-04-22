@@ -28,22 +28,23 @@ class ClientsController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, status } = request.body;
+    const { name, link_crm, status } = request.body;
 
     const createClient = container.resolve(CreateClientService);
-    const client = await createClient.execute({ name, status });
+    const client = await createClient.execute({ name, link_crm, status });
 
     return response.json(client);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { client_id } = request.params;
-    const { name, status } = request.body;
+    const { name, link_crm, status } = request.body;
 
     const updateClient = container.resolve(UpdateClientService);
     const client = await updateClient.execute({
       id: client_id,
       name,
+      link_crm,
       status,
     });
 

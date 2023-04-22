@@ -2,13 +2,10 @@ import {
   forwardRef,
   InputHTMLAttributes,
   TextareaHTMLAttributes,
-  useEffect,
   useRef,
   useState,
-  useCallback,
   CSSProperties,
 } from "react";
-import { useForm } from "react-hook-form";
 import mergeRefs from "react-merge-refs";
 
 import { masks } from "../../utils/masks";
@@ -27,13 +24,13 @@ export type TextInputProps = InputHtmlProps & {
   as?: InputAs;
   size?: "large" | "medium" | "small";
   type?: string;
-  unformRegister?: boolean;
+  formRegister?: boolean;
   icon?: React.ReactNode;
   mask?: keyof typeof masks;
-  // error?: string;
   containerStyle?: CSSProperties;
   onChangeValue?: (value?: string) => void;
   onClickIcon?: () => void;
+  value?: string;
 };
 
 const TextInput: React.ForwardRefRenderFunction<
@@ -49,7 +46,7 @@ const TextInput: React.ForwardRefRenderFunction<
     icon,
     mask,
     containerStyle,
-    unformRegister = true,
+    formRegister = true,
     disabled = false,
     onChangeValue,
     onClickIcon,
@@ -73,36 +70,6 @@ const TextInput: React.ForwardRefRenderFunction<
     onChangeValue && onChangeValue(masked);
   };
 
-  const setValue = useCallback(
-    (value?: string) => {
-      setFieldValue(() => {
-        if (value === undefined) return "";
-        const newValue = String(value || "");
-        const masked = mask ? masks[mask](newValue) : newValue;
-        return masked;
-      });
-    },
-    [mask],
-  );
-
-  useEffect(() => {
-    if (unformRegister) {
-      ({
-        name: fieldValue,
-        ref: fieldRef,
-        getValue: (reference: { current: { value: any } }) =>
-          reference.current.value,
-        setValue: (_: any, value: string | undefined) => setValue(value),
-      });
-    }
-  }, [fieldValue, unformRegister, setValue]);
-
-  useEffect(() => {
-    if (fieldRef.current) {
-      fieldRef.current.value = fieldValue || "";
-    }
-  }, [fieldValue]);
-
   const inputHasValue = !!fieldRef.current?.value;
 
   return (
@@ -114,7 +81,7 @@ const TextInput: React.ForwardRefRenderFunction<
     >
       <S.Container hasClickableIcon={!!icon && !!onClickIcon}>
         <S.Label
-          htmlFor="my-input"
+          htmlFor={name}
           hasValue={inputHasValue}
           inputAs={as}
           isDisabled={disabled}
@@ -126,7 +93,7 @@ const TextInput: React.ForwardRefRenderFunction<
             <S.Input
               inputSize={size}
               onChange={handleChange}
-              id="my-input"
+              id={name}
               as={as}
               ref={mergeRefs([fieldRef, ref])}
               name={name}

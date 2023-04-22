@@ -20,10 +20,15 @@ export default class Client1680566402176 implements MigrationInterface {
             isNullable: false,
           },
           {
+            name: 'link_crm',
+            type: 'varchar',
+            isNullable: false,
+          },
+          {
             name: 'status',
             type: 'boolean',
-            isNullable: false,
             default: true,
+            isNullable: false,
           },
           {
             name: 'created_at',

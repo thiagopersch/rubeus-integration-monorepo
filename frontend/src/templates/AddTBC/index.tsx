@@ -33,7 +33,7 @@ type AddTbcData = {
   user: string;
   password: string;
   link: string;
-  unlicensed_method: string;
+  unlicensed_method: boolean;
   context_coligate_code: string;
   context_branch_code: string;
   context_education_level_code: string;
@@ -43,13 +43,28 @@ type AddTbcData = {
 
 const AddTBC = () => {
   const [tbc, setTbc] = useState<Tbc>();
+  const [status, setStatus] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<AddTbcData>();
-  const [saving, setSaving] = useState(false);
+  } = useForm<AddTbcData>({
+    defaultValues: {
+      client_id: tbc?.client_id,
+      name: tbc?.name,
+      user: tbc?.user,
+      password: tbc?.password,
+      link: tbc?.link,
+      unlicensed_method: tbc?.unlicensed_method,
+      context_coligate_code: tbc?.context_coligate_code,
+      context_branch_code: tbc?.context_branch_code,
+      context_education_level_code: tbc?.context_education_level_code,
+      context_system_code: tbc?.context_system_code,
+      context_user_code: tbc?.context_user_code,
+    },
+  });
   const { data: session } = useSession();
   const { data: clients } = useListClients(session);
   const mutation = useAddTbcMutation(session);
@@ -71,13 +86,25 @@ const AddTBC = () => {
       try {
         setSaving(true);
         await mutation.mutateAsync({
-          ...data,
+          id: tbc?.id,
+          client_id: data.client_id,
+          name: data.name,
+          user: data.user,
+          password: data.password,
+          link: data.link,
+          unlicensed_method: status,
+          context_coligate_code: data.context_coligate_code,
+          context_branch_code: data.context_branch_code,
+          context_education_level_code: data.context_education_level_code,
+          context_system_code: data.context_system_code,
+          context_user_code: data.context_user_code,
         });
       } catch (error) {
         console.error(error);
       }
       await push("/tbc");
       setSaving(false);
+      setStatus(data?.unlicensed_method || false);
       resetform();
     },
     [mutation, session],
@@ -218,19 +245,15 @@ const AddTBC = () => {
             </S.WrapperInputsThreeColumns>
             <S.WrapperUnlicensedMethod>
               <S.WrapperInput>
-                <Controller
-                  name="unlicensed_method"
-                  control={control}
-                  defaultValue={tbc?.unlicensed_method}
-                  render={({ field }) => (
-                    <Checkbox
-                      id="unlicensed_method"
-                      label="Utilizar métodos sem licença"
-                      labelColor="primaryColor"
-                      {...field}
-                      aria-invalid={errors.unlicensed_method ? "true" : "false"}
-                    />
-                  )}
+                <Checkbox
+                  id="unlicensed_method"
+                  labelFor="Utilizar métodos sem licença"
+                  label="Utilizar métodos sem licença"
+                  labelColor="primaryColor"
+                  isChecked={status}
+                  onCheck={setStatus}
+                  onChange={() => setStatus}
+                  aria-invalid={errors.unlicensed_method ? true : false}
                 />
               </S.WrapperInput>
             </S.WrapperUnlicensedMethod>

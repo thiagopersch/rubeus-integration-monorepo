@@ -1,6 +1,6 @@
 ## Anotações da aplicação
 
-- Criar cadastro de categorias de consultas sql
+- Criar CRUD de categorias de consultas sql
 
 - Criar CRUD de sentenças
 

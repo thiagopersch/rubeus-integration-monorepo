@@ -32,6 +32,17 @@ export const Form = styled.form`
   `}
 `;
 
+export const WrapperInputsRow = styled.div`
+  display: flex;
+  flex-direction: row wrap;
+  gap: 2rem;
+
+  ${media.lessThan("medium")`
+    flex-direction: column;
+    gap: 0.1rem;
+  `}
+`;
+
 export const WrapperInputs = styled.div`
   ${({ theme }) => css`
     padding: ${theme.spacings.xxsmall} 0;

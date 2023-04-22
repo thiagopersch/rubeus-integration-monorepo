@@ -10,7 +10,7 @@ import { Tbc, TbcForm } from "@/models/tbc";
 import { initializeApi, useMutation } from "@/services/api";
 
 export function useAddTbcMutation(
-  /* modalRef: RefObject<ModalRef>, */
+  modalRef: RefObject<ModalRef>,
   session?: Session | null,
 ) {
   const addTbc = useCallback(
@@ -33,7 +33,7 @@ export function useAddTbcMutation(
         { ...newTbc, id: uuidv4(), disabled: true },
       ],
     },
-    /* onMutate: () => modalRef.current?.closeModal(), */
+    onMutate: () => modalRef.current?.closeModal(),
     renderLoading: function render() {
       return (
         <ToastContent showSpinner>Salvando as informações...</ToastContent>

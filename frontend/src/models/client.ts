@@ -1,6 +1,7 @@
 export type Client = {
   id: string;
   name: string;
+  link_crm: string;
   status: boolean;
   created_at: string;
   updated_at: string;
@@ -14,5 +15,6 @@ export type FormattedClient = Client & {
 export type ClientForm = {
   id?: string;
   name?: string;
+  link_crm: string;
   status?: boolean;
 };

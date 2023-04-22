@@ -1,4 +1,4 @@
-import { useState, InputHTMLAttributes, useEffect, forwardRef } from "react";
+import { useState, InputHTMLAttributes, useEffect } from "react";
 
 import * as S from "./styles";
 
@@ -8,14 +8,12 @@ export type CheckboxProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string | React.ReactNode;
   labelFor?: string;
   labelColor?: "white" | "black" | "primaryColor";
-  value?: string | ReadonlyArray<string> | number;
+  value?: string | ReadonlyArray<string> | number | boolean;
   inactive?: boolean;
-  // name: string;
 };
 
 const Checkbox = ({
   onCheck,
-  // name,
   isChecked,
   label,
   labelFor,
@@ -40,7 +38,6 @@ const Checkbox = ({
         type="checkbox"
         checked={checked}
         value={value}
-        // name={name}
         disabled={disabled}
         inactive={inactive}
         {...props}

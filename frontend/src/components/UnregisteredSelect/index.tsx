@@ -9,10 +9,10 @@ import {
 } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import useOnClickOutside from "../../hooks/use-onclick-outside";
 import UnregisteredTextInput from "../UnregisteredTextInput";
 
 import * as S from "./styles";
-import useOnClickOutside from "../../hooks/use-onclick-outside";
 
 export type Option = {
   label: string;
@@ -64,7 +64,6 @@ const UnregisteredSelect: React.ForwardRefRenderFunction<
   },
   ref,
 ) => {
-  // const [settedDefault, setSettedDefault] = useState(false);
   const [open, setOpen] = useState(false);
   const [orientation, setOrientation] = useState<Orientation>("bottom");
 

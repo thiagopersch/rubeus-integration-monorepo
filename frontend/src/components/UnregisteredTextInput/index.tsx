@@ -26,13 +26,13 @@ export type TextInputProps = InputHtmlProps & {
   as?: InputAs;
   size?: "large" | "medium" | "small";
   type?: string;
-  unformRegister?: boolean;
+  formRegister?: boolean;
   icon?: React.ReactNode;
   mask?: keyof typeof masks;
-  error?: string;
   containerStyle?: CSSProperties;
-  onChangeValue?: (value: string) => void;
+  onChangeValue?: (value?: string) => void;
   onClickIcon?: () => void;
+  value?: string;
 };
 
 const UnregisteredTextInput: React.ForwardRefRenderFunction<
@@ -48,16 +48,15 @@ const UnregisteredTextInput: React.ForwardRefRenderFunction<
     icon,
     mask,
     containerStyle,
+    formRegister = true,
     disabled = false,
     onChangeValue,
     onClickIcon,
-    error,
     ...rest
   },
   ref,
 ) => {
   const [fieldValue, setFieldValue] = useState("");
-
   const fieldRef = useRef<HTMLInputElement>(null);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
@@ -117,11 +116,12 @@ const UnregisteredTextInput: React.ForwardRefRenderFunction<
             <S.Input
               inputSize={size}
               onChange={handleChange}
+              id={name}
               as={as}
               ref={mergeRefs([fieldRef, ref])}
               name={name}
               disabled={disabled}
-              // value={fieldValue}
+              value={fieldValue}
               {...rest}
             />
             {!!icon && !onClickIcon && <>{icon}</>}
@@ -131,7 +131,6 @@ const UnregisteredTextInput: React.ForwardRefRenderFunction<
           <S.IconButton onClick={onClickIcon}>{icon}</S.IconButton>
         )}
       </S.Container>
-      {!!error && <S.ErrorMessage>{error}</S.ErrorMessage>}
     </S.Wrapper>
   );
 };

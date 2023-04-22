@@ -1,5 +1,6 @@
 import styled, { css, keyframes } from "styled-components";
 import { ModalProps } from ".";
+import media from "styled-media-query";
 
 const showModal = keyframes`
   from {
@@ -15,10 +16,19 @@ const showModal = keyframes`
 `;
 
 const dimensions = {
-  normal: css`
+  auto: css`
     height: auto;
     width: auto;
     overflow: auto;
+  `,
+  normal: css`
+    height: 100vh;
+    width: 100vw;
+    overflow: auto;
+
+    ${media.lessThan("medium")`
+      height: 99vh;
+    `}
   `,
   medium: css`
     height: 50vh;
@@ -30,6 +40,11 @@ const dimensions = {
     width: 70vw;
     overflow: auto;
   `,
+  huge: css`
+    height: 70vh;
+    width: 90vw;
+    overflow: auto;
+  `,
 };
 
 export const Wrapper = styled.div<ModalProps>`
@@ -38,7 +53,6 @@ export const Wrapper = styled.div<ModalProps>`
     opacity: 0;
     animation: 0.3s both ${showModal};
     animation-fill-mode: forwards;
-
     position: fixed;
     top: 50%;
     left: 50%;

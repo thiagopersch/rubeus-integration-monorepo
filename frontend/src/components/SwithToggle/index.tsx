@@ -1,20 +1,54 @@
+import {
+  InputHTMLAttributes,
+  forwardRef,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
+import mergeRefs from "react-merge-refs";
+
 import * as S from "./styles";
 
-export type ToggleSwitchProps = {
-  children?: string;
-  value?: string;
+type InputHtmlProps = InputHTMLAttributes<HTMLInputElement>;
+
+export type ToggleSwitchProps = InputHtmlProps & {
+  isChecked?: boolean;
+  label?: string | React.ReactNode;
+  labelFor?: string;
+  onCheck?: (status: boolean) => void;
+  value?: string | ReadonlyArray<string> | number | boolean;
 };
 
-const ToggleSwitch = ({ children, value = "false" }: ToggleSwitchProps) => {
+const ToggleSwitch: React.ForwardRefRenderFunction<
+  HTMLInputElement,
+  ToggleSwitchProps
+> = ({ isChecked, value, onCheck, labelFor, label, ...props }, ref) => {
+  const [checked, setChecked] = useState(!!isChecked);
+
+  const fieldRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (onCheck) {
+      onCheck(checked);
+    }
+  }, [checked]);
+
   return (
     <div>
-      <S.CheckBoxWrapper>
-        <S.CheckBox id="checkbox" type="checkbox" value={value} />
-        <S.CheckBoxLabel htmlFor="checkbox" />
-        <S.Label htmlFor="checkbox">{children}</S.Label>
+      <S.CheckBoxWrapper onClick={() => setChecked(!checked)}>
+        <S.CheckBox
+          id={labelFor}
+          type="checkbox"
+          value={value}
+          checked={checked}
+          ref={mergeRefs([fieldRef, ref])}
+          {...props}
+        />
+        <S.CheckBoxLabel htmlFor={labelFor} />
+        <S.Label htmlFor={labelFor}>{label}</S.Label>
       </S.CheckBoxWrapper>
     </div>
   );
 };
 
-export default ToggleSwitch;
+export default forwardRef(ToggleSwitch);

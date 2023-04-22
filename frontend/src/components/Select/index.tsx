@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, InputHTMLAttributes } from "react";
 
 import UnregisteredSelect, {
   UnregisteredSelectRef,
@@ -14,7 +14,9 @@ export type OptionGroup = {
   items: Option[];
 };
 
-type SelectProps = {
+type InputHtmlProps = InputHTMLAttributes<HTMLInputElement>;
+
+type SelectProps = InputHtmlProps & {
   label: string;
   name: string;
   options?: Array<Option | OptionGroup>;

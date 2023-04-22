@@ -218,6 +218,7 @@ export const Input = styled.input<InputProps>`
     max-height: inherit;
     font-family: ${theme.font.primary};
     color: ${theme.colors.black};
+    font-size: ${theme.font.sizes.xxsmall};
 
     ${inputModifiers[inputSize](theme)}
     ${!!disabled && inputModifiers.disabled(theme)}

@@ -1,11 +1,8 @@
-import Tbc from '@modules/tbc/infra/typeorm/entities/Tbc';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -17,6 +14,9 @@ class Client {
 
   @Column()
   name: string;
+
+  @Column()
+  link_crm: string;
 
   @Column()
   status: boolean;

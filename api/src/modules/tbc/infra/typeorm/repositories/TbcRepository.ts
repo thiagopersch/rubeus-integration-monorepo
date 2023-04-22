@@ -14,6 +14,14 @@ class TbcRepository implements ITbcRepository {
     this.ormRepository = dataSource.getRepository(Tbc);
   }
 
+  public async findById(tbc_id: string): Promise<Tbc | undefined> {
+    const tbc = await this.ormRepository.findOne({
+      where: { id: tbc_id },
+      order: { name: 'ASC' },
+    });
+    return tbc ?? undefined;
+  }
+
   public async findOne(tbc_id: string): Promise<Tbc | undefined> {
     const tbc = await this.ormRepository.findOne({
       where: { id: tbc_id },

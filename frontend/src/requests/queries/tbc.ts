@@ -22,6 +22,8 @@ type ListTBCFilters = {
 
 export const tbcKeys = {
   all: "classrooms" as const,
+  lists: () => [...tbcKeys.all, "list"] as const,
+  list: (filters: string) => [...tbcKeys.lists(), { filters }] as const,
   shows: () => [...tbcKeys.all, "show"] as const,
   show: (filters: string) => [...tbcKeys.shows(), { filters }] as const,
 };
@@ -46,7 +48,7 @@ export const useListTbc = (
   filters: ListTBCFilters = {},
   queryOptions: QueryObserverOptions<Tbc[]> = {},
 ) => {
-  const key = `get-tbc-${JSON.stringify(filters)}`;
+  const key = useMemo(() => tbcKeys.list(JSON.stringify(filters)), [filters]);
 
   const result = useQuery<Tbc[]>(key, () => listTbc(session), queryOptions);
 

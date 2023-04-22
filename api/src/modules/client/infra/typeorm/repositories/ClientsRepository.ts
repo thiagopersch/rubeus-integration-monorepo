@@ -40,9 +40,14 @@ class ClientsRepository implements IClientsRepository {
     return client;
   }
 
-  public async create({ name, status }: CreateClientDTO): Promise<Client> {
+  public async create({
+    name,
+    link_crm,
+    status,
+  }: CreateClientDTO): Promise<Client> {
     const client = this.ormRepository.create({
       name,
+      link_crm,
       status,
     });
     await this.ormRepository.save(client);

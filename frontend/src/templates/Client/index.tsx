@@ -32,6 +32,9 @@ const Clients = () => {
   );
 
   const addClientModal = useRef<ClientModalRef>(null);
+  const handleOpenModal = () => {
+    addClientModal.current?.openModal();
+  };
 
   const mutation = useDeleteClientMutation(session);
   const handleDeleteClient = async (client: Client) => {
@@ -78,7 +81,7 @@ const Clients = () => {
               color="primaryColor"
               labelColor="white"
               icon={<Plus />}
-              onClick={() => addClientModal.current?.openModal()}
+              onClick={handleOpenModal}
             >
               Adicionar cliente
             </Button>
@@ -89,17 +92,22 @@ const Clients = () => {
               keyExtractor={(item) => item.id}
             >
               <TableColumn label="Nome" tableKey="name" actionColumn />
+              <TableColumn label="Link" tableKey="link_crm" actionColumn />
               <TableColumn
                 label="Situação"
                 tableKey="status"
                 actionColumn
                 render={(client: Client) =>
                   client.status ? (
-                    <TextComponent size="small" color="success">
+                    <TextComponent size="small" color="success" weight="bold">
                       Ativado
                     </TextComponent>
                   ) : (
-                    <TextComponent size="small" color="primaryRed">
+                    <TextComponent
+                      size="small"
+                      color="primaryRed"
+                      weight="bold"
+                    >
                       Desativado
                     </TextComponent>
                   )
@@ -115,15 +123,15 @@ const Clients = () => {
                 tableKey="actions"
                 contentAlign="center"
                 actionColumn
-                render={(client: Client) => (
+                render={(client) => (
                   <S.ActionButtons>
-                    {/*  <S.ActionEditButton
+                    <S.ActionEditButton
                       type="button"
-                      title={`Alterar o cliente: ${client.name}`}
+                      title={`Alterar o cliente ${client.name}`}
                       onClick={() => addClientModal.current?.openModal(client)}
                     >
-                      <Edit title={`Alterar o cliente: ${client.name}`} />
-                    </S.ActionEditButton> */}
+                      <Edit title={`Alterar o cliente ${client.name}`} />
+                    </S.ActionEditButton>
 
                     <S.ActionDeleteButton
                       type="button"
