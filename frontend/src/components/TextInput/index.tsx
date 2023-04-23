@@ -5,6 +5,8 @@ import {
   useRef,
   useState,
   CSSProperties,
+  useCallback,
+  useEffect,
 } from "react";
 import mergeRefs from "react-merge-refs";
 
@@ -69,6 +71,34 @@ const TextInput: React.ForwardRefRenderFunction<
 
     onChangeValue && onChangeValue(masked);
   };
+
+  const setValue = useCallback(
+    (value?: string) => {
+      setFieldValue(() => {
+        if (value === undefined) return "";
+        const newValue = String(value || "");
+        const masked = mask ? masks[mask](newValue) : newValue;
+        return masked || "";
+      });
+    },
+    [mask],
+  );
+
+  /* useEffect(() => {
+    const valueIsUndefined = typeof value === "undefined";
+
+    if (!valueIsUndefined) {
+      setValue((value || "") as string);
+    } else {
+      setValue("");
+    }
+  }, [setValue, value]);
+
+  useEffect(() => {
+    if (fieldRef.current) {
+      fieldRef.current.value = fieldValue ?? "";
+    }
+  }, [fieldValue]); */
 
   const inputHasValue = !!fieldRef.current?.value;
 

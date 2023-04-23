@@ -4,13 +4,14 @@ import { useSession } from "next-auth/react";
 import { useQuery } from "react-query";
 import { Edit, Plus, X } from "@styled-icons/feather";
 
+import AddTbcModal, { TbcModalRef } from "@/components/AddTbcModal";
+import Badge from "@/components/Badge";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Heading from "@/components/Heading";
 import SectionContainer from "@/components/SectionContainer";
 import Table from "@/components/Table";
 import TableColumn from "@/components/TableColumn";
-import AddTbcModal, { TbcModalRef } from "@/components/AddTbcModal";
 import TextInput from "@/components/TextInput";
 
 import { FormattedTbc, Tbc } from "@/models/tbc";
@@ -21,7 +22,6 @@ import { listTbc } from "@/requests/queries/tbc";
 import Base from "../Base";
 
 import * as S from "./styles";
-import Badge from "@/components/Badge";
 
 const Tbcs = () => {
   const [search, setSearch] = useState("");
@@ -124,11 +124,6 @@ const Tbcs = () => {
                     <Badge styledType="danger">Não</Badge>
                   )
                 }
-              />
-              <TableColumn
-                label="Última edição"
-                tableKey="formattedUpdatedAt"
-                actionColumn
               />
               <TableColumn
                 label="Ações"

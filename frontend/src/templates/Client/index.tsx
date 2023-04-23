@@ -21,6 +21,7 @@ import { useDeleteClientMutation } from "@/requests/mutations/clients";
 import { listClients } from "@/requests/queries/clients";
 
 import * as S from "./styles";
+import Badge from "@/components/Badge";
 
 const Clients = () => {
   const [search, setSearch] = useState("");
@@ -97,19 +98,12 @@ const Clients = () => {
                 label="Situação"
                 tableKey="status"
                 actionColumn
+                contentAlign="center"
                 render={(client: Client) =>
                   client.status ? (
-                    <TextComponent size="small" color="success" weight="bold">
-                      Ativado
-                    </TextComponent>
+                    <Badge styledType="success">Ativado</Badge>
                   ) : (
-                    <TextComponent
-                      size="small"
-                      color="primaryRed"
-                      weight="bold"
-                    >
-                      Desativado
-                    </TextComponent>
+                    <Badge styledType="danger">Desativado</Badge>
                   )
                 }
               />

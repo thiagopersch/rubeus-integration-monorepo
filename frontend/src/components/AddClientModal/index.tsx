@@ -64,14 +64,14 @@ const AddClientModal: ForwardRefRenderFunction<
   const onSubmit: SubmitHandler<AddClientData> = useCallback(
     async (values: AddClientData) => {
       setSaving(true);
-      const isEditing = !!client?.id;
+
       await mutation.mutateAsync({
         id: client?.id,
         name: values.name,
         link_crm: values.link_crm,
         status: status,
-        isEditing,
       });
+
       refetchFn && refetchFn();
 
       setSaving(false);
@@ -105,9 +105,9 @@ const AddClientModal: ForwardRefRenderFunction<
           <S.WrapperInputsRow>
             <S.WrapperInputs>
               <Controller
-                key="name"
                 name="name"
                 control={control}
+                defaultValue={client?.name ?? ""}
                 rules={{ required: true, maxLength: 255 }}
                 render={({ field }) => (
                   <TextInput
@@ -131,9 +131,9 @@ const AddClientModal: ForwardRefRenderFunction<
             </S.WrapperInputs>
             <S.WrapperInputs>
               <Controller
-                key="link_crm"
                 name="link_crm"
                 control={control}
+                defaultValue={client?.link_crm ?? ""}
                 rules={{ required: true, maxLength: 255 }}
                 render={({ field }) => (
                   <TextInput
