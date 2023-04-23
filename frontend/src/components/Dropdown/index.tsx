@@ -13,7 +13,6 @@ const Dropdown = ({ children }: DropdownProps) => {
   const toggleDropdown = () => {
     setShow((current) => !current);
   };
-
   return (
     <S.Wrapper>
       <S.Container isOpen={show}>

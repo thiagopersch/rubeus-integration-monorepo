@@ -107,28 +107,23 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
         ({ value }) => value === values.client_id,
       );
 
-      try {
-        setSaving(true);
-        await mutation.mutateAsync({
-          id: tbc?.id,
-          client_id: {
-            name: selectedClient?.label,
-          },
-          name: tbc?.name,
-          user: tbc?.user,
-          password: tbc?.password,
-          link: tbc?.link,
-          unlicensed_method: unlicensed_method,
-          context_coligate_code: tbc?.context_coligate_code,
-          context_branch_code: tbc?.context_branch_code,
-          context_education_level_code: tbc?.context_education_level_code,
-          context_system_code: tbc?.context_system_code,
-          context_user_code: tbc?.context_user_code,
-        });
-      } catch (error) {
-        console.error(error);
-      }
+      setSaving(true);
+      await mutation.mutateAsync({
+        id: tbc?.id,
+        client_id: values?.client_id,
+        name: values?.name,
+        user: values?.user,
+        password: values?.password,
+        link: values?.link,
+        unlicensed_method: unlicensed_method,
+        context_coligate_code: values?.context_coligate_code,
+        context_branch_code: values?.context_branch_code,
+        context_education_level_code: values?.context_education_level_code,
+        context_system_code: values?.context_system_code,
+        context_user_code: values?.context_user_code,
+      });
       refetchFn && refetchFn();
+      setSaving(false);
 
       await queryClient.invalidateQueries(tbcKeys.lists());
     },
@@ -166,30 +161,6 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
         </S.WrapperDescription>
         <S.Form onSubmit={handleSubmit(onSubmit)}>
           <S.WrapperTwoInputs>
-            {!tbc?.client_id ? (
-              <S.WrapperInputs>
-                <Controller
-                  key="client_id"
-                  name="client_id"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <Select
-                      id="client_id"
-                      label={!tbc?.client_id ? "Cliente" : ""}
-                      placeholder={!!tbc?.client_id ? "Cliente" : ""}
-                      {...field}
-                      defaultValue={tbc?.client?.name ?? ""}
-                      options={clientOptions}
-                      aria-invalid={errors.client_id ? "true" : "false"}
-                    />
-                  )}
-                />
-                {errors.client_id?.type === "required" && (
-                  <ErrorMessageLabel>{MessageRequired}</ErrorMessageLabel>
-                )}
-              </S.WrapperInputs>
-            ) : undefined}
             <S.WrapperInputs>
               <Controller
                 key="name"

@@ -21,6 +21,7 @@ import { listTbc } from "@/requests/queries/tbc";
 import Base from "../Base";
 
 import * as S from "./styles";
+import Badge from "@/components/Badge";
 
 const Tbcs = () => {
   const [search, setSearch] = useState("");
@@ -90,12 +91,11 @@ const Tbcs = () => {
             </S.WrapperItemsPerPage>
           </SectionContainer>
           <SectionContainer paddings="xsmall">
-            <Table<Tbc> items={tbcs || []} keyExtractor={(item) => item.id}>
+            <Table items={tbcs || []} keyExtractor={(item) => item.id}>
               <TableColumn
                 label="Name"
                 tableKey="name"
                 actionColumn
-                contentAlign="left"
                 render={(tbc: Tbc) => (
                   <Link
                     href={{
@@ -110,17 +110,20 @@ const Tbcs = () => {
                   </Link>
                 )}
               />
+              <TableColumn label="Link" tableKey="link" actionColumn />
+              <TableColumn label="Usuário" tableKey="user" actionColumn />
               <TableColumn
-                label="Link"
-                tableKey="link"
+                label="Utiliza licença?"
+                tableKey="unlicensed_method"
                 actionColumn
-                contentAlign="left"
-              />
-              <TableColumn
-                label="Usuário"
-                tableKey="user"
-                contentAlign="left"
-                actionColumn
+                contentAlign="center"
+                render={(tbc: Tbc) =>
+                  tbc.unlicensed_method ? (
+                    <Badge styledType="success">Sim</Badge>
+                  ) : (
+                    <Badge styledType="danger">Não</Badge>
+                  )
+                }
               />
               <TableColumn
                 label="Última edição"

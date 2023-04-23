@@ -39,13 +39,13 @@ export function useAddTbcMutation(
         <ToastContent showSpinner>Salvando as informações...</ToastContent>
       );
     },
-    renderError: () => `Alterações falharam`,
-    renderSuccess: () => `Adicionado com sucesso!`,
+    renderError: () => `Falha ao registrar alterações!`,
+    renderSuccess: () => `Alterações registradas com sucesso!`,
   });
 }
 
 export function useDeleteTbcMutation(
-  // modalRef: RefObject<ModalRef>,
+  /* modalRef: RefObject<ModalRef>, */
   session?: Session | null,
 ) {
   const deleteTbc = useCallback(
@@ -65,10 +65,14 @@ export function useDeleteTbcMutation(
         ),
     },
     // onMutate: () => modalRef.current?.closeModal(),
-    renderLoading: function render() {
-      return <ToastContent showSpinner>Removendo o TBC...</ToastContent>;
+    renderLoading: function render(deletedTbc) {
+      return (
+        <ToastContent showSpinner>
+          Removendo o registro ${deletedTbc.name}...
+        </ToastContent>
+      );
     },
-    renderError: () => `Falha ao inserir o TBC`,
-    renderSuccess: () => `Deletado com sucesso`,
+    renderError: () => `Falha ao remover o registro!`,
+    renderSuccess: () => `Deletado com sucesso...`,
   });
 }

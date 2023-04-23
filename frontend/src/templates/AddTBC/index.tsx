@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
@@ -25,6 +25,7 @@ import { useListClients } from "@/requests/queries/clients";
 import Base from "../Base";
 
 import * as S from "./styles";
+import { ModalRef } from "@/components/Modal";
 
 type AddTbcData = {
   id: string;
@@ -67,7 +68,9 @@ const AddTBC = () => {
   });
   const { data: session } = useSession();
   const { data: clients } = useListClients(session);
-  const mutation = useAddTbcMutation(session);
+  const modalRef = useRef<ModalRef>(null);
+
+  const mutation = useAddTbcMutation(modalRef, session);
   const resetform = useResetAtom(basicTbcData);
 
   const { push } = useRouter();
@@ -103,8 +106,8 @@ const AddTBC = () => {
         console.error(error);
       }
       await push("/tbc");
-      setSaving(false);
       setStatus(data?.unlicensed_method || false);
+      setSaving(false);
       resetform();
     },
     [mutation, session],
