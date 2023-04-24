@@ -1,5 +1,4 @@
 import CreateClientDTO from '../dtos/CreateClientDTO';
-import FindClientDTO from '../dtos/FindClientDTO';
 
 import Client from '../infra/typeorm/entities/Client';
 

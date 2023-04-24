@@ -2,6 +2,7 @@ import moment from "moment";
 
 import { Client } from "../../models/client";
 import { Tbc } from "@/models/tbc";
+import { SentenceCategory } from "@/models/sentenceCategory";
 
 export const clientMapper = (client: Client) => ({
   ...client,
@@ -17,4 +18,14 @@ export const tbcMapper = (tbc: Tbc) => ({
   ...tbc,
   formattedCreatedAt: moment(tbc.created_at).format("DD/MM/YYYY [às] HH:mm:ss"),
   formattedUpdatedAt: moment(tbc.updated_at).format("DD/MM/YYYY [às] HH:mm:ss"),
+});
+
+export const sentenceCategoryMapper = (sentenceCategory: SentenceCategory) => ({
+  ...sentenceCategory,
+  formattedCreatedAt: moment(sentenceCategory.created_at).format(
+    "DD/MM/YYYY [às] HH:mm:ss",
+  ),
+  formattedUpdatedAt: moment(sentenceCategory.updated_at).format(
+    "DD/MM/YYYY [às] HH:mm:ss",
+  ),
 });

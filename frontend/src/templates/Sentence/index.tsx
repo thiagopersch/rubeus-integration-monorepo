@@ -1,3 +1,7 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+
 import ActionSentences from "@/components/ActionSentences";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
@@ -8,14 +12,13 @@ import SectionContainer from "@/components/SectionContainer";
 import Table from "@/components/Table";
 import TableColumn from "@/components/TableColumn";
 import TextComponent from "@/components/TextComponent";
-import Link from "next/link";
 
 import Base from "../Base";
 
-import * as S from "./styles";
-import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
 import { useShowTbc } from "@/requests/queries/tbc";
+
+import * as S from "./styles";
+import { useShowSentenceCategory } from "@/requests/queries/sentenceCategory";
 
 const Sentence = () => {
   const { query } = useRouter();
@@ -23,6 +26,12 @@ const Sentence = () => {
   const { data: tbc } = useShowTbc(session, {
     id: query.tbc_id as string,
   });
+
+  const { data: sentenceCategories } = useShowSentenceCategory(session, {
+    id: query.sentence_category_id as string,
+  });
+
+  console.log(sentenceCategories);
 
   return (
     <Base>
@@ -43,7 +52,10 @@ const Sentence = () => {
               </Button>
             </S.WrapperCTA>
             <S.WrapperDividerCollpase>
-              <Collapse label="Inscrições e matriculas" open={false}>
+              <Collapse
+                label={sentenceCategories?.name ?? "Nome da categoria"}
+                open={false}
+              >
                 <Table<[]> items={[] || []} keyExtractor={(value) => value.id}>
                   <TableColumn tableKey="sentence.code" actionColumn />
                   <TableColumn

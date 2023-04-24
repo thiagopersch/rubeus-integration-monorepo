@@ -19,7 +19,7 @@ export const Container = styled.div<ContainerProps>`
     position: relative;
     height: 100%;
     width: 100%;
-    /* min-width: 20rem; */
+    min-width: auto;
     color: ${theme.colors.mainBg};
     display: flex;
     align-items: center;
@@ -51,11 +51,11 @@ export const Content = styled.div<ContentProps>`
     position: absolute;
     background: ${theme.colors.mainBg};
     width: 100%;
-    min-width: inherit;
+    min-width: 21rem;
     padding: 1rem;
     padding-top: 1rem;
     top: 100%;
-    left: 50%;
+    left: 30%;
     transform: translateX(-50%);
     border-radius: 0.3rem;
     z-index: ${theme.layers.modal};
@@ -77,6 +77,8 @@ export const Content = styled.div<ContentProps>`
 export const ListItem = styled.li`
   ${({ theme }) => css`
     padding: 1.5rem;
+    text-align: left;
+    font-size: ${theme.font.sizes.xsmall};
     color: ${theme.colors.lightGrey};
 
     :hover {
@@ -121,7 +123,9 @@ export const Overlay = styled.div<OverlayProps>`
 export const UserContainer = styled.div`
   ${({ theme }) => css`
     display: flex;
+    justify-content: center;
     align-items: center;
+    align-content: center;
     font-family: ${theme.font.primary};
     font-weight: ${theme.font.weight.normal};
     color: ${theme.colors.white};

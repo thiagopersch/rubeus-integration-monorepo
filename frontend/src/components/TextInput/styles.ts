@@ -4,10 +4,13 @@ import { InputAs } from ".";
 type WrapperProps = {
   inputAs: InputAs;
   disabled: boolean;
-  size: "large" | "medium" | "small";
+  size: "huge" | "large" | "medium" | "small";
 };
 
 const wrapperInputModifiers = {
+  huge: () => css`
+    height: 10rem;
+  `,
   large: () => css`
     height: 5rem;
   `,
@@ -20,6 +23,9 @@ const wrapperInputModifiers = {
 };
 
 const wrapperTextAreaModifiers = {
+  huge: () => css`
+    max-height: 80rem;
+  `,
   large: () => css`
     max-height: 40rem;
   `,
@@ -139,6 +145,12 @@ export const Label = styled.label<LabelProps>`
 `;
 
 const inputContainerModifiers = {
+  huge: (hasIcon: boolean) => css`
+    grid-template-columns: ${hasIcon ? "1fr 8rem" : "1fr"};
+    > svg {
+      width: 4.8rem;
+    }
+  `,
   large: (hasIcon: boolean) => css`
     grid-template-columns: ${hasIcon ? "1fr 4rem" : "1fr"};
     > svg {
@@ -161,7 +173,7 @@ const inputContainerModifiers = {
 
 type InputContainerProps = {
   hasIcon: boolean;
-  size: "large" | "medium" | "small";
+  size: "huge" | "large" | "medium" | "small";
 };
 export const InputContainer = styled.div<InputContainerProps>`
   ${({ size, hasIcon }) => css`
@@ -182,6 +194,10 @@ const TextArea = (theme: DefaultTheme) => css`
 `;
 
 const inputModifiers = {
+  huge: (theme: DefaultTheme) => css`
+    padding: 0 ${theme.spacings.small};
+    font-size: ${theme.font.sizes.small};
+  `,
   large: (theme: DefaultTheme) => css`
     padding: 0 ${theme.spacings.xsmall};
     font-size: ${theme.font.sizes.small};
@@ -200,7 +216,7 @@ const inputModifiers = {
 };
 
 type InputProps = {
-  inputSize: "large" | "medium" | "small";
+  inputSize: "huge" | "large" | "medium" | "small";
 };
 export const Input = styled.input<InputProps>`
   ${({ theme, inputSize, disabled }) => css`

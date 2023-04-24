@@ -42,7 +42,7 @@ class TbcController {
     } = request.body;
 
     const createTbc = container.resolve(CreateTbcService);
-    const client = await createTbc.execute({
+    const tbc = await createTbc.execute({
       client_id,
       name,
       user,
@@ -56,7 +56,7 @@ class TbcController {
       context_user_code,
     });
 
-    return response.json(client);
+    return response.json(tbc);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -97,8 +97,8 @@ class TbcController {
   public async delete(request: Request, response: Response): Promise<Response> {
     const { tbc_id } = request.params;
 
-    const deleteUser = container.resolve(DeleteTbcService);
-    await deleteUser.execute({ tbc_id });
+    const deleteTbc = container.resolve(DeleteTbcService);
+    await deleteTbc.execute({ tbc_id });
 
     return response.status(204).send();
   }

@@ -8,8 +8,8 @@ class ListTbcService {
   constructor(@inject('TbcRepository') private tbcRepository: ITbcRepository) {}
 
   public async execute(): Promise<Tbc[]> {
-    const client = await this.tbcRepository.findAll();
-    return client;
+    const tbc = await this.tbcRepository.findAll();
+    return tbc;
   }
 }
 

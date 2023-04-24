@@ -24,7 +24,7 @@ export type TextInputProps = InputHtmlProps & {
   name: string;
   label: string;
   as?: InputAs;
-  size?: "large" | "medium" | "small";
+  size?: "huge" | "large" | "medium" | "small";
   type?: string;
   formRegister?: boolean;
   icon?: React.ReactNode;

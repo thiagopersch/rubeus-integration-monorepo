@@ -3,8 +3,9 @@ import { GetServerSidePropsContext } from "next";
 import prefetchQuery from "@/utils/prefetch-query";
 import protectedRoutes from "@/utils/protected-routes";
 
-import Tbcs from "@/templates/TBC";
 import { listTbc } from "@/requests/queries/tbc";
+
+import Tbcs from "@/templates/TBC";
 
 function TBCPage() {
   return <Tbcs />;

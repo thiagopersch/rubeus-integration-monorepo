@@ -1,23 +1,31 @@
-const tbc = [
+const globalRoutes = [
+  {
+    path: "/clients",
+    name: "Clientes",
+  },
   {
     path: "/tbc",
     name: "TBC",
   },
   {
-    path: "/tbc/new",
-    name: "Adicionar TBC",
-  },
-  {
-    path: "/tbc/[tbc_id]",
-    name: "Ver Informações do TBC",
+    path: "/sentences/sentence-category",
+    name: "Categorias das consultas",
   },
 ];
 
-const clients = [
+const tbcRoutes = [
   {
-    path: "/clients",
-    name: "Clientes",
+    newTbc: {
+      path: "/tbc/new",
+      name: "Adicionar TBC",
+    },
+  },
+  {
+    showTbc: {
+      path: "/tbc/[tbc_id]",
+      name: "Ver Informações do TBC",
+    },
   },
 ];
 
-export { tbc, clients };
+export { globalRoutes, tbcRoutes };

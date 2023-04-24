@@ -1,61 +1,69 @@
 import { useRef, useState } from "react";
 import { useSession } from "next-auth/react";
-import { Edit, Plus, X } from "@styled-icons/feather";
 import { useQuery } from "react-query";
+import { Edit, Plus, X } from "@styled-icons/feather";
 
+import AddSentenceCategoryModal, {
+  SentenceCategoryModalRef,
+} from "@/components/AddSentenceCategoryModal";
 import Badge from "@/components/Badge";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Heading from "@/components/Heading";
 import SectionContainer from "@/components/SectionContainer";
-import TextInput from "@/components/TextInput";
 import Table from "@/components/Table";
+import TextInput from "@/components/TextInput";
 import TableColumn from "@/components/TableColumn";
-import AddClientModal, { ClientModalRef } from "@/components/AddClientModal";
+
+import {
+  FormattedSentenceCategory,
+  SentenceCategory,
+} from "@/models/sentenceCategory";
 
 import Base from "../Base";
 
-import { Client, FormattedClient } from "@/models/client";
-
-import { useDeleteClientMutation } from "@/requests/mutations/clients";
-import { listClients } from "@/requests/queries/clients";
+import { listSentenceCategory } from "@/requests/queries/sentenceCategory";
+import { useDeleteSentenceCategoryMutation } from "@/requests/mutations/sentenceCategory";
 
 import * as S from "./styles";
 
-const Clients = () => {
+const SentenceCategories = () => {
   const [search, setSearch] = useState("");
 
   const { data: session } = useSession();
-  const { data: client, refetch } = useQuery<FormattedClient[]>(
-    "get-clients",
-    () => listClients(session),
-  );
+  const { data: setenceCategory, refetch } = useQuery<
+    FormattedSentenceCategory[]
+  >("get-sentence-category", () => listSentenceCategory(session));
 
-  const addClientModal = useRef<ClientModalRef>(null);
+  const addSentenceModal = useRef<SentenceCategoryModalRef>(null);
   const handleOpenModal = () => {
-    addClientModal.current?.openModal();
+    addSentenceModal.current?.openModal();
   };
 
-  const mutation = useDeleteClientMutation(session);
-  const handleDeleteClient = async (client: Client) => {
-    const confirm = window.confirm(`Deseja excluir o cliente: ${client.name}?`);
+  const mutation = useDeleteSentenceCategoryMutation(session);
+  const handleDeleteSentenceCategory = async (
+    sentenceCategory: SentenceCategory,
+  ) => {
+    const confirm = window.confirm(
+      `Deseja excluir a categoria: ${sentenceCategory.name}?`,
+    );
     if (confirm) {
-      await mutation.mutateAsync(client);
+      await mutation.mutateAsync(sentenceCategory);
       refetch();
     }
   };
 
   const searchLowerCase = search.toLowerCase();
-  const clients = client?.filter((client) =>
-    client.name.toLowerCase().includes(searchLowerCase),
+  const setenceCategories = setenceCategory?.filter((setenceCategory) =>
+    setenceCategory.name.toLowerCase().includes(searchLowerCase),
   );
 
   return (
     <Base>
-      <Card>
-        <S.Wrapper>
+      <SectionContainer>
+        <Card>
           <S.WrapperHeading>
-            <Heading size="md">Clientes</Heading>
+            <Heading size="md">Categoria de sentenças</Heading>
           </S.WrapperHeading>
           <SectionContainer
             paddings="xsmall"
@@ -83,23 +91,27 @@ const Clients = () => {
               icon={<Plus />}
               onClick={handleOpenModal}
             >
-              Adicionar cliente
+              Adicionar
             </Button>
           </SectionContainer>
           <SectionContainer paddings="xsmall">
-            <Table<FormattedClient>
-              items={clients || []}
+            <Table<FormattedSentenceCategory>
+              items={setenceCategories || []}
               keyExtractor={(item) => item.id}
             >
               <TableColumn label="Nome" tableKey="name" actionColumn />
-              <TableColumn label="Link" tableKey="link_crm" actionColumn />
               <TableColumn
-                label="Situação"
+                label="Descrição"
+                tableKey="description"
+                ellipsis
+                actionColumn
+              />
+              <TableColumn
+                label="Status"
                 tableKey="status"
                 actionColumn
-                contentAlign="center"
-                render={(client: Client) =>
-                  client.status ? (
+                render={(sentenceCategory: SentenceCategory) =>
+                  sentenceCategory.status ? (
                     <Badge styledType="success">Ativado</Badge>
                   ) : (
                     <Badge styledType="danger">Desativado</Badge>
@@ -107,7 +119,7 @@ const Clients = () => {
                 }
               />
               <TableColumn
-                label="Última edição"
+                label="Última atualização"
                 tableKey="formattedUpdatedAt"
                 actionColumn
               />
@@ -116,20 +128,26 @@ const Clients = () => {
                 tableKey="actions"
                 contentAlign="center"
                 actionColumn
-                render={(client) => (
+                render={(sentenceCategory) => (
                   <S.ActionButtons>
                     <S.ActionEditButton
                       type="button"
-                      title={`Alterar o cliente ${client.name}`}
-                      onClick={() => addClientModal.current?.openModal(client)}
+                      title={`Alterar a categoria ${sentenceCategory.name}`}
+                      onClick={() =>
+                        addSentenceModal.current?.openModal(sentenceCategory)
+                      }
                     >
-                      <Edit title={`Alterar o cliente ${client.name}`} />
+                      <Edit
+                        title={`Alterar a categoria ${sentenceCategory.name}`}
+                      />
                     </S.ActionEditButton>
 
                     <S.ActionDeleteButton
                       type="button"
-                      title={`Excluir o cliente ${client.name}`}
-                      onClick={() => handleDeleteClient(client)}
+                      title={`Excluir a categoria ${sentenceCategory.name}`}
+                      onClick={() =>
+                        handleDeleteSentenceCategory(sentenceCategory)
+                      }
                     >
                       <X />
                     </S.ActionDeleteButton>
@@ -138,11 +156,11 @@ const Clients = () => {
               />
             </Table>
           </SectionContainer>
-        </S.Wrapper>
-      </Card>
-      <AddClientModal refetchFn={refetch} ref={addClientModal} />
+        </Card>
+      </SectionContainer>
+      <AddSentenceCategoryModal refetchFn={refetch} ref={addSentenceModal} />
     </Base>
   );
 };
 
-export default Clients;
+export default SentenceCategories;

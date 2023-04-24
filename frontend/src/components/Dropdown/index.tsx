@@ -1,10 +1,25 @@
-import { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Link from "next/link";
+
+import { globalRoutes } from "../../config/global.routes";
 
 import * as S from "./styles";
 
 type DropdownProps = {
   children?: string;
+};
+
+type Route = {
+  path: string;
+  name: string;
+};
+
+type Routes = {
+  [key: string]: Route[];
+};
+
+const routes: Routes = {
+  globalRoutes,
 };
 
 const Dropdown = ({ children }: DropdownProps) => {
@@ -13,6 +28,7 @@ const Dropdown = ({ children }: DropdownProps) => {
   const toggleDropdown = () => {
     setShow((current) => !current);
   };
+
   return (
     <S.Wrapper>
       <S.Container isOpen={show}>
@@ -26,12 +42,15 @@ const Dropdown = ({ children }: DropdownProps) => {
         </S.Title>
         <S.Content isOpen={show}>
           <ul>
-            <S.ListItem>
-              <Link href="/clients">Clientes</Link>
-            </S.ListItem>
-            <S.ListItem>
-              <Link href="/tbc">TBC</Link>
-            </S.ListItem>
+            {Object.entries(routes).map(([key, value]) => (
+              <React.Fragment key={key}>
+                {value.map((route) => (
+                  <S.ListItem key={route.path}>
+                    <Link href={route.path}>{route.name}</Link>
+                  </S.ListItem>
+                ))}
+              </React.Fragment>
+            ))}
           </ul>
         </S.Content>
       </S.Container>
