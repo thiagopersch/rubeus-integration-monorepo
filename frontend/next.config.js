@@ -15,6 +15,8 @@ module.exports = {
     ignoreDuringBuilds: true,
   },
 
+  experimental: { esmExternals: true },
+
   // images: {
   //   domains: [process.env.SERVER_HOSTNAME],
   // },

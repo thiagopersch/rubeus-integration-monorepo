@@ -2,7 +2,7 @@ import { Session } from "next-auth";
 
 import { Client, FormattedClient } from "@/models/client";
 import { initializeApi } from "@/services/api";
-import { clientMapper } from "@/utils/mappers/userMapper";
+import { clientMapper } from "@/utils/mappers/mappers";
 import { QueryObserverOptions, useQuery } from "react-query";
 
 type ListClientFilters = {

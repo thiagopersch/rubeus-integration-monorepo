@@ -18,6 +18,12 @@ declare module "next-auth" {
       name_client?: string;
       status_client?: string;
     };
+    sentence_category: {
+      id?: string;
+    };
+    tbc: {
+      id?: string;
+    };
 
     profileId?: string;
     // branch: {

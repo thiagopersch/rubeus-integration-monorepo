@@ -215,12 +215,12 @@ const UnregisteredSelect: React.ForwardRefRenderFunction<
       <UnregisteredTextInput
         name={name}
         label={!open || orientation !== "top" ? label : ""}
-        unformRegister={false}
+        /* unformRegister={false} */
         readOnly
         onFocus={handleOpen}
         value={optionSelected?.label || ""}
         icon={<S.ArrowIcon isOpen={open} />}
-        error={error}
+        /* error={error} */
         disabled={disabled}
         ref={inputRef}
         size={size}

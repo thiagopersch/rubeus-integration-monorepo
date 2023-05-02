@@ -37,6 +37,11 @@ export const WrapperSearch = styled.div`
 export const WrapperItemsPerPage = styled.div`
   ${({ theme }) => css`
     width: 20rem;
+
+    ${media.lessThan("medium")`
+      margin: ${theme.spacings.xsmall} 0 0 0;
+      width: 100%;
+    `}
   `}
 `;
 

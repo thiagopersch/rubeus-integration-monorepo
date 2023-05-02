@@ -10,6 +10,7 @@ import Card from "@/components/Card";
 import Checkbox from "@/components/Checkbox";
 import ErrorMessageLabel from "@/components/ErrorMessageLabel";
 import Heading from "@/components/Heading";
+import { ModalRef } from "@/components/Modal";
 import SectionContainer from "@/components/SectionContainer";
 import Select from "@/components/Select";
 import TextComponent from "@/components/TextComponent";
@@ -25,7 +26,6 @@ import { useListClients } from "@/requests/queries/clients";
 import Base from "../Base";
 
 import * as S from "./styles";
-import { ModalRef } from "@/components/Modal";
 
 type AddTbcData = {
   id: string;

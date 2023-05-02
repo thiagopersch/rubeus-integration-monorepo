@@ -41,9 +41,13 @@ const dimensions = {
     overflow: auto;
   `,
   huge: css`
-    height: 70vh;
+    height: auto;
     width: 90vw;
     overflow: auto;
+
+    ${media.lessThan("medium")`
+      height: 90vh;
+    `}
   `,
 };
 
@@ -59,7 +63,7 @@ export const Wrapper = styled.div<ModalProps>`
     transform: translateX(-50%) translateY(-0.5rem);
     z-index: ${theme.layers.modal};
     background: red;
-    padding: ${theme.spacings.small} ${theme.spacings.small};
+    padding: ${theme.spacings.xsmall};
     border-radius: 1rem;
     background ${theme.colors.white};
 

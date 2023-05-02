@@ -1,5 +1,4 @@
 import CreateSentenceCategoryDTO from '../dtos/CreateSentenceCategoryDTO';
-
 import SentenceCategory from '../infra/typeorm/entities/SentenceCategory';
 
 export default interface ISentenceCategory {
@@ -11,6 +10,6 @@ export default interface ISentenceCategory {
   ) => Promise<SentenceCategory | undefined>;
   findAll: () => Promise<SentenceCategory[]>;
   create: (data: CreateSentenceCategoryDTO) => Promise<SentenceCategory>;
-  update: (client: SentenceCategory) => Promise<SentenceCategory>;
-  delete: (client: SentenceCategory) => Promise<void>;
+  update: (sentenceCategory: SentenceCategory) => Promise<SentenceCategory>;
+  delete: (sentenceCategory: SentenceCategory) => Promise<void>;
 }

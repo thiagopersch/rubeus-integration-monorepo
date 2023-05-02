@@ -16,7 +16,7 @@ const wrapperModifiers = {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    max-width: 2rem;
+    max-width: 15rem;
   `,
 };
 

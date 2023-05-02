@@ -9,17 +9,17 @@ import {
 
 import { initializeApi } from "@/services/api";
 
-import { sentenceCategoryMapper } from "@/utils/mappers/userMapper";
+import { sentenceCategoryMapper } from "@/utils/mappers/mappers";
 
 type ListSentenceCategoryFilters = {
   id?: string;
   name?: string;
   description?: string;
-  status?: string;
+  status?: boolean;
 };
 
 export const sentenceCategoriesKeys = {
-  all: "sentencesCategories" as const,
+  all: "sentence-category" as const,
   lists: () => [...sentenceCategoriesKeys.all, "list"] as const,
   list: (filters: string) =>
     [...sentenceCategoriesKeys.lists(), { filters }] as const,
@@ -36,10 +36,8 @@ export const listSentenceCategory = (
 
   const { ...restParams } = filters;
 
-  const params = { ...restParams } as any;
-
   return api
-    .get<SentenceCategory[]>("/sentence-category", { params })
+    .get<SentenceCategory[]>("/sentence-category", { params: filters })
     .then((response) => response.data.map(sentenceCategoryMapper));
 };
 
@@ -48,7 +46,6 @@ export const useListSentenceCategory = (
   filters: ListSentenceCategoryFilters = {},
   queryOptions: QueryObserverOptions<SentenceCategory[]> = {},
 ) => {
-  // const key = `get-sentence-category-${JSON.stringify(filters)}`;
   const key = useMemo(
     () => sentenceCategoriesKeys.list(JSON.stringify(filters)),
     [filters],
@@ -64,7 +61,7 @@ export const useListSentenceCategory = (
 };
 
 type ShowSentenceCategoryFilters = {
-  id: string;
+  id: any;
 };
 
 export const showSentenceCategory = (

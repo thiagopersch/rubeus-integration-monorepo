@@ -6,6 +6,6 @@ export default interface ITbcRepository {
   findOne: (tbc_id: string) => Promise<Tbc | undefined>;
   findAll: () => Promise<Tbc[]>;
   create: (data: CreateTbcDTO) => Promise<Tbc>;
-  update: (client: Tbc) => Promise<Tbc>;
-  delete: (client: Tbc) => Promise<void>;
+  update: (tbc: Tbc) => Promise<Tbc>;
+  delete: (tbc: Tbc) => Promise<void>;
 }

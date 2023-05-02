@@ -1,11 +1,16 @@
 ## Anotações da aplicação
 
-- Criar CRUD de categorias de consultas sql
+```diff
++ Criar CRUD de categorias de consultas sql
 
-- Criar CRUD de sentenças
++ Criar CRUD de sentenças
+
++ Terminar CRUD de clientes
+
++ Terminar CRUD de TBC
 
 - Configurar para enviar dados via TBC pela tela de Sentence
 
-- Terminar CRUD de clientes
+- Configurar para as sentenças serem exibidas por categoria
 
-- Terminar CRUD de TBC
+```

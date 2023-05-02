@@ -76,7 +76,7 @@ export function useDeleteSentenceCategoryMutation(
     renderLoading: function render(deletedSentenceCategory) {
       return (
         <ToastContent showSpinner>
-          Removendo a categoria: ${deletedSentenceCategory.name}...
+          `Removendo a categoria: ${deletedSentenceCategory.name}...`
         </ToastContent>
       );
     },

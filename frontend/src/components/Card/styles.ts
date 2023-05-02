@@ -30,7 +30,7 @@ export const Wrapper = styled.div<CardProps>`
     flex-direction: column;
     height: auto;
     width: 100%;
-    padding: ${theme.spacings.small};
+    padding: ${theme.spacings.small} 0;
     background: ${theme.colors.white};
     box-shadow: ${theme.shadow.hoverGreen};
     border-radius: 0.3rem;

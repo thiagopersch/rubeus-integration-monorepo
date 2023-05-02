@@ -1,5 +1,11 @@
 import styled, { css } from "styled-components";
 
+export const Wrapper = styled.div`
+  ${({ theme }) => css`
+    margin: ${theme.spacings.small} 0;
+  `}
+`;
+
 export const WrapperTitle = styled.div`
   ${({ theme }) => css`
     display: flex;
@@ -7,7 +13,6 @@ export const WrapperTitle = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    gap: 21.8rem;
     isolation: isolate;
     background: ${theme.colors.white};
     border-radius: 0.3rem;
@@ -22,7 +27,6 @@ export const Text = styled.span`
     font-weight: ${theme.font.weight.bold};
     font-size: ${theme.font.sizes.xsmall};
     line-height: ${theme.spacings.xsmall};
-    align-items: center;
     text-transform: uppercase;
     color: ${theme.colors.primaryGrey};
   `}

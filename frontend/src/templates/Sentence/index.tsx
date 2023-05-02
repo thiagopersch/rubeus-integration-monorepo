@@ -1,37 +1,32 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRef } from "react";
 import { useSession } from "next-auth/react";
+import { Plus } from "@styled-icons/feather";
 
-import ActionSentences from "@/components/ActionSentences";
+import AddSentenceModal, {
+  SentenceModalRef,
+} from "@/components/AddSentenceModal";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
-import Checkbox from "@/components/Checkbox";
 import Collapse from "@/components/Collapse";
 import Heading from "@/components/Heading";
 import SectionContainer from "@/components/SectionContainer";
-import Table from "@/components/Table";
-import TableColumn from "@/components/TableColumn";
-import TextComponent from "@/components/TextComponent";
+import SentencesTable from "@/components/SentencesTable";
 
 import Base from "../Base";
 
-import { useShowTbc } from "@/requests/queries/tbc";
+import { useListSentenceCategory } from "@/requests/queries/sentenceCategory";
 
 import * as S from "./styles";
-import { useShowSentenceCategory } from "@/requests/queries/sentenceCategory";
 
-const Sentence = () => {
-  const { query } = useRouter();
+const SentenceQueries = () => {
   const { data: session } = useSession();
-  const { data: tbc } = useShowTbc(session, {
-    id: query.tbc_id as string,
-  });
 
-  const { data: sentenceCategories } = useShowSentenceCategory(session, {
-    id: query.sentence_category_id as string,
-  });
+  const { data: sentenceCategory } = useListSentenceCategory(session);
 
-  console.log(sentenceCategories);
+  const addSentenceModal = useRef<SentenceModalRef>(null);
+  const handleOpenModal = () => {
+    addSentenceModal.current?.openModal();
+  };
 
   return (
     <Base>
@@ -39,79 +34,42 @@ const Sentence = () => {
         <Card>
           <SectionContainer paddings="xsmall">
             <Heading size="md" textAlign="center">
-              Sentenças do TBC: {tbc?.name}
+              Consultas
             </Heading>
           </SectionContainer>
           <S.Wrapper>
-            <S.WrapperCTA>
-              <Button size="small" color="primaryColor" labelColor="white">
-                Nova sentença
-              </Button>
-              <Button color="white" labelColor="primaryRed">
-                Publicar todas
-              </Button>
-            </S.WrapperCTA>
+            <SectionContainer
+              display="flex"
+              flexDirection="row"
+              justifyContent="spaceBetween"
+              alignItems="center"
+              alignContent="center"
+            >
+              <S.WrapperCTA>
+                <Button
+                  size="small"
+                  color="primaryColor"
+                  labelColor="white"
+                  icon={<Plus />}
+                  onClick={handleOpenModal}
+                >
+                  Nova consulta
+                </Button>
+              </S.WrapperCTA>
+            </SectionContainer>
             <S.WrapperDividerCollpase>
-              <Collapse
-                label={sentenceCategories?.name ?? "Nome da categoria"}
-                open={false}
-              >
-                <Table<[]> items={[] || []} keyExtractor={(value) => value.id}>
-                  <TableColumn tableKey="sentence.code" actionColumn />
-                  <TableColumn
-                    label="Código"
-                    tableKey="sentence.code"
-                    actionColumn
-                    ellipsis
-                  ></TableColumn>
-                  <TableColumn
-                    label="Nome"
-                    tableKey="sentence.name"
-                    actionColumn
-                    ellipsis
-                  ></TableColumn>
-                  <TableColumn
-                    label="Coligada"
-                    tableKey="sentence.coligate"
-                    actionColumn
-                  />
-                  <TableColumn
-                    label="Sistema"
-                    tableKey="sentence.system"
-                    actionColumn
-                  />
-                  <TableColumn
-                    label="Última edição"
-                    tableKey="sentence.updated_at"
-                    actionColumn
-                    ellipsis
-                  />
-                  <TableColumn
-                    label="Ações"
-                    tableKey="sentence.actions"
-                    actionColumn
-                  />
-                </Table>
-                <Checkbox id="checkSentence" />
-                <S.WrapperNameSentence>
-                  <TextComponent>RB.PS.IM.005</TextComponent>
-                  <Link href="#">
-                    <TextComponent>Dados do portal do inscrito</TextComponent>
-                  </Link>
-                  <TextComponent>0</TextComponent>
-                  <TextComponent>S</TextComponent>
-                  <TextComponent>01/01/2023 as 13:30</TextComponent>
-                  <S.WrapperCTAActions>
-                    <ActionSentences />
-                  </S.WrapperCTAActions>
-                </S.WrapperNameSentence>
-              </Collapse>
+              {sentenceCategory?.map((category) => (
+                <Collapse key={category.id} label={category.name} open={false}>
+                  <SentencesTable category={category} key={category.id} />
+                </Collapse>
+              ))}
             </S.WrapperDividerCollpase>
           </S.Wrapper>
         </Card>
       </SectionContainer>
+      <AddSentenceModal ref={addSentenceModal} />
     </Base>
   );
 };
 
-export default Sentence;
+export default SentenceQueries;

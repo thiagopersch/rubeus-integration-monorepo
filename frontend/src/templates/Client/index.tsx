@@ -21,6 +21,7 @@ import { useDeleteClientMutation } from "@/requests/mutations/clients";
 import { listClients } from "@/requests/queries/clients";
 
 import * as S from "./styles";
+import ClientTable from "@/components/ClientTable";
 
 const Clients = () => {
   const [search, setSearch] = useState("");
@@ -87,56 +88,7 @@ const Clients = () => {
             </Button>
           </SectionContainer>
           <SectionContainer paddings="xsmall">
-            <Table<FormattedClient>
-              items={clients || []}
-              keyExtractor={(item) => item.id}
-            >
-              <TableColumn label="Nome" tableKey="name" actionColumn />
-              <TableColumn label="Link" tableKey="link_crm" actionColumn />
-              <TableColumn
-                label="Situação"
-                tableKey="status"
-                actionColumn
-                contentAlign="center"
-                render={(client: Client) =>
-                  client.status ? (
-                    <Badge styledType="success">Ativado</Badge>
-                  ) : (
-                    <Badge styledType="danger">Desativado</Badge>
-                  )
-                }
-              />
-              <TableColumn
-                label="Última edição"
-                tableKey="formattedUpdatedAt"
-                actionColumn
-              />
-              <TableColumn
-                label="Ações"
-                tableKey="actions"
-                contentAlign="center"
-                actionColumn
-                render={(client) => (
-                  <S.ActionButtons>
-                    <S.ActionEditButton
-                      type="button"
-                      title={`Alterar o cliente ${client.name}`}
-                      onClick={() => addClientModal.current?.openModal(client)}
-                    >
-                      <Edit title={`Alterar o cliente ${client.name}`} />
-                    </S.ActionEditButton>
-
-                    <S.ActionDeleteButton
-                      type="button"
-                      title={`Excluir o cliente ${client.name}`}
-                      onClick={() => handleDeleteClient(client)}
-                    >
-                      <X />
-                    </S.ActionDeleteButton>
-                  </S.ActionButtons>
-                )}
-              />
-            </Table>
+            <ClientTable clients={clients} />
           </SectionContainer>
         </S.Wrapper>
       </Card>

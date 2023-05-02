@@ -161,8 +161,8 @@ const AddClientModal: ForwardRefRenderFunction<
           <S.WrapperInputs>
             <Checkbox
               id="status"
-              label="Situação"
-              labelFor="Situação"
+              label={status ? "Ativado" : "Desativado"}
+              labelFor={status ? "Ativado" : "Desativado"}
               isChecked={status}
               onCheck={setStatus}
               onChange={() => setStatus}

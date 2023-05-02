@@ -103,10 +103,6 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
 
   const onSubmit: SubmitHandler<AddTbcData> = useCallback(
     async (values: AddTbcData) => {
-      const selectedClient = clientOptions.find(
-        ({ value }) => value === values.client_id,
-      );
-
       setSaving(true);
       await mutation.mutateAsync({
         id: tbc?.id,
@@ -124,8 +120,6 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
       });
       refetchFn && refetchFn();
       setSaving(false);
-
-      await queryClient.invalidateQueries(tbcKeys.lists());
     },
     [mutation, tbc, unlicensed_method, refetchFn, session],
   );
@@ -163,9 +157,9 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
           <S.WrapperTwoInputs>
             <S.WrapperInputs>
               <Controller
-                key="name"
                 name="name"
                 control={control}
+                defaultValue={tbc?.name ?? ""}
                 rules={{ required: true, maxLength: 255 }}
                 render={({ field }) => (
                   <TextInput
@@ -193,6 +187,7 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
               <Controller
                 name="user"
                 control={control}
+                defaultValue={tbc?.user ?? ""}
                 rules={{ required: true, maxLength: 255 }}
                 render={({ field }) => (
                   <TextInput
@@ -218,6 +213,7 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
               <Controller
                 name="password"
                 control={control}
+                defaultValue={tbc?.password}
                 rules={{ required: true, maxLength: 255 }}
                 render={({ field }) => (
                   <TextInput
@@ -244,6 +240,7 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
               <Controller
                 name="link"
                 control={control}
+                defaultValue={tbc?.link}
                 rules={{ required: true, maxLength: 255 }}
                 render={({ field }) => (
                   <TextInput
@@ -287,6 +284,7 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
               <Controller
                 name="context_coligate_code"
                 control={control}
+                defaultValue={tbc?.context_coligate_code ?? ""}
                 rules={{ required: true, maxLength: 3 }}
                 render={({ field }) => (
                   <TextInput
@@ -316,6 +314,7 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
               <Controller
                 name="context_branch_code"
                 control={control}
+                defaultValue={tbc?.context_branch_code ?? ""}
                 rules={{ required: true, maxLength: 3 }}
                 render={({ field }) => (
                   <TextInput
@@ -343,6 +342,7 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
               <Controller
                 name="context_education_level_code"
                 control={control}
+                defaultValue={tbc?.context_education_level_code ?? ""}
                 rules={{ required: true, maxLength: 3 }}
                 render={({ field }) => (
                   <TextInput
@@ -378,6 +378,7 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
               <Controller
                 name="context_system_code"
                 control={control}
+                defaultValue={tbc?.context_system_code ?? ""}
                 rules={{ required: true, maxLength: 3 }}
                 render={({ field }) => (
                   <TextInput
@@ -403,6 +404,7 @@ const AddTbcModal: ForwardRefRenderFunction<TbcModalRef, AddTbcModalProps> = (
               <Controller
                 name="context_user_code"
                 control={control}
+                defaultValue={tbc?.context_user_code ?? ""}
                 rules={{ required: true, maxLength: 100 }}
                 render={({ field }) => (
                   <TextInput

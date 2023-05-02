@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 
 import { ChevronDown, ChevronUp } from "@styled-icons/feather";
 
-import * as S from "./styles";
 import TextComponent from "../TextComponent";
+
+import * as S from "./styles";
 
 type CollapseProps = {
   open?: boolean;
@@ -41,7 +42,7 @@ const Collapse = ({ children, label, open }: CollapseProps) => {
   }, [isOpen]);
 
   return (
-    <>
+    <S.Wrapper>
       <S.WrapperTitle>
         <S.Button onClick={handleFilterOpening}>
           {!isOpen ? <S.Text>{label}</S.Text> : <S.Text>{label}</S.Text>}
@@ -69,7 +70,7 @@ const Collapse = ({ children, label, open }: CollapseProps) => {
           )}
         </div>
       </S.WrapperContent>
-    </>
+    </S.Wrapper>
   );
 };
 
