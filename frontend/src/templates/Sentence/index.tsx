@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Plus } from "@styled-icons/feather";
 
@@ -24,18 +25,13 @@ const SentenceQueries = () => {
   const { data: sentenceCategory } = useListSentenceCategory(session);
 
   const addSentenceModal = useRef<SentenceModalRef>(null);
-  const handleOpenModal = () => {
-    addSentenceModal.current?.openModal();
-  };
 
   return (
     <Base>
       <SectionContainer>
         <Card>
-          <SectionContainer paddings="xsmall">
-            <Heading size="md" textAlign="center">
-              Consultas
-            </Heading>
+          <SectionContainer paddings="xxsmall" justifyContent="center">
+            <Heading size="md">Consultas</Heading>
           </SectionContainer>
           <S.Wrapper>
             <SectionContainer
@@ -46,21 +42,22 @@ const SentenceQueries = () => {
               alignContent="center"
             >
               <S.WrapperCTA>
-                <Button
-                  size="small"
-                  color="primaryColor"
-                  labelColor="white"
-                  icon={<Plus />}
-                  onClick={handleOpenModal}
-                >
-                  Nova consulta
-                </Button>
+                <Link href="/sentences/new" passHref>
+                  <Button
+                    size="small"
+                    color="primaryColor"
+                    labelColor="white"
+                    icon={<Plus />}
+                  >
+                    Nova consulta
+                  </Button>
+                </Link>
               </S.WrapperCTA>
             </SectionContainer>
             <S.WrapperDividerCollpase>
               {sentenceCategory?.map((category) => (
-                <Collapse key={category.id} label={category.name} open={false}>
-                  <SentencesTable category={category} key={category.id} />
+                <Collapse label={category.name} open={false}>
+                  <SentencesTable category={category} />
                 </Collapse>
               ))}
             </S.WrapperDividerCollpase>

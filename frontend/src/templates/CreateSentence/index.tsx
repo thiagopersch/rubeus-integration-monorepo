@@ -12,6 +12,9 @@ import Heading from "@/components/Heading";
 import { ModalRef } from "@/components/Modal";
 import SectionContainer from "@/components/SectionContainer";
 import TextInput from "@/components/TextInput";
+import ErrorMessageLabel from "@/components/ErrorMessageLabel";
+import Select from "@/components/Select";
+
 import Base from "../Base";
 
 import { Sentence } from "@/models/sentence";
@@ -22,8 +25,7 @@ import { useAddSentenceMutation } from "@/requests/mutations/sentence";
 import { useListSentenceCategory } from "@/requests/queries/sentenceCategory";
 
 import * as S from "./styles";
-import ErrorMessageLabel from "@/components/ErrorMessageLabel";
-import Select from "@/components/Select";
+import Link from "next/link";
 
 type AddSentencData = {
   id: string;
@@ -37,7 +39,6 @@ type AddSentencData = {
 
 const CreateSentence = () => {
   const [sentence, setSentence] = useState<Sentence>();
-  /* const [status, setStatus] = useState(false); */
   const [saving, setSaving] = useState(false);
 
   const {
@@ -98,113 +99,126 @@ const CreateSentence = () => {
 
   return (
     <Base>
-      <SectionContainer paddings="xsmall">
+      <SectionContainer>
         <Card>
           <SectionContainer justifyContent="center">
             <Heading size="md">Cadastrar consulta</Heading>
           </SectionContainer>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <S.WrapperTwoInputs>
-              <S.WrapperInputs>
-                <Controller
-                  name="sentence_category_id"
-                  control={control}
-                  defaultValue={sentence?.sentence_category_id}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <Select
-                      label="Categoria"
-                      {...field}
-                      options={sentenceCategory}
-                      aria-invalid={
-                        errors.sentence_category_id ? "true" : "false"
-                      }
+          <S.Wrapper>
+            <S.Form onSubmit={handleSubmit(onSubmit)}>
+              <S.WrapperInputsRow>
+                {!sentence?.sentence_category_id ? (
+                  <S.WrapperInputs>
+                    <Controller
+                      key="sentence_category_id"
+                      name="sentence_category_id"
+                      control={control}
+                      defaultValue={sentence?.sentence_category_id}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <Select
+                          key="sentence_category_id"
+                          id="sentence_category_id"
+                          label="Categoria"
+                          {...field}
+                          options={sentenceCategory}
+                          defaultValue={sentence?.sentence_category_id}
+                          aria-invalid={
+                            errors.sentence_category_id ? "true" : "false"
+                          }
+                        />
+                      )}
                     />
+                    {errors.sentence_category_id?.type === "required" && (
+                      <ErrorMessageLabel>Campo obrigatório.</ErrorMessageLabel>
+                    )}
+                  </S.WrapperInputs>
+                ) : undefined}
+                <S.WrapperInputs>
+                  <Controller
+                    key="code"
+                    name="code"
+                    control={control}
+                    defaultValue={sentence?.code ?? ""}
+                    rules={{ required: true, maxLength: 30 }}
+                    render={({ field }) => (
+                      <TextInput
+                        id="code"
+                        label={!sentence?.code ? "Código" : ""}
+                        placeholder={!!sentence?.code ? "Código" : ""}
+                        {...field}
+                        defaultValue={sentence?.code ?? ""}
+                        aria-invalid={errors.code ? "true" : "false"}
+                      />
+                    )}
+                  />
+                  {errors.code?.type === "required" && (
+                    <ErrorMessageLabel>Campo obrigatório.</ErrorMessageLabel>
                   )}
-                />
-                {errors.sentence_category_id?.type === "required" && (
-                  <ErrorMessageLabel>Campo obrigatório.</ErrorMessageLabel>
-                )}
-              </S.WrapperInputs>
+                  {errors.code?.type === "maxLength" && (
+                    <ErrorMessageLabel>
+                      Ultrapassou o limite de 30 caracteres.
+                    </ErrorMessageLabel>
+                  )}
+                </S.WrapperInputs>
+                <S.WrapperInputs>
+                  <Controller
+                    key="coligate"
+                    name="coligate"
+                    control={control}
+                    defaultValue={sentence?.coligate ?? ""}
+                    rules={{ required: true, maxLength: 5 }}
+                    render={({ field }) => (
+                      <TextInput
+                        id="coligate"
+                        label={!sentence?.coligate ? "Coligada" : ""}
+                        placeholder={!!sentence?.coligate ? "Coligada" : ""}
+                        {...field}
+                        defaultValue={sentence?.coligate ?? ""}
+                        aria-invalid={errors.coligate ? "true" : "false"}
+                      />
+                    )}
+                  />
+                  {errors.coligate?.type === "required" && (
+                    <ErrorMessageLabel>Campo obrigatório.</ErrorMessageLabel>
+                  )}
+                  {errors.coligate?.type === "maxLength" && (
+                    <ErrorMessageLabel>
+                      Ultrapassou o limite de 5 caracteres.
+                    </ErrorMessageLabel>
+                  )}
+                </S.WrapperInputs>
+                <S.WrapperInputs>
+                  <Controller
+                    key="system_code"
+                    name="system_code"
+                    control={control}
+                    defaultValue={sentence?.system_code ?? ""}
+                    rules={{ required: true, maxLength: 5 }}
+                    render={({ field }) => (
+                      <TextInput
+                        id="system_code"
+                        label={!sentence?.system_code ? "Sistema" : ""}
+                        placeholder={!!sentence?.system_code ? "Sistema" : ""}
+                        {...field}
+                        defaultValue={sentence?.system_code ?? ""}
+                        aria-invalid={errors.system_code ? "true" : "false"}
+                      />
+                    )}
+                  />
+                  {errors.system_code?.type === "required" && (
+                    <ErrorMessageLabel>Campo obrigatório.</ErrorMessageLabel>
+                  )}
+                  {errors.system_code?.type === "maxLength" && (
+                    <ErrorMessageLabel>
+                      Ultrapassou o limite de 5 caracteres.
+                    </ErrorMessageLabel>
+                  )}
+                </S.WrapperInputs>
+              </S.WrapperInputsRow>
               <S.WrapperInputs>
                 <Controller
-                  name="code"
-                  control={control}
-                  defaultValue={sentence?.code ?? ""}
-                  rules={{ required: true, maxLength: 10 }}
-                  render={({ field }) => (
-                    <TextInput
-                      id="code"
-                      label="Código"
-                      {...field}
-                      defaultValue={sentence?.code ?? ""}
-                      aria-invalid={errors.code ? "true" : "false"}
-                    />
-                  )}
-                />
-                {errors.code?.type === "required" && (
-                  <ErrorMessageLabel>Campo obrigatório.</ErrorMessageLabel>
-                )}
-                {errors.code?.type === "maxLength" && (
-                  <ErrorMessageLabel>
-                    Ultrapassou o limite de 10 caracteres.
-                  </ErrorMessageLabel>
-                )}
-              </S.WrapperInputs>
-              <S.WrapperInputs>
-                <Controller
-                  name="coligate"
-                  control={control}
-                  defaultValue={sentence?.coligate ?? ""}
-                  rules={{ required: true, maxLength: 10 }}
-                  render={({ field }) => (
-                    <TextInput
-                      id="coligate"
-                      label="Coligada"
-                      {...field}
-                      defaultValue={sentence?.coligate ?? ""}
-                      aria-invalid={errors.coligate ? "true" : "false"}
-                    />
-                  )}
-                />
-                {errors.coligate?.type === "required" && (
-                  <ErrorMessageLabel>Campo obrigatório.</ErrorMessageLabel>
-                )}
-                {errors.coligate?.type === "maxLength" && (
-                  <ErrorMessageLabel>
-                    Ultrapassou o limite de 10 caracteres.
-                  </ErrorMessageLabel>
-                )}
-              </S.WrapperInputs>
-              <S.WrapperInputs>
-                <Controller
-                  name="system_code"
-                  control={control}
-                  defaultValue={sentence?.system_code ?? ""}
-                  rules={{ required: true, maxLength: 10 }}
-                  render={({ field }) => (
-                    <TextInput
-                      id="system_code"
-                      label="Sistema"
-                      {...field}
-                      defaultValue={sentence?.system_code ?? ""}
-                      aria-invalid={errors.system_code ? "true" : "false"}
-                    />
-                  )}
-                />
-                {errors.system_code?.type === "required" && (
-                  <ErrorMessageLabel>Campo obrigatório.</ErrorMessageLabel>
-                )}
-                {errors.system_code?.type === "maxLength" && (
-                  <ErrorMessageLabel>
-                    Ultrapassou o limite de 10 caracteres.
-                  </ErrorMessageLabel>
-                )}
-              </S.WrapperInputs>
-            </S.WrapperTwoInputs>
-            <S.WrapperTwoInputs>
-              <S.WrapperInputs>
-                <Controller
+                  key="name"
                   name="name"
                   control={control}
                   defaultValue={sentence?.name ?? ""}
@@ -212,7 +226,8 @@ const CreateSentence = () => {
                   render={({ field }) => (
                     <TextInput
                       id="name"
-                      label="Nome"
+                      label={!sentence?.name ? "Nome" : ""}
+                      placeholder={!!sentence?.name ? "Nome" : ""}
                       {...field}
                       defaultValue={sentence?.name ?? ""}
                       aria-invalid={errors.name ? "true" : "false"}
@@ -228,39 +243,61 @@ const CreateSentence = () => {
                   </ErrorMessageLabel>
                 )}
               </S.WrapperInputs>
-            </S.WrapperTwoInputs>
-            <S.WrapperSentence>
-              <CodeMirror
-                id="content"
-                value={sentence?.content ?? ""}
-                defaultValue={sentence?.content ?? ""}
-                placeholder={sentence?.content ?? "Add your SQL query here!"}
-                height="40rem"
-                theme={"dark"}
-                style={{ fontSize: "12px" }}
-                extensions={[langs.sql()]}
-                aria-invalid={errors.content ? "true" : "false"}
-              />
-            </S.WrapperSentence>
-            <S.WrapperCTA>
-              <Button
-                size="medium"
-                color="white"
-                labelColor="darkGrey"
-                type="reset"
-              >
-                Cancelar
-              </Button>
-              <Button
-                size="medium"
-                labelColor="white"
-                disabled={saving}
-                type="submit"
-              >
-                {saving ? "Salvando..." : "Salvar"}
-              </Button>
-            </S.WrapperCTA>
-          </form>
+              <S.WrapperSentence>
+                <Controller
+                  name="content"
+                  control={control}
+                  defaultValue={
+                    sentence?.content ?? "-- Add your SQL query here!"
+                  }
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <CodeMirror
+                      id="content"
+                      defaultValue={
+                        sentence?.content ?? "-- Add your SQL query here!"
+                      }
+                      placeholder={
+                        sentence?.content ?? "-- Add your SQL query here!"
+                      }
+                      height="40rem"
+                      width="100%"
+                      theme={"dark"}
+                      style={{ fontSize: "12px" }}
+                      extensions={[langs.sql()]}
+                      {...field}
+                      aria-invalid={errors.content ? "true" : "false"}
+                    />
+                  )}
+                />
+                {errors.content?.type === "required" && (
+                  <ErrorMessageLabel>Campo obrigatório.</ErrorMessageLabel>
+                )}
+              </S.WrapperSentence>
+              <S.ButtonsContainer>
+                <Link href="/sentences" passHref>
+                  <Button
+                    styleType="normal"
+                    size="medium"
+                    color="white"
+                    labelColor="primaryColor"
+                    type="reset"
+                  >
+                    Voltar
+                  </Button>
+                </Link>
+                <Button
+                  styleType="normal"
+                  size="medium"
+                  labelColor="white"
+                  type="submit"
+                  disabled={saving}
+                >
+                  {saving ? "Salvando..." : "Salvar"}
+                </Button>
+              </S.ButtonsContainer>
+            </S.Form>
+          </S.Wrapper>
         </Card>
       </SectionContainer>
     </Base>

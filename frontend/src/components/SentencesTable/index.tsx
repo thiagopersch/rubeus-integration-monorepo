@@ -1,8 +1,7 @@
 import { useRef } from "react";
-import { listSentence } from "@/requests/queries/sentence";
+import { useListSentence } from "@/requests/queries/sentence";
 import { useSession } from "next-auth/react";
 import { Edit, X } from "@styled-icons/feather";
-import { useQuery } from "react-query";
 
 import { Sentence } from "@/models/sentence";
 import AddSentenceModal, { SentenceModalRef } from "../AddSentenceModal";
@@ -12,10 +11,6 @@ import TableColumn from "../TableColumn";
 import { useDeleteSentenceMutation } from "@/requests/mutations/sentence";
 
 import * as S from "./styles";
-import {
-  listSentenceCategory,
-  useListSentenceCategory,
-} from "@/requests/queries/sentenceCategory";
 
 type SentenceTableProps = {
   category: any;
@@ -24,9 +19,7 @@ type SentenceTableProps = {
 const SentencesTable = ({ category }: SentenceTableProps) => {
   const { data: session } = useSession();
 
-  const { data: sentence, refetch } = useQuery("get-sentence", () =>
-    listSentence(session),
-  );
+  const { data: sentence, refetch } = useListSentence(session);
 
   const addSentenceModal = useRef<SentenceModalRef>(null);
 
@@ -41,9 +34,12 @@ const SentencesTable = ({ category }: SentenceTableProps) => {
     }
   };
 
+  const filteredSentences =
+    sentence?.filter((s) => s.sentence_category_id === category.id) || [];
+
   return (
     <S.Wrapper>
-      <Table items={sentence || []} keyExtractor={(value) => value.id}>
+      <Table items={filteredSentences} keyExtractor={(value) => value.id}>
         <TableColumn label="Código" tableKey="code" actionColumn />
         <TableColumn label="Nome" tableKey="name" actionColumn ellipsis />
         <TableColumn

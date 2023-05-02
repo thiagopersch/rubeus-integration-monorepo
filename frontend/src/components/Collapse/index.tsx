@@ -45,23 +45,23 @@ const Collapse = ({ children, label, open }: CollapseProps) => {
     <S.Wrapper>
       <S.WrapperTitle>
         <S.Button onClick={handleFilterOpening}>
-          {!isOpen ? <S.Text>{label}</S.Text> : <S.Text>{label}</S.Text>}
+          {!!isOpen ? <S.Text>{label}</S.Text> : <S.Text>{label}</S.Text>}
         </S.Button>
         <S.Button onClick={handleFilterOpening}>
-          {!isOpen ? (
+          {!!isOpen ? (
             <S.Icon>
-              <ChevronDown />
+              <ChevronUp />
             </S.Icon>
           ) : (
             <S.Icon>
-              <ChevronUp />
+              <ChevronDown />
             </S.Icon>
           )}
         </S.Button>
       </S.WrapperTitle>
       <S.WrapperContent>
         <div ref={ref}>
-          {!isOpen && (
+          {!!isOpen && (
             <S.Content>
               <TextComponent color="darkGrey" size="small">
                 {children}

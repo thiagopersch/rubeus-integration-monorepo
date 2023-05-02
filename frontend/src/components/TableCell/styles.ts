@@ -2,6 +2,7 @@ import styled, { css, DefaultTheme } from "styled-components";
 import { ChevronDown } from "@styled-icons/feather";
 
 import { columnFixedModifier } from "../TableColumn/styles";
+import media from "styled-media-query";
 
 const wrapperModifiers = {
   minimal: (theme: DefaultTheme) => css`
@@ -60,8 +61,11 @@ export const Wrapper = styled.td<WrapperProps>`
     background: ${theme.colors.white};
     border-bottom: 0.1rem solid ${theme.colors.lightGreyFityPercente};
     text-align: ${contentAlign};
-
     transition: box-shadow 0.3s ease-out;
+
+    ${media.lessThan("medium")`
+      font-size: ${theme.font.sizes.xsmall};
+    `}
 
     ${!!ellipsis && wrapperModifiers.ellipsis()}
     ${!!fixed && columnFixedModifier(theme, position)}

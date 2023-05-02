@@ -29,7 +29,7 @@ export function useAddSentenceMutation(
   return useMutation("add-sentence", addSentence, {
     linkedQueries: {
       "get-sentence": (old, newSentence) => [
-        ...old,
+        ...(Array.isArray(old) ? old : []),
         { ...newSentence, id: uuidv4(), disabled: true },
       ],
     },
