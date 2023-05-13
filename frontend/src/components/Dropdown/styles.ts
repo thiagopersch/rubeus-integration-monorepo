@@ -55,7 +55,7 @@ export const Content = styled.div<ContentProps>`
     padding: 1rem;
     padding-top: 1rem;
     top: 100%;
-    left: 30%;
+    left: 15%;
     transform: translateX(-50%);
     border-radius: 0.3rem;
     z-index: ${theme.layers.modal};

@@ -40,7 +40,7 @@ const AddClientModal: ForwardRefRenderFunction<
   AddClientModalProps
 > = ({ refetchFn }, ref) => {
   const [client, setClient] = useState<Client>();
-  const [status, setStatus] = useState(false);
+  const [status, setStatus] = useState(true);
   const [saving, setSaving] = useState(false);
 
   const {
@@ -102,62 +102,58 @@ const AddClientModal: ForwardRefRenderFunction<
     >
       <S.Wrapper>
         <S.Form onSubmit={handleSubmit(onSubmit)}>
-          <S.WrapperInputsRow>
-            <S.WrapperInputs>
-              <Controller
-                name="name"
-                control={control}
-                defaultValue={client?.name ?? ""}
-                rules={{ required: true, maxLength: 255 }}
-                render={({ field }) => (
-                  <TextInput
-                    id="name"
-                    label={!client?.name ? "Nome do cliente" : ""}
-                    placeholder={!!client?.name ? "Nome do cliente" : ""}
-                    {...field}
-                    defaultValue={client?.name ?? ""}
-                    aria-invalid={errors.name ? "true" : "false"}
-                  />
-                )}
-              />
-              {errors.name?.type === "required" && (
-                <ErrorMessageLabel>Nome é obrigatório.</ErrorMessageLabel>
+          <S.WrapperInputs>
+            <Controller
+              name="name"
+              control={control}
+              defaultValue={client?.name ?? ""}
+              rules={{ required: true, maxLength: 255 }}
+              render={({ field }) => (
+                <TextInput
+                  id="name"
+                  label={!client?.name ? "Nome do cliente" : ""}
+                  placeholder={!!client?.name ? "Nome do cliente" : ""}
+                  {...field}
+                  defaultValue={client?.name ?? ""}
+                  aria-invalid={errors.name ? "true" : "false"}
+                />
               )}
-              {errors.name?.type === "maxLength" && (
-                <ErrorMessageLabel>
-                  Ultrapassou o limite do nome de 255 caracteres.
-                </ErrorMessageLabel>
+            />
+            {errors.name?.type === "required" && (
+              <ErrorMessageLabel>Nome é obrigatório.</ErrorMessageLabel>
+            )}
+            {errors.name?.type === "maxLength" && (
+              <ErrorMessageLabel>
+                Ultrapassou o limite do nome de 255 caracteres.
+              </ErrorMessageLabel>
+            )}
+          </S.WrapperInputs>
+          <S.WrapperInputs>
+            <Controller
+              name="link_crm"
+              control={control}
+              defaultValue={client?.link_crm ?? ""}
+              rules={{ required: true, maxLength: 255 }}
+              render={({ field }) => (
+                <TextInput
+                  id="link_crm"
+                  label={!client?.link_crm ? "Link do CRM" : ""}
+                  placeholder={!!client?.link_crm ? "Link do CRM" : ""}
+                  defaultValue={client?.link_crm ?? ""}
+                  {...field}
+                  aria-invalid={errors.link_crm ? "true" : "false"}
+                />
               )}
-            </S.WrapperInputs>
-            <S.WrapperInputs>
-              <Controller
-                name="link_crm"
-                control={control}
-                defaultValue={client?.link_crm ?? ""}
-                rules={{ required: true, maxLength: 255 }}
-                render={({ field }) => (
-                  <TextInput
-                    id="link_crm"
-                    label={!client?.link_crm ? "Link do CRM" : ""}
-                    placeholder={!!client?.link_crm ? "Link do CRM" : ""}
-                    defaultValue={client?.link_crm ?? ""}
-                    {...field}
-                    aria-invalid={errors.link_crm ? "true" : "false"}
-                  />
-                )}
-              />
-              {errors.link_crm?.type === "required" && (
-                <ErrorMessageLabel>
-                  Link do CRM é obrigatório.
-                </ErrorMessageLabel>
-              )}
-              {errors.link_crm?.type === "maxLength" && (
-                <ErrorMessageLabel>
-                  Ultrapassou o limite do nome de 255 caracteres.
-                </ErrorMessageLabel>
-              )}
-            </S.WrapperInputs>
-          </S.WrapperInputsRow>
+            />
+            {errors.link_crm?.type === "required" && (
+              <ErrorMessageLabel>Link do CRM é obrigatório.</ErrorMessageLabel>
+            )}
+            {errors.link_crm?.type === "maxLength" && (
+              <ErrorMessageLabel>
+                Ultrapassou o limite do nome de 255 caracteres.
+              </ErrorMessageLabel>
+            )}
+          </S.WrapperInputs>
           <S.WrapperInputs>
             <Checkbox
               id="status"
@@ -166,12 +162,7 @@ const AddClientModal: ForwardRefRenderFunction<
               isChecked={status}
               onCheck={setStatus}
               onChange={() => setStatus}
-              aria-invalid={errors.status ? true : false}
             />
-
-            {errors.status?.type === "required" && (
-              <ErrorMessageLabel>Link do CRM é obrigatório.</ErrorMessageLabel>
-            )}
           </S.WrapperInputs>
           <S.ButtonsContainer>
             <Button

@@ -29,9 +29,6 @@ const Navbar = () => {
           </S.MenuItem>
         </S.MenuList>
       </S.Menu>
-      <S.MenuButton>
-        <UserDropdown username={/*session?.user.name ||*/ ""} />
-      </S.MenuButton>
     </S.Wrapper>
   );
 };
