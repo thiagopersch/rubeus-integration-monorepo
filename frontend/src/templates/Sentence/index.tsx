@@ -56,7 +56,7 @@ const SentenceQueries = () => {
             </SectionContainer>
             <S.WrapperDividerCollpase>
               {sentenceCategory?.map((category) => (
-                <Collapse label={category.name} open={false}>
+                <Collapse label={category.name} open={false} key={category.id}>
                   <SentencesTable category={category} />
                 </Collapse>
               ))}

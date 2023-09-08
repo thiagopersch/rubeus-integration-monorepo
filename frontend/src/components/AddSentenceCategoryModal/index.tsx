@@ -153,6 +153,8 @@ const AddSentenceCategoryModal: ForwardRefRenderFunction<
                 <TextInput
                   id="description"
                   as="textarea"
+                  cols={5}
+                  rows={5}
                   label={!sentenceCategory?.description ? "Descrição" : ""}
                   placeholder={
                     !!sentenceCategory?.description ? "Descrição" : ""
